@@ -37,11 +37,11 @@ export default async (req: Request, context: Context) => {
 
     if (route === "content" && req.method === "GET") {
       const key = await latestKey(s);
-      if (!key) return json({ version: null, changes: {}, notes: [] });
+      if (!key) return json({ version: null, changes: {}, notes: [], order: null });
       const v = (await s.get(key, { type: "json" })) as Record<string, unknown> | null;
-      if (!v) return json({ version: null, changes: {}, notes: [] });
-      const { changes, notes, ip: _ip, ...meta } = v as any;
-      return json({ version: meta, changes: changes ?? {}, notes: notes ?? [] });
+      if (!v) return json({ version: null, changes: {}, notes: [], order: null });
+      const { changes, notes, order, ip: _ip, ...meta } = v as any;
+      return json({ version: meta, changes: changes ?? {}, notes: notes ?? [], order: order ?? null });
     }
 
     if (route === "versions" && req.method === "GET") {
@@ -81,7 +81,8 @@ export default async (req: Request, context: Context) => {
         text: String(n?.text ?? "").slice(0, 2000), by: clean(n?.by, 60), at: clean(n?.at, 40),
       })).filter((n: any) => n.id && n.sec);
       const meta = { name, time, count, notes: notes.length, note, edited: edited.slice(0, 6).join(" | ").slice(0, 600) };
-      await s.setJSON("versions/" + id, { id, ip, changes, notes, ...meta }, { metadata: meta });
+      const order = Array.isArray(body.order) ? body.order.map((x: unknown) => clean(x, 80)).filter(Boolean).slice(0, 200) : null;
+      await s.setJSON("versions/" + id, { id, ip, changes, notes, order, ...meta }, { metadata: meta });
       return json({ id, ...meta });
     }
 

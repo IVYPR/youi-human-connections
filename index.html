@@ -3949,6 +3949,12 @@ body.hc-editing .hc-bar .hc-add{display:inline-block}
 .hc-nt{flex:1;min-height:140px;margin:4px 0 0;padding:6px 12px 12px;border:0;background:transparent;resize:none;outline:none;font-family:"Caveat",cursive;font-size:24px;line-height:1.15;color:#1a1a1a}
 .hc-nt::placeholder{color:rgba(0,0,0,.45)}
 @media print{.hc-nl{display:none!important}}
+/* Overview drag to reorder */
+body.hc-editing .ovl-t{cursor:grab}
+.ovl-t.hc-drag{opacity:.35}
+.ovl-t.hc-db .ovl-th{box-shadow:-6px 0 0 #ff2e93}
+.ovl-t.hc-da .ovl-th{box-shadow:6px 0 0 #ff2e93}
+.hc-ovhint{color:var(--yellow)}
 
 </style>
 </head>
@@ -5055,7 +5061,8 @@ document.addEventListener("click", e => {
 
   let NAME = "", server = {}, dirty = new Set(), editing = false, previewing = null;
   let notes = [], serverNotes = [], nChanged = new Set(), nDeleted = new Set();
-  const pendingCount = () => dirty.size + nChanged.size + nDeleted.size;
+  let orderDirty = false;
+  const pendingCount = () => dirty.size + nChanged.size + nDeleted.size + (orderDirty ? 1 : 0);
 
   const nodesFor = k => document.querySelectorAll(`[data-ve="${CSS.escape(k)}"]`);
   function paintKey(k, change){
@@ -5188,7 +5195,10 @@ document.addEventListener("click", e => {
       notes.forEach(n => { if(nChanged.has(n.id)) mn.push(Object.assign({}, n)); });
       if(nChanged.size) edited.push(nChanged.size + " sticky note" + (nChanged.size === 1 ? "" : "s"));
       if(nDeleted.size) edited.push(nDeleted.size + " note" + (nDeleted.size === 1 ? "" : "s") + " removed");
-      await post("save", {name:NAME, changes:merged, notes:mn, note:note || "", edited});
+      if(orderDirty) edited.push("Slide order changed");
+      const order = orderDirty ? currentOrder() : (latest.order || null);
+      await post("save", {name:NAME, changes:merged, notes:mn, order, note:note || "", edited});
+      orderDirty = false; if(order) applyOrder(order);
       server = merged; dirty.clear(); upd(); applyAll(server);
       setNotes(mn);
       say("Saved", 3000);
@@ -5239,7 +5249,8 @@ document.addEventListener("click", e => {
     try {
       const v = await fetchVersion(id);
       const note = id ? `Restored ${v.name}'s version from ${when(v.time)}` : "Restored the original deck";
-      await post("save", {name:NAME, changes:v.changes || {}, notes:v.notes || [], note, edited:[]});
+      await post("save", {name:NAME, changes:v.changes || {}, notes:v.notes || [], order:v.order || null, note, edited:[]});
+      orderDirty = false; applyOrder(v.order || ORIGINAL_ORDER);
       server = v.changes || {}; dirty.clear(); exitPreview(); applyAll(server); setNotes(v.notes || []); upd();
       say("Restored", 3000); if(!hist.hidden) loadHist();
     } catch(err){ say("Couldn't restore that version."); }
@@ -5317,11 +5328,54 @@ document.addEventListener("click", e => {
     const t = document.querySelectorAll(".hc-note textarea"); if(t.length) t[t.length - 1].focus();
   });
 
+  /* ---------- Slide order: drag thumbnails in the Slides overview ---------- */
+  const currentOrder = () => Array.from(document.querySelectorAll(".stop")).map(s => s.id).filter(Boolean);
+  const ORIGINAL_ORDER = currentOrder();
+  function applyOrder(order){
+    const secs = Array.from(document.querySelectorAll(".stop")); if(!secs.length || !Array.isArray(order)) return;
+    const parent = secs[0].parentNode; if(secs.some(s => s.parentNode !== parent)) return;
+    const byId = new Map(secs.map(s => [s.id, s]));
+    const seq = order.map(id => byId.get(id)).filter(Boolean).filter((s, i, a) => a.indexOf(s) === i);
+    secs.forEach((s, i) => { if(!seq.includes(s)){ const prev = secs.slice(0, i).reverse().find(p => seq.includes(p)); seq.splice(prev ? seq.indexOf(prev) + 1 : 0, 0, s); } });
+    const anchor = secs[secs.length - 1].nextSibling;
+    seq.forEach(s => parent.insertBefore(s, anchor));
+  }
+  window.__hcOvDrag = (ovl, grid, rebuild) => {
+    const head = ovl.querySelector(".ovl-head > .mono");
+    if(head && !bar.hidden) head.insertAdjacentHTML("beforeend", `<span class="hc-ovhint"> · ${editing ? "Drag slides to reorder" : "Turn on Edit to reorder"}</span>`);
+    let src = null;
+    const clear = () => grid.querySelectorAll(".hc-da,.hc-db").forEach(x => x.classList.remove("hc-da", "hc-db"));
+    grid.querySelectorAll(".ovl-t").forEach(t => {
+      t.addEventListener("dragstart", e => {
+        if(!editing || bar.hidden || previewing){ e.preventDefault(); return; }
+        src = t; t.classList.add("hc-drag"); e.dataTransfer.effectAllowed = "move";
+        try { e.dataTransfer.setData("text/plain", t.dataset.sec); } catch(_){}
+      });
+      t.addEventListener("dragend", () => { t.classList.remove("hc-drag"); clear(); src = null; });
+      t.addEventListener("dragover", e => {
+        if(!src || src.dataset.sec === t.dataset.sec) return;
+        e.preventDefault(); e.dataTransfer.dropEffect = "move";
+        const r = t.getBoundingClientRect(), after = e.clientX > r.left + r.width / 2;
+        clear(); t.classList.add(after ? "hc-da" : "hc-db");
+      });
+      t.addEventListener("drop", e => {
+        e.preventDefault(); if(!src) return;
+        const after = t.classList.contains("hc-da"), a = document.getElementById(src.dataset.sec), b = document.getElementById(t.dataset.sec);
+        clear(); if(!a || !b || a === b) return;
+        if(after) b.after(a); else b.before(a);
+        orderDirty = true; upd(); say("Unsaved changes");
+        rebuild();
+      });
+    });
+  };
+  /* Editing on or off changes the overview hint */
+  editBtn.addEventListener("click", () => { const h = document.querySelector(".ovl .hc-ovhint"); if(h) setTimeout(() => { h.textContent = " · " + (editing ? "Drag slides to reorder" : "Turn on Edit to reorder"); }, 0); });
+
   /* ---------- Start ---------- */
   Promise.all([get("me"), get("content")]).then(([me, c]) => {
     NAME = me.name || "";
     if(!NAME && ls("hc-name")){ NAME = ls("hc-name"); post("me", {name:NAME}).catch(() => {}); }
-    server = c.changes || {}; applyAll(server); setNotes(c.notes || []);
+    server = c.changes || {}; applyAll(server); setNotes(c.notes || []); if(c.order) applyOrder(c.order);
     setWho(); upd(); placeBar(); bar.hidden = false;
     if(!NAME && !ls("hc-skip")) askName();
   }).catch(() => { bar.classList.add("hc-off"); setWho(); placeBar(); bar.hidden = false; say("Saving is offline right now. Refresh to try again."); });
@@ -5696,8 +5750,10 @@ document.addEventListener("keydown", e => {
       paint(pbx, sl.sec);
       sl.nodes.forEach(n => { const c = n.cloneNode(true); c.removeAttribute("id"); c.querySelectorAll("[id]").forEach(x => x.removeAttribute("id")); c.querySelectorAll("[data-ek]").forEach(x => x.removeAttribute("data-ek")); inx.appendChild(c); });
       t.addEventListener("click", () => { closeOverview(); show(i); });
+      t.draggable = true; t.dataset.sec = sl.sec.id;
       grid.appendChild(t);
     });
+    if(window.__hcOvDrag) window.__hcOvDrag(ovl, grid, () => { slides = build(); openOverview(); });
     requestAnimationFrame(() => {
       grid.querySelectorAll(".ovl-t").forEach((t, i) => {
         const th = t.querySelector(".ovl-th"), pbx = th.firstElementChild;
