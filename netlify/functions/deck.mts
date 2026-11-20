@@ -109,7 +109,7 @@ export default async (req: Request, context: Context) => {
       const raw = await req.text();
       if (raw.length > 8_000_000) return json({ error: "Too large" }, 413);
       const body = JSON.parse(raw || "{}");
-      if (!(Number(body.client) >= MIN_CLIENT)) return json({ error: "This page is out of date. Refresh to keep editing." }, 409);
+      if (Array.isArray(body.notes) && !(Number(body.client) >= MIN_CLIENT)) return json({ error: "This page is out of date. Refresh to keep editing." }, 409);
       const changes = body.changes && typeof body.changes === "object" ? body.changes : {};
       const person = (await s.get(personKey, { type: "json" })) as { name?: string } | null;
       const name = clean(body.name || person?.name || "Unknown", 60);
