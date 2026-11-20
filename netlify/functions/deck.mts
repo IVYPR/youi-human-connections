@@ -37,11 +37,11 @@ export default async (req: Request, context: Context) => {
 
     if (route === "content" && req.method === "GET") {
       const key = await latestKey(s);
-      if (!key) return json({ version: null, changes: {} });
+      if (!key) return json({ version: null, changes: {}, notes: [] });
       const v = (await s.get(key, { type: "json" })) as Record<string, unknown> | null;
-      if (!v) return json({ version: null, changes: {} });
-      const { changes, ip: _ip, ...meta } = v as any;
-      return json({ version: meta, changes: changes ?? {} });
+      if (!v) return json({ version: null, changes: {}, notes: [] });
+      const { changes, notes, ip: _ip, ...meta } = v as any;
+      return json({ version: meta, changes: changes ?? {}, notes: notes ?? [] });
     }
 
     if (route === "versions" && req.method === "GET") {
@@ -75,8 +75,13 @@ export default async (req: Request, context: Context) => {
       const time = new Date().toISOString();
       const id = String(Date.now()).padStart(15, "0") + "-" + Math.random().toString(36).slice(2, 8).padEnd(6, "0");
       const count = Object.keys(changes).length;
-      const meta = { name, time, count, note, edited: edited.slice(0, 6).join(" | ").slice(0, 600) };
-      await s.setJSON("versions/" + id, { id, ip, changes, ...meta }, { metadata: meta });
+      const notes = (Array.isArray(body.notes) ? body.notes : []).slice(0, 300).map((n: any) => ({
+        id: clean(n?.id, 40), sec: clean(n?.sec, 80), x: Math.max(0, Math.min(100, Number(n?.x) || 0)), y: Math.max(0, Math.min(100, Number(n?.y) || 0)),
+        color: ["pink", "yellow", "green"].includes(n?.color) ? n.color : "pink",
+        text: String(n?.text ?? "").slice(0, 2000), by: clean(n?.by, 60), at: clean(n?.at, 40),
+      })).filter((n: any) => n.id && n.sec);
+      const meta = { name, time, count, notes: notes.length, note, edited: edited.slice(0, 6).join(" | ").slice(0, 600) };
+      await s.setJSON("versions/" + id, { id, ip, changes, notes, ...meta }, { metadata: meta });
       return json({ id, ...meta });
     }
 

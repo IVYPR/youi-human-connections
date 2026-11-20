@@ -3928,6 +3928,27 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
 .v3-hub h3{font-family:var(--font-display);text-transform:uppercase;font-size:30px;line-height:1;font-weight:600}
 .v3-hub p{font-size:17px;line-height:1.45}
 @media(max-width:900px){.v3-waves,.v3-vms,.v3-hub{grid-template-columns:1fr}.v3-vmp{grid-template-columns:1fr}.v3-vmp .v3-br-ar{display:none}}
+/* Sticky notes */
+.hc-bar .hc-add{display:none;background:#ff2d95;color:#fff}
+.hc-bar .hc-add:hover{background:#ff2d95!important;filter:brightness(1.1)}
+body.hc-editing .hc-bar .hc-add{display:inline-block}
+.hc-nl{position:absolute;inset:0;z-index:60;pointer-events:none}
+.hc-note{position:absolute;width:230px;min-height:190px;pointer-events:auto;display:flex;flex-direction:column;color:#1a1a1a;box-shadow:0 10px 22px rgba(0,0,0,.28),0 2px 4px rgba(0,0,0,.15);transform:rotate(-1.6deg);font-family:var(--font-body);text-transform:none;letter-spacing:0;text-align:left}
+.hc-note:nth-child(even){transform:rotate(1.4deg)}
+.hc-note.hc-c-pink{background:#ff2e93}
+.hc-note.hc-c-yellow{background:#ffef5c}
+.hc-note.hc-c-green{background:#8ff0a4}
+.hc-nh{display:flex;align-items:center;gap:6px;padding:8px 8px 0 12px;cursor:grab;touch-action:none}
+.hc-nh:active{cursor:grabbing}
+.hc-nby{flex:1;font-family:"Caveat",cursive;font-weight:700;font-size:28px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hc-ncs{display:flex;gap:4px}
+.hc-nc{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,0,0,.55)!important;padding:0!important;cursor:pointer}
+.hc-nc.hc-c-pink{background:#ff2e93}.hc-nc.hc-c-yellow{background:#ffef5c}.hc-nc.hc-c-green{background:#8ff0a4}
+.hc-ndel{background:none;border:0;font-size:22px;line-height:1;cursor:pointer;color:rgba(0,0,0,.6);padding:0 2px}
+.hc-ndel:hover{color:#000}
+.hc-nt{flex:1;min-height:140px;margin:4px 0 0;padding:6px 12px 12px;border:0;background:transparent;resize:none;outline:none;font-family:"Caveat",cursive;font-size:24px;line-height:1.15;color:#1a1a1a}
+.hc-nt::placeholder{color:rgba(0,0,0,.45)}
+@media print{.hc-nl{display:none!important}}
 
 </style>
 </head>
@@ -5033,6 +5054,8 @@ document.addEventListener("click", e => {
   const ls = (k, v) => { try { if(v === undefined) return localStorage.getItem(k); if(v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch(e){ return null; } };
 
   let NAME = "", server = {}, dirty = new Set(), editing = false, previewing = null;
+  let notes = [], serverNotes = [], nChanged = new Set(), nDeleted = new Set();
+  const pendingCount = () => dirty.size + nChanged.size + nDeleted.size;
 
   const nodesFor = k => document.querySelectorAll(`[data-ve="${CSS.escape(k)}"]`);
   function paintKey(k, change){
@@ -5055,6 +5078,7 @@ document.addEventListener("click", e => {
   bar.className = "hc-bar"; bar.hidden = true;
   bar.innerHTML = `<button type="button" class="hc-who" title="Change your name"></button>
     <button type="button" class="hc-edit" aria-pressed="false">Edit</button>
+    <button type="button" class="hc-add" title="Add a sticky note to this slide">+ Note</button>
     <button type="button" class="hc-save" disabled>Save</button>
     <button type="button" class="hc-histbtn">History</button>
     <span class="hc-msg" aria-live="polite"></span>`;
@@ -5074,7 +5098,7 @@ document.addEventListener("click", e => {
   const who = $(bar, ".hc-who"), editBtn = $(bar, ".hc-edit"), saveBtn = $(bar, ".hc-save"), histBtn = $(bar, ".hc-histbtn"), msg = $(bar, ".hc-msg");
   const say = (t, ms) => { msg.textContent = t; clearTimeout(say._t); if(ms) say._t = setTimeout(() => { if(msg.textContent === t) msg.textContent = ""; }, ms); };
   const setWho = () => { who.textContent = NAME ? NAME : "Add name"; };
-  const upd = () => { saveBtn.disabled = !dirty.size; saveBtn.textContent = dirty.size ? `Save (${dirty.size})` : "Save"; };
+  const upd = () => { const c = pendingCount(); saveBtn.disabled = !c; saveBtn.textContent = c ? `Save (${c})` : "Save"; };
   const placeBar = () => {
     const nav = document.querySelector("nav");
     const top = document.body.classList.contains("presenting") || !nav ? 12 : nav.getBoundingClientRect().bottom + 10;
@@ -5113,6 +5137,7 @@ document.addEventListener("click", e => {
       if(on) el.setAttribute("contenteditable", "true"); else el.removeAttribute("contenteditable");
     });
     if(on) say("Click any text to change it.", 3500);
+    drawNotes();
   }
   editBtn.addEventListener("click", async () => {
     if(previewing) return;
@@ -5131,7 +5156,7 @@ document.addEventListener("click", e => {
   }, true);
   addEventListener("keydown", e => {
     const inEd = e.target.closest && e.target.closest("[contenteditable='true']");
-    if((e.metaKey || e.ctrlKey) && (e.key === "s" || e.key === "S") && (editing || dirty.size)){ e.preventDefault(); e.stopPropagation(); doSave(); return; }
+    if((e.metaKey || e.ctrlKey) && (e.key === "s" || e.key === "S") && (editing || pendingCount())){ e.preventDefault(); e.stopPropagation(); doSave(); return; }
     if(!inEd) return;
     if(e.key === "Escape"){ e.preventDefault(); inEd.blur(); }
     e.stopPropagation();
@@ -5142,10 +5167,10 @@ document.addEventListener("click", e => {
     const t = (e.clipboardData || window.clipboardData).getData("text/plain");
     document.execCommand("insertText", false, t);
   }, true);
-  addEventListener("beforeunload", e => { if(dirty.size){ e.preventDefault(); e.returnValue = ""; } });
+  addEventListener("beforeunload", e => { if(pendingCount()){ e.preventDefault(); e.returnValue = ""; } });
 
   async function doSave(note){
-    if(!dirty.size && !note) return;
+    if(!pendingCount() && !note) return;
     if(!NAME){ const ok = await askName(); if(!ok) return; }
     saveBtn.disabled = true; say("Saving…");
     try {
@@ -5159,8 +5184,13 @@ document.addEventListener("click", e => {
         else merged[k] = {orig:e.orig, html, by:NAME, at};
         edited.push((el.innerText || "").trim().slice(0, 80));
       });
-      await post("save", {name:NAME, changes:merged, note:note || "", edited});
+      let mn = (latest.notes || []).filter(n => !nDeleted.has(n.id) && !nChanged.has(n.id));
+      notes.forEach(n => { if(nChanged.has(n.id)) mn.push(Object.assign({}, n)); });
+      if(nChanged.size) edited.push(nChanged.size + " sticky note" + (nChanged.size === 1 ? "" : "s"));
+      if(nDeleted.size) edited.push(nDeleted.size + " note" + (nDeleted.size === 1 ? "" : "s") + " removed");
+      await post("save", {name:NAME, changes:merged, notes:mn, note:note || "", edited});
       server = merged; dirty.clear(); upd(); applyAll(server);
+      setNotes(mn);
       say("Saved", 3000);
       if(!hist.hidden) loadHist();
     } catch(err){ say("Couldn't save. Try again."); upd(); }
@@ -5175,7 +5205,7 @@ document.addEventListener("click", e => {
       list.innerHTML = (versions.length ? versions.map((v, i) => `
         <div class="hc-v${i === 0 ? " cur" : ""}" data-id="${esc(v.id)}">
           <div class="hc-vt"><b>${esc(v.name)}</b><span>${esc(when(v.time))}</span></div>
-          <div class="hc-vn">${v.note ? esc(v.note) + " · " : ""}${v.count} edited text${v.count === 1 ? "" : "s"} in total${i === 0 ? " · current" : ""}</div>
+          <div class="hc-vn">${v.note ? esc(v.note) + " · " : ""}${v.count} edited text${v.count === 1 ? "" : "s"}${v.notes ? ` · ${v.notes} note${v.notes === 1 ? "" : "s"}` : ""} in total${i === 0 ? " · current" : ""}</div>
           ${v.edited ? `<div class="hc-ve">${esc(v.edited)}</div>` : ""}
           <div class="hc-vb"><button type="button" class="hc-view">View</button>${i === 0 ? "" : `<button type="button" class="hc-restore">Restore</button>`}</div>
         </div>`).join("") : `<p class="hc-dim">No saved versions yet.</p>`) +
@@ -5209,8 +5239,8 @@ document.addEventListener("click", e => {
     try {
       const v = await fetchVersion(id);
       const note = id ? `Restored ${v.name}'s version from ${when(v.time)}` : "Restored the original deck";
-      await post("save", {name:NAME, changes:v.changes || {}, note, edited:[]});
-      server = v.changes || {}; dirty.clear(); upd(); exitPreview(); applyAll(server);
+      await post("save", {name:NAME, changes:v.changes || {}, notes:v.notes || [], note, edited:[]});
+      server = v.changes || {}; dirty.clear(); exitPreview(); applyAll(server); setNotes(v.notes || []); upd();
       say("Restored", 3000); if(!hist.hidden) loadHist();
     } catch(err){ say("Couldn't restore that version."); }
   }
@@ -5221,15 +5251,77 @@ document.addEventListener("click", e => {
 
   /* Pick up other people's saves when you come back to the tab */
   document.addEventListener("visibilitychange", () => {
-    if(document.hidden || dirty.size || previewing) return;
-    get("content").then(c => { server = c.changes || {}; applyAll(server); }).catch(() => {});
+    if(document.hidden || pendingCount() || previewing) return;
+    get("content").then(c => { server = c.changes || {}; applyAll(server); setNotes(c.notes || []); }).catch(() => {});
+  });
+
+  /* ---------- Sticky notes (shown in edit mode) ---------- */
+  try { const f = document.createElement("link"); f.rel = "stylesheet"; f.href = "https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap"; document.head.appendChild(f); } catch(e){}
+  const COLORS = ["pink", "yellow", "green"];
+  function setNotes(list){ serverNotes = list.map(n => Object.assign({}, n)); notes = list.map(n => Object.assign({}, n)); nChanged.clear(); nDeleted.clear(); drawNotes(); }
+  const touch = n => { nChanged.add(n.id); upd(); say("Unsaved changes"); };
+  function layerFor(sec){
+    const host = document.body.classList.contains("presenting") ? document.querySelector(".pstage .pbox") : document.getElementById(sec);
+    if(!host) return null;
+    let l = host.querySelector(":scope > .hc-nl");
+    if(!l){ l = document.createElement("div"); l.className = "hc-nl"; if(getComputedStyle(host).position === "static") host.style.position = "relative"; host.appendChild(l); }
+    return l;
+  }
+  function drawNotes(){
+    document.querySelectorAll(".hc-nl").forEach(l => l.remove());
+    if(!editing) return;
+    const pres = document.body.classList.contains("presenting");
+    notes.forEach(n => {
+      if(pres && n.sec !== window.__hcCurSec) return;
+      const l = layerFor(n.sec); if(!l) return;
+      const el = document.createElement("div");
+      el.className = "hc-note hc-c-" + (COLORS.includes(n.color) ? n.color : "pink");
+      el.style.left = n.x + "%"; el.style.top = n.y + "%";
+      el.innerHTML = `<div class="hc-nh"><span class="hc-nby">${esc(n.by || "Someone")}</span><span class="hc-ncs">${COLORS.map(c => `<button type="button" class="hc-nc hc-c-${c}" data-c="${c}" aria-label="${c}"></button>`).join("")}</span><button type="button" class="hc-ndel" aria-label="Delete note">×</button></div><textarea class="hc-nt" placeholder="Write a note…" maxlength="2000"></textarea>`;
+      const ta = el.querySelector("textarea"); ta.value = n.text || "";
+      ta.addEventListener("input", () => { n.text = ta.value; touch(n); });
+      el.querySelectorAll(".hc-nc").forEach(b => b.addEventListener("click", () => { n.color = b.dataset.c; el.className = "hc-note hc-c-" + n.color; touch(n); }));
+      el.querySelector(".hc-ndel").addEventListener("click", () => {
+        notes = notes.filter(x => x !== n); nChanged.delete(n.id);
+        if(serverNotes.some(x => x.id === n.id)) nDeleted.add(n.id);
+        el.remove(); upd();
+      });
+      el.addEventListener("click", e => e.stopPropagation());
+      el.addEventListener("keydown", e => e.stopPropagation());
+      const head = el.querySelector(".hc-nh");
+      head.addEventListener("pointerdown", e => {
+        if(e.target.closest("button")) return;
+        e.preventDefault(); head.setPointerCapture(e.pointerId);
+        const r = l.getBoundingClientRect(), sx = e.clientX, sy = e.clientY, ox = n.x, oy = n.y;
+        const mv = ev => { n.x = Math.max(0, Math.min(92, ox + (ev.clientX - sx) / r.width * 100)); n.y = Math.max(0, Math.min(92, oy + (ev.clientY - sy) / r.height * 100)); el.style.left = n.x + "%"; el.style.top = n.y + "%"; };
+        const up = () => { head.removeEventListener("pointermove", mv); head.removeEventListener("pointerup", up); touch(n); };
+        head.addEventListener("pointermove", mv); head.addEventListener("pointerup", up);
+      });
+      l.appendChild(el);
+    });
+  }
+  window.__hcOnShow = () => { if(editing) requestAnimationFrame(drawNotes); };
+  new MutationObserver(() => { if(editing) requestAnimationFrame(drawNotes); }).observe(document.body, {attributes:true, attributeFilter:["class"]});
+  function visibleSec(){
+    if(document.body.classList.contains("presenting")) return window.__hcCurSec;
+    const y = innerHeight * .4; const s = Array.from(document.querySelectorAll(".stop")).find(x => { const r = x.getBoundingClientRect(); return r.top <= y && r.bottom >= y; });
+    return s && s.id;
+  }
+  $(bar, ".hc-add").addEventListener("click", async () => {
+    if(previewing) return;
+    if(!NAME){ const ok = await askName(); if(!ok) return; }
+    if(!editing) setEditing(true);
+    const sec = visibleSec(); if(!sec){ say("Scroll to a slide first."); return; }
+    const n = {id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), sec, x: 38 + Math.random() * 14, y: 26 + Math.random() * 14, color: "pink", text: "", by: NAME, at: new Date().toISOString()};
+    notes.push(n); touch(n); drawNotes();
+    const t = document.querySelectorAll(".hc-note textarea"); if(t.length) t[t.length - 1].focus();
   });
 
   /* ---------- Start ---------- */
   Promise.all([get("me"), get("content")]).then(([me, c]) => {
     NAME = me.name || "";
     if(!NAME && ls("hc-name")){ NAME = ls("hc-name"); post("me", {name:NAME}).catch(() => {}); }
-    server = c.changes || {}; applyAll(server);
+    server = c.changes || {}; applyAll(server); setNotes(c.notes || []);
     setWho(); upd(); placeBar(); bar.hidden = false;
     if(!NAME && !ls("hc-skip")) askName();
   }).catch(() => { bar.classList.add("hc-off"); setWho(); placeBar(); bar.hidden = false; say("Saving is offline right now. Refresh to try again."); });
@@ -5554,6 +5646,7 @@ document.addEventListener("keydown", e => {
     updCount();
     pnum.textContent = pad(idx + 1) + " / " + pad(slides.length);
     pprog.style.width = ((idx + 1) / slides.length * 100) + "%";
+    window.__hcCurSec = sl.sec.id; if(window.__hcOnShow) window.__hcOnShow(box);
     renderNotes();
     void inner.offsetWidth; inner.classList.add("enter");
     inner.querySelectorAll("#hump-graph, #meter").forEach(el => el._play && el._play()); playMotion(inner);
