@@ -3902,6 +3902,32 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
 .hc-card .hc-go{background:#000;color:#fff;padding:12px 16px}
 .hc-card .hc-skip{padding:12px 10px;text-decoration:underline}
 @media print{.hc-bar,.hc-hist,.hc-modal,.hc-prev{display:none!important}}
+/* V3 earned splash */
+.v3-waves{margin-top:26px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.v3-wv{border-top:4px solid currentColor;padding-top:14px;display:grid;gap:12px;align-content:start}
+.v3-wv .mono{font-weight:800}
+.v3-wave-d{font-size:15.5px;line-height:1.45;opacity:.8;margin-bottom:4px}
+.v3-hl{margin:0;background:var(--yellow);color:#000;padding:14px 16px;font-family:var(--font-display);text-transform:uppercase;font-size:27px;line-height:1.02;font-weight:600}
+.v3-wv .v3-hl:nth-of-type(2){background:transparent;color:inherit;border:2px solid currentColor}
+.v3-illus{margin-top:16px;font-size:12px;opacity:.6}
+/* V3 voicemails */
+.v3-vmp{margin-top:24px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch}
+.v3-vmp > div{border-top:4px solid currentColor;padding-top:12px;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:4px;align-content:start}
+.v3-vmp .v3-num{grid-row:span 2;font-size:40px}
+.v3-vmp h3{font-family:var(--font-display);text-transform:uppercase;font-size:26px;line-height:1;font-weight:600}
+.v3-vmp p{font-size:15px;line-height:1.45}
+.v3-vmp .v3-br-ar{align-self:center;font-style:normal;font-size:34px;color:var(--yellow)}
+.v3-vms{margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.v3-vm{border:2px solid currentColor;padding:14px 16px;display:grid;gap:8px;align-content:start;border-radius:18px 18px 18px 4px}
+.v3-vm .mono{color:var(--yellow);font-weight:800}
+.v3-vm p{font-size:17px;line-height:1.4}
+.v3-vm p::before{content:"▶ ";font-size:.7em;opacity:.6}
+/* V3 hub overview */
+.v3-hub{margin-top:30px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.v3-hub > div{border-top:4px solid currentColor;padding-top:14px;display:grid;gap:10px;align-content:start}
+.v3-hub h3{font-family:var(--font-display);text-transform:uppercase;font-size:30px;line-height:1;font-weight:600}
+.v3-hub p{font-size:17px;line-height:1.45}
+@media(max-width:900px){.v3-waves,.v3-vms,.v3-hub{grid-template-columns:1fr}.v3-vmp{grid-template-columns:1fr}.v3-vmp .v3-br-ar{display:none}}
 
 </style>
 </head>
@@ -4023,6 +4049,16 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
 </section>
 
 
+<section id="how-to-human-voicemails" class="stop dk v3-s dark" data-dw="1440" data-title="How To Human: the voicemails">
+  <div class="wrap">
+    <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>The voicemails</span></h2>
+    <div class="v3-vmp rv-kids"><div><b class="v3-num">01</b><h3>Vet and record a bank upfront</h3><p>A first set of voicemails is gathered, vetted and recorded before launch, so the series opens with a mix of funny, offhand and heartfelt calls.</p></div><i class="v3-br-ar" aria-hidden="true">→</i><div><b class="v3-num">02</b><h3>Then open the line to the public</h3><p>Once the series is live, we invite Australians to send in their own.</p></div></div>
+    <div class="v3-vms rv-kids"><div class="v3-vm v3-vm-funny"><span class="mono">Funny</span><p>Hi Matt. I’ve waved at my neighbour every morning for six years and I still don’t know his name. It’s too late to ask now. Help.</p></div><div class="v3-vm v3-vm-offhand"><span class="mono">Offhand</span><p>Yeah hey, just wondering how you end a phone call without saying “okay, bye” about nine times. Cheers.</p></div><div class="v3-vm v3-vm-heartfelt"><span class="mono">Heartfelt</span><p>Dad used to ring every Sunday. Now it’s a thumbs up in the family chat. I don’t know how to start the calls again.</p></div><div class="v3-vm v3-vm-funny"><span class="mono">Funny</span><p>I got invited to a dinner party and there’s no group chat. How do I RSVP? Do I… call?</p></div><div class="v3-vm v3-vm-offhand"><span class="mono">Offhand</span><p>Quick one. How do you ask a stranger for directions? Like, out loud?</p></div><div class="v3-vm v3-vm-heartfelt"><span class="mono">Heartfelt</span><p>I moved here last year and I haven’t made one friend outside work. Where do adults even meet people?</p></div></div>
+    <p class="v3-illus mono">Voicemails are illustrative</p>
+  </div>
+</section>
+
+
 <section id="how-to-human-presenter" class="stop dk v3-s dark" data-dw="1440" data-title="How To Human: Matt Okine">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>Matt Okine</span></h2>
@@ -4063,30 +4099,12 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
 </section>
 
 
-<section id="how-to-human-earned" class="stop dk v3-s" data-dw="1440" data-title="How To Human: earned">
+<section id="how-to-human-earned" class="stop dk v3-s v3-earn-s" data-dw="1440" data-title="How To Human: earned">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>Earned</span></h2>
-    <div class="v3-earn">
-      <div class="v3-earn-l">
-        <p>Before the series launches, Youi surveys Australians about life with technology: what it’s given us that we’d never give back, and which small human moments we miss.</p>
-        <p>The results are cut by generation, so we can see what a 20-year-old misses compared with someone who’s 60. That gives us the first earned headlines, fronted by an expert spokesperson, and gets the conversation going before episode one.</p>
-      </div>
-      <div class="v3-earn-r"><span class="mono">With the findings we can</span>
-        <div class="v3-use rv-kids">
-          <div><b>Set themes for the content</b><p>The moments Aussies miss most will become topics for the first episodes.</p></div>
-          <div><b>Start the calls</b><p>Each survey story ends by inviting people to leave Matt Okine a voicemail about a human moment they miss or would like help with.</p></div>
-          <div><b>Feed search</b><p>The key stats go on Youi’s episode pages as clear, quotable facts that search engines and LLMs can cite and surface.</p></div>
-        </div>
-      </div>
-    </div>
-    <div class="v3-layers"><span class="mono">The earned layers</span>
-      <div class="v3-lay rv-kids">
-        <div><b>The survey</b><p class="v3-lorem">Content to go here.</p></div>
-        <div><b>The personality: Matt Okine</b><p class="v3-lorem">Content to go here.</p></div>
-        <div><b>Real people</b><p class="v3-lorem">Content to go here.</p></div>
-        <div><b>Testing the results</b><p class="v3-lorem">Content to go here.</p></div>
-      </div>
-    </div>
+    <p class="v3-intro">Three waves of news, each with its own headline moment.</p>
+    <div><div class="v3-waves rv-kids"><div class="v3-wv"><span class="mono">Wave 01 · Survey launch</span><p class="v3-wave-d">Youi surveys Australians about life with technology and the small human moments we miss, cut by generation and fronted by Matt Okine before episode one.</p><blockquote class="v3-hl">The small human moments Australians miss most, generation by generation</blockquote><blockquote class="v3-hl">Gen Z or boomers: who finds small talk harder? New Youi research reveals all</blockquote></div><div class="v3-wv"><span class="mono">Wave 02 · Voicemail callout</span><p class="v3-wave-d">Each survey story ends by inviting people to leave Matt Okine a voicemail about a human moment they miss or need help with.</p><blockquote class="v3-hl">Matt Okine’s phone line is open, and he wants your voicemail</blockquote><blockquote class="v3-hl">Can’t make small talk? Matt Okine wants to hear from you</blockquote></div><div class="v3-wv"><span class="mono">Wave 03 · Stories from the episodes</span><p class="v3-wave-d">One real caller and one relatable problem in each episode create fresh stories as the series rolls out.</p><blockquote class="v3-hl">Matt Okine asked a class of five-year-olds how to make friends. Then he tried it on adults</blockquote><blockquote class="v3-hl">Couples married 60 years teach Matt Okine the lost art of the first move</blockquote></div></div>
+    <p class="v3-illus mono">Headlines are illustrative</p></div>
   </div>
 </section>
 
@@ -4106,7 +4124,8 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
 <section id="how-to-human-www" class="stop dk v3-s" data-dw="1440" data-title="How To Human: website">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>WWW</span></h2>
-    <div class="v3-www rv-kids"><div class="ap-col v3-wcol"><h4>The hub</h4><ul class="v3-wl"><li><b>Campaign hub.</b> One home for the whole series, including every episode, the survey and how to take part.</li><li><b>Episode pages.</b> Each has the video, transcript, behind the scenes, tips and stats, built around the search behind the caller’s question.</li></ul></div><div class="ap-col v3-wcol"><h4>For audiences</h4><ul class="v3-wl"><li><b>Leave a voicemail.</b> A call to action linking to a phone number or WhatsApp, so people can leave Matt a voice note.</li><li><b>Survey results page.</b> An interactive “what Australia misses” page, cut by generation and state.</li><li><b>Try it yourself.</b> A short version of the survey that shows how your answers compare with your generation.</li><li><b>Tips library.</b> A growing set of How to Human guides from every episode that keeps working between seasons.</li><li><b>Voicemail wall.</b> A selection of real voice notes from Australians, shared with their permission.</li><li><b>Nominate someone.</b> People suggest a friend or family member who needs Matt’s help.</li><li><b>Subscribe and get notified.</b> Episode alerts by email or SMS.</li></ul></div><div class="ap-col v3-wcol"><h4>For search and AI</h4><ul class="v3-wl"><li><b>Questions page.</b> The real questions callers ask, each with a short answer.</li><li><b>Expert spokesperson page.</b> Their profile and credentials, which make the tips and stats more credible.</li><li><b>Media room.</b> Survey findings, stats and assets for journalists.</li><li><b>Built properly for search.</b> Transcripts, captions and the right page setup so search engines and AI tools can read and cite it.</li></ul></div></div>
+    <p class="v3-intro">One Youi hub for the whole series.</p>
+    <div class="v3-hub rv-kids"><div><b class="v3-num">01</b><h3>The research</h3><p>The survey findings, cut by generation and state, as shareable stats and a media room for journalists.</p></div><div><b class="v3-num">02</b><h3>Vetted voicemails</h3><p>A selection of real voice notes from Australians, vetted and shared with their permission.</p></div><div><b class="v3-num">03</b><h3>The episodes</h3><p>Every episode with its video, transcript, behind the scenes and tips.</p></div><div><b class="v3-num">04</b><h3>Ways to take part</h3><p>Leave Matt a voicemail, try the survey, nominate someone or sign up for episode alerts.</p></div></div>
   </div>
 </section>
 
@@ -4119,7 +4138,7 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
         <p>The role Youi plays will differ by format. Essentially, the recommendation would be that the longer someone spends with the content, the lighter the brand and the faster they scroll through the format, the clearer the brand.</p>
         <p>This means we plot our content out along a spectrum of branding from long-form episodes ‘presented by Youi’ to static posts and survey result carousels that have a branded ‘How To Human’ lockup and look and feel that connects them to the brand far more clearly.</p>
       </div>
-      <table class="ap-t v3-t"><thead><tr><th>Format</th><th>How Youi shows up</th></tr></thead><tbody class="rv-kids"><tr><td>Long-form episodes</td><td>“Presented by Youi” at the start and end. Youi sits in the premise through the survey and voicemail line. No mid-roll selling.</td></tr><tr><td>Shorts and Reels</td><td>A light cue in the opening seconds, plus an end frame and a caption</td></tr><tr><td>Static posts and carousels</td><td>A branded How to Human template in Youi’s look</td></tr><tr><td>Survey stats</td><td>Clearly Youi’s research: “Youi asked Australians...”</td></tr><tr><td>Website hub</td><td>Fully Youi, since it’s Youi’s own site</td></tr><tr><td>Earned</td><td>Youi named as the source of the survey</td></tr></tbody></table>
+      <table class="ap-t v3-t"><thead><tr><th>Format</th><th>How Youi shows up</th></tr></thead><tbody class="rv-kids"><tr><td>Long-form episodes</td><td>“Presented by Youi” at the start and end, and Matt credits Youi as the source of the research. Youi sits in the premise through the survey and voicemail line. No mid-roll selling.</td></tr><tr><td>Social cutdowns</td><td>Youi visible early, in the opening seconds, plus an end frame and a caption</td></tr><tr><td>Static posts and carousels</td><td>A branded How to Human template in Youi’s look</td></tr><tr><td>Survey stats</td><td>Clearly Youi’s research: “Youi asked Australians...”</td></tr><tr><td>Website hub</td><td>Fully Youi, since it’s Youi’s own site</td></tr><tr><td>Earned</td><td>Youi named as the source of the survey</td></tr></tbody></table>
     </div>
   </div>
 </section>
@@ -4186,8 +4205,8 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
 <section id="connection-experiment-mechanic" class="stop dk v3-s" data-dw="1440" data-title="March creator challenges: the idea mechanic">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 2: March creator challenges</span><span>The idea mechanic</span></h2>
-    <div class="v3-steps rv-kids"><div class="v3-step"><b class="v3-num">01</b><h3>Ask Australia</h3><p>A Youi survey finds which everyday human moments we now rely on tech for, and which ones we’d struggle with without it.</p></div><div class="v3-step"><b class="v3-num">02</b><h3>Start the conversation</h3><p>The findings become earned stories, cut by generation and seeded to press to build momentum before episode one.</p></div><div class="v3-step"><b class="v3-num">03</b><h3>Set the challenges</h3><p>The moments Australians find hardest without tech become four challenges, like a date, a trip across town and making a new friend.</p></div><div class="v3-step"><b class="v3-num">04</b><h3>Creator-led content</h3><p>A narrator follows four creators from different stages of life as each takes on one challenge, with no tech to guide them.</p></div><div class="v3-step"><b class="v3-num">05</b><h3>Document it</h3><p>Using a mix of shot content and the creators’ own footage, we capture the build-up, the moment itself and reflections from both sides.</p></div><div class="v3-step"><b class="v3-num">06</b><h3>Hand over</h3><p>We share what the four creators found and ask whether it’s true for everyone, which can be the lead into the Connection Experiment.</p></div></div>
-    
+    <div class="v3-steps rv-kids"><div class="v3-step"><b class="v3-num">01</b><h3>Ask Australia</h3><p>A Youi survey surfaces the tensions worth testing: the everyday human moments we now rely on tech for, and the ones we’d struggle with without it.</p></div><div class="v3-step"><b class="v3-num">02</b><h3>Start the conversation</h3><p>The findings become earned stories, cut by generation and seeded to press to build momentum before episode one.</p></div><div class="v3-step"><b class="v3-num">03</b><h3>Set the challenges</h3><p>The sharpest tensions become four challenges, each framed as “What happens when…?”, like a date, a trip across town and making a new friend.</p></div><div class="v3-step"><b class="v3-num">04</b><h3>Creator-led content</h3><p>A narrator follows four creators from different stages of life as each takes on one challenge, with no tech to guide them.</p></div><div class="v3-step"><b class="v3-num">05</b><h3>Document it</h3><p>Using a mix of shot content and the creators’ own footage, we focus on what unfolds between people: the build-up, the moment itself and reflections from both sides.</p></div><div class="v3-step"><b class="v3-num">06</b><h3>Hand over</h3><p>We share what the four creators found and ask whether it’s true for everyone, which can be the lead into the Connection Experiment.</p></div></div>
+    <p class="v3-foot">There’s no formal measurement in March. That’s reserved for the full Connection Experiment.</p>
   </div>
 </section>
 
@@ -4206,8 +4225,8 @@ body.hc-editing .ix-r{opacity:1!important;transform:none!important}
 <section id="connection-experiment-episodes" class="stop dk v3-s dark" data-dw="1440" data-title="March creator challenges: TITLE">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 2: March creator challenges</span><span>TITLE</span></h2>
-    <p class="v3-intro">We use creators and set them challenges that take away technology to get back to the heart of human connection. Over four episodes we set the challenges, and through a combination of shot content and UGC from the creators, we document them attempting to navigate moments of human connection without technology to guide them.</p>
-    <div class="v3-eps rv-kids"><article class="v3-ep"><span class="mono">Episode 01</span><h3>Dating</h3><span class="v3-ep-tag">Younger content creator</span><p class="v3-ep-ch"><b>The challenge:</b> Go on a date with no tech.</p><p>We follow a Gen Z content creator tasked with organising and going on a date without the use of any technology. Together with them, we capture the lead-in to the date, the date itself and then reflections from both the creator and their date about how the experience was.</p></article><article class="v3-ep"><span class="mono">Episode 02</span><h3>A trip across town</h3><span class="v3-ep-tag">A family: mum, dad and kids (ages like 7 and 9)</span><p class="v3-ep-ch"><b>The challenge:</b> Make it across town to some kind of kids’ playground without technology (no GPS, just a Refidex).</p><p>We capture a family of four as they make their way across town to a destination they’ve never visited before (an indoor play centre, a movie theatre on the other side of town etc.). A car rigged with GoPros captures every missed turn-off, every heckle from the back seat and the moment they make it there.</p></article><article class="v3-ep"><span class="mono">Episode 03</span><h3>Making adult friends</h3><span class="v3-ep-tag">A dad with a young kid</span><p class="v3-ep-ch"><b>The challenge:</b> Make a connection with someone at a party and make a plan to do something together at a later date (a hit at the driving range, a play date with the kids etc.).</p><p>We send a dad and his 4-year-old to a kids’ birthday party, tasked with meeting a new friend and making a plan with them. Leading into the party we capture his thoughts, feelings, game plan and the perspective of his partner or child, as well as how it goes on the ground. After the fact we check in with him to uncover how he found the experience and if he was successful in making a new mate.</p></article><article class="v3-ep v3-ep-tbc"><span class="mono">Episode 04</span><h3>Something with boomers</h3><p>Content to go here.</p></article></div>
+    <p class="v3-intro">We use creators and set them challenges that take away technology to get back to the heart of human connection. Over four episodes we set the challenges, and through a combination of shot content and UGC from the creators, we document them attempting to navigate moments of human connection without technology to guide them. Each episode asks “What happens when…?” and focuses on what unfolds between people.</p>
+    <div class="v3-eps rv-kids"><article class="v3-ep"><span class="mono">Episode 01</span><h3>What happens when you go on a date with no tech?</h3><span class="v3-ep-tag">Younger content creator</span><p class="v3-ep-ch"><b>The challenge:</b> Go on a date with no tech.</p><p>We follow a Gen Z content creator tasked with organising and going on a date without the use of any technology. Together with them, we capture the lead-in to the date, the date itself and then reflections from both the creator and their date about how the experience was.</p></article><article class="v3-ep"><span class="mono">Episode 02</span><h3>What happens when a family crosses town without GPS?</h3><span class="v3-ep-tag">A family: mum, dad and kids (ages like 7 and 9)</span><p class="v3-ep-ch"><b>The challenge:</b> Make it across town to some kind of kids’ playground without technology (no GPS, just a Refidex).</p><p>We capture a family of four as they make their way across town to a destination they’ve never visited before (an indoor play centre, a movie theatre on the other side of town etc.). A car rigged with GoPros captures every missed turn-off, every heckle from the back seat and the moment they make it there.</p></article><article class="v3-ep"><span class="mono">Episode 03</span><h3>What happens when a dad has to make a new friend at a kids’ party?</h3><span class="v3-ep-tag">A dad with a young kid</span><p class="v3-ep-ch"><b>The challenge:</b> Make a connection with someone at a party and make a plan to do something together at a later date (a hit at the driving range, a play date with the kids etc.).</p><p>We send a dad and his 4-year-old to a kids’ birthday party, tasked with meeting a new friend and making a plan with them. Leading into the party we capture his thoughts, feelings, game plan and the perspective of his partner or child, as well as how it goes on the ground. After the fact we check in with him to uncover how he found the experience and if he was successful in making a new mate.</p></article><article class="v3-ep v3-ep-tbc"><span class="mono">Episode 04</span><h3>What happens when…? TBC</h3><p>Content to go here.</p></article></div>
   </div>
 </section>
 
