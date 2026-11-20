@@ -3858,6 +3858,50 @@ body.presenting .sv .sv-frame.sv-vid{height:610px;width:auto}
 .v3-fn{width:250px}
 .v3-fn p{font-size:12px}
 .v3-hc .v3-lorem{font-weight:400}
+/* Live editing bar, history and name prompt */
+.hc-bar{position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:240;display:flex;align-items:center;gap:4px;background:#000;color:#fff;padding:5px;border:1px solid rgba(255,255,255,.22);box-shadow:0 8px 26px rgba(0,0,0,.3);font-family:var(--font-body);max-width:calc(100vw - 32px);flex-wrap:wrap;justify-content:center}
+.hc-bar[hidden],.hc-hist[hidden],.hc-modal[hidden],.hc-prev[hidden]{display:none!important}
+.hc-bar button,.hc-hist button,.hc-prev button,.hc-modal button{font:800 11px var(--font-body);letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border:0;cursor:pointer;background:transparent;color:inherit}
+.hc-bar button:hover,.hc-hist button:hover,.hc-prev button:hover{background:rgba(255,255,255,.12)}
+.hc-bar .hc-who{letter-spacing:.04em;text-transform:none;font-weight:600;font-size:13px;opacity:.75}
+.hc-bar .hc-edit[aria-pressed="true"]{background:#fff;color:#000}
+.hc-bar .hc-save{background:var(--yellow);color:#000}
+.hc-bar .hc-save:hover{background:var(--yellow)}
+.hc-bar .hc-save:disabled{opacity:.35;cursor:default}
+.hc-bar .hc-msg{font-size:12px;opacity:.7;padding:0 8px}
+.hc-bar .hc-msg:empty{display:none}
+body.presenting .hc-bar{opacity:.4;transition:opacity .2s}
+body.presenting .hc-bar:hover,body.presenting.hc-editing .hc-bar,body.presenting .hc-bar:focus-within{opacity:1}
+body.hc-editing [data-ve][contenteditable="true"]{cursor:text}
+body.hc-editing [data-ve][contenteditable="true"]:hover{outline:1px dashed var(--yellow);outline-offset:3px}
+body.hc-editing [data-ve][contenteditable="true"]:focus{outline:2px solid var(--yellow);outline-offset:3px}
+body.hc-editing .ix-r{opacity:1!important;transform:none!important}
+.hc-hist{position:fixed;top:0;right:0;bottom:0;width:min(400px,100vw);z-index:245;background:#111;color:#fff;font-family:var(--font-body);display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.4)}
+.hc-hh{display:flex;justify-content:space-between;align-items:center;padding:16px 16px 12px 20px;border-bottom:1px solid rgba(255,255,255,.15);font-size:15px}
+.hc-list{overflow:auto;padding:8px 0 24px}
+.hc-v{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:grid;gap:5px;font-size:13px}
+.hc-v.cur{border-left:3px solid var(--yellow);padding-left:17px}
+.hc-vt{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.hc-vt b{font-size:15px}
+.hc-vt span,.hc-vn{opacity:.6}
+.hc-ve{opacity:.85;font-style:italic;overflow-wrap:anywhere}
+.hc-vb{display:flex;gap:6px;margin-top:4px}
+.hc-vb button{border:1px solid rgba(255,255,255,.3)!important;padding:6px 10px!important}
+.hc-vb .hc-restore[data-sure="1"]{background:var(--yellow);color:#000;border-color:var(--yellow)!important}
+.hc-orig{opacity:.8}
+.hc-dim{opacity:.6;padding:14px 20px;margin:0}
+.hc-prev{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:240;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;background:var(--yellow);color:#000;padding:6px 6px 6px 16px;font:600 13px var(--font-body);box-shadow:0 8px 26px rgba(0,0,0,.3);max-width:calc(100vw - 32px)}
+.hc-prev button{background:#000;color:#fff}
+.hc-prev button:hover{background:#333!important}
+.hc-modal{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px}
+.hc-card{background:#fff;color:#000;width:min(420px,100%);padding:28px;display:grid;gap:12px;font-family:var(--font-body);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.hc-card b{font-family:var(--font-display);text-transform:uppercase;font-size:34px;line-height:1}
+.hc-card p{margin:0;font-size:15px;line-height:1.45}
+.hc-card input{font:500 16px var(--font-body);padding:12px;border:1px solid #000;width:100%;box-sizing:border-box}
+.hc-row{display:flex;gap:8px;flex-wrap:wrap}
+.hc-card .hc-go{background:#000;color:#fff;padding:12px 16px}
+.hc-card .hc-skip{padding:12px 10px;text-decoration:underline}
+@media print{.hc-bar,.hc-hist,.hc-modal,.hc-prev{display:none!important}}
 
 </style>
 </head>
@@ -4877,6 +4921,254 @@ document.addEventListener("click", e => {
   if(window.__hcRepaint) requestAnimationFrame(() => window.__hcRepaint());
 }, true);
 
+/* ===================== LIVE EDITING (Netlify) =====================
+   Edit toggle, Save and History in a bar at the top. Every save is a new
+   version in Netlify Blobs, credited to the name tied to the visitor's IP. */
+(function liveEdit(){
+  if(!/^https?:$/.test(location.protocol)) return;
+  const API = "/api/";
+  const SKIP = ".ovl, nav, .pbar, .hc-bar, .hc-modal, .hc-hist, script, style, svg, button, iframe, video, select, textarea, input";
+  const els = {};
+  let n = 0;
+  /* Key every element that holds its own text, outermost first, once per slide */
+  document.querySelectorAll(".stop").forEach(sec => {
+    const sid = sec.id || ("s" + (n++));
+    let i = 0;
+    const walk = el => {
+      for(const c of el.children){
+        if(c.matches(SKIP) || c.closest("svg")) continue;
+        const own = Array.from(c.childNodes).some(t => t.nodeType === 3 && t.nodeValue.trim());
+        if(own){ const k = sid + ":" + (i++); c.dataset.ve = k; els[k] = {el:c, orig:c.innerHTML}; }
+        else walk(c);
+      }
+    };
+    walk(sec);
+  });
+
+  const ALLOW = new Set(["B","I","EM","STRONG","BR","SPAN","SMALL","SUP","SUB","U","S"]);
+  const clean = html => {
+    const t = document.createElement("template"); t.innerHTML = String(html || "");
+    const scrub = node => {
+      Array.from(node.childNodes).forEach(c => {
+        if(c.nodeType === 1){
+          scrub(c);
+          if(!ALLOW.has(c.tagName)){ c.replaceWith(...c.childNodes); return; }
+          Array.from(c.attributes).forEach(a => { if(a.name !== "class") c.removeAttribute(a.name); });
+        } else if(c.nodeType !== 3) c.remove();
+      });
+    };
+    scrub(t.content);
+    return t.innerHTML;
+  };
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  const when = iso => { try { return new Date(iso).toLocaleString("en-AU", {day:"numeric", month:"short", hour:"numeric", minute:"2-digit"}); } catch(e){ return iso; } };
+  const get = p => fetch(API + p, {cache:"no-store"}).then(r => { if(!r.ok) throw new Error(r.status); return r.json(); });
+  const post = (p, body) => fetch(API + p, {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(body)}).then(r => { if(!r.ok) throw new Error(r.status); return r.json(); });
+  const ls = (k, v) => { try { if(v === undefined) return localStorage.getItem(k); if(v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch(e){ return null; } };
+
+  let NAME = "", server = {}, dirty = new Set(), editing = false, previewing = null;
+
+  const nodesFor = k => document.querySelectorAll(`[data-ve="${CSS.escape(k)}"]`);
+  function paintKey(k, change){
+    const e = els[k]; if(!e) return;
+    const ok = change && change.orig === e.orig;
+    nodesFor(k).forEach(el => {
+      el.innerHTML = ok ? clean(change.html) : e.orig;
+      el.classList.toggle("hc-changed", !!ok);
+      if(ok) el.title = `Edited by ${change.by || "someone"}, ${when(change.at)}`; else el.removeAttribute("title");
+    });
+    if(window.__hcFit) window.__hcFit();
+  }
+  function applyAll(map){
+    Object.keys(els).forEach(k => { if(!dirty.has(k)) paintKey(k, map[k]); });
+    if(window.__hcRepaint) requestAnimationFrame(() => window.__hcRepaint());
+  }
+
+  /* ---------- UI ---------- */
+  const bar = document.createElement("div");
+  bar.className = "hc-bar"; bar.hidden = true;
+  bar.innerHTML = `<button type="button" class="hc-who" title="Change your name"></button>
+    <button type="button" class="hc-edit" aria-pressed="false">Edit</button>
+    <button type="button" class="hc-save" disabled>Save</button>
+    <button type="button" class="hc-histbtn">History</button>
+    <span class="hc-msg" aria-live="polite"></span>`;
+  const hist = document.createElement("aside");
+  hist.className = "hc-hist"; hist.hidden = true;
+  hist.innerHTML = `<div class="hc-hh"><b>Version history</b><button type="button" class="hc-x">Close</button></div><div class="hc-list"></div>`;
+  const prevBar = document.createElement("div");
+  prevBar.className = "hc-prev"; prevBar.hidden = true;
+  prevBar.innerHTML = `<span></span><button type="button" class="hc-prev-restore">Restore this version</button><button type="button" class="hc-prev-back">Back to latest</button>`;
+  const modal = document.createElement("div");
+  modal.className = "hc-modal"; modal.hidden = true;
+  modal.innerHTML = `<form class="hc-card"><b>Who's this?</b><p>Add your name so the version history shows who changed what, and when.</p>
+    <input type="text" maxlength="60" placeholder="Your name" autocomplete="name" required>
+    <div class="hc-row"><button type="submit" class="hc-go">Save name</button><button type="button" class="hc-skip">Just viewing</button></div></form>`;
+  document.body.append(bar, hist, prevBar, modal);
+  const $ = (root, s) => root.querySelector(s);
+  const who = $(bar, ".hc-who"), editBtn = $(bar, ".hc-edit"), saveBtn = $(bar, ".hc-save"), histBtn = $(bar, ".hc-histbtn"), msg = $(bar, ".hc-msg");
+  const say = (t, ms) => { msg.textContent = t; clearTimeout(say._t); if(ms) say._t = setTimeout(() => { if(msg.textContent === t) msg.textContent = ""; }, ms); };
+  const setWho = () => { who.textContent = NAME ? NAME : "Add name"; };
+  const upd = () => { saveBtn.disabled = !dirty.size; saveBtn.textContent = dirty.size ? `Save (${dirty.size})` : "Save"; };
+  const placeBar = () => {
+    const nav = document.querySelector("nav");
+    const top = document.body.classList.contains("presenting") || !nav ? 12 : nav.getBoundingClientRect().bottom + 10;
+    bar.style.top = Math.max(12, top) + "px";
+  };
+  addEventListener("resize", placeBar); addEventListener("scroll", placeBar, {passive:true});
+  new MutationObserver(placeBar).observe(document.body, {attributes:true, attributeFilter:["class"]});
+
+  let askResolve = null;
+  function askName(){
+    return new Promise(res => {
+      askResolve = res; modal.hidden = false;
+      const inp = $(modal, "input"); inp.value = NAME; setTimeout(() => inp.focus(), 30);
+    });
+  }
+  $(modal, "form").addEventListener("submit", async e => {
+    e.preventDefault();
+    const v = $(modal, "input").value.trim(); if(!v) return;
+    NAME = v; ls("hc-name", v); ls("hc-skip", null); setWho(); modal.hidden = true;
+    post("me", {name:v}).catch(() => {});
+    if(askResolve){ askResolve(true); askResolve = null; }
+  });
+  $(modal, ".hc-skip").addEventListener("click", () => {
+    ls("hc-skip", "1"); modal.hidden = true;
+    if(askResolve){ askResolve(false); askResolve = null; }
+  });
+  who.addEventListener("click", () => askName());
+
+  function setEditing(on){
+    editing = on;
+    document.body.classList.toggle("hc-editing", on);
+    editBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    editBtn.textContent = on ? "Editing" : "Edit";
+    document.querySelectorAll("[data-ve]").forEach(el => {
+      if(el.closest(".ovl")) return;
+      if(on) el.setAttribute("contenteditable", "true"); else el.removeAttribute("contenteditable");
+    });
+    if(on) say("Click any text to change it.", 3500);
+  }
+  editBtn.addEventListener("click", async () => {
+    if(previewing) return;
+    if(!editing && !NAME){ const ok = await askName(); if(!ok) return; }
+    setEditing(!editing);
+  });
+
+  /* Typing: track the change, keep clones in sync, never move the slide */
+  document.addEventListener("input", e => {
+    const el = e.target.closest && e.target.closest("[data-ve]"); if(!el || !editing) return;
+    dirty.add(el.dataset.ve); upd(); say("Unsaved changes");
+    if(window.__hcFit) window.__hcFit();
+  }, true);
+  addEventListener("click", e => {
+    if(e.target.closest && e.target.closest("[contenteditable='true']")){ e.stopPropagation(); if(e.target.closest("a")) e.preventDefault(); }
+  }, true);
+  addEventListener("keydown", e => {
+    const inEd = e.target.closest && e.target.closest("[contenteditable='true']");
+    if((e.metaKey || e.ctrlKey) && (e.key === "s" || e.key === "S") && (editing || dirty.size)){ e.preventDefault(); e.stopPropagation(); doSave(); return; }
+    if(!inEd) return;
+    if(e.key === "Escape"){ e.preventDefault(); inEd.blur(); }
+    e.stopPropagation();
+  }, true);
+  document.addEventListener("paste", e => {
+    const el = e.target.closest && e.target.closest("[contenteditable='true']"); if(!el) return;
+    e.preventDefault();
+    const t = (e.clipboardData || window.clipboardData).getData("text/plain");
+    document.execCommand("insertText", false, t);
+  }, true);
+  addEventListener("beforeunload", e => { if(dirty.size){ e.preventDefault(); e.returnValue = ""; } });
+
+  async function doSave(note){
+    if(!dirty.size && !note) return;
+    if(!NAME){ const ok = await askName(); if(!ok) return; }
+    saveBtn.disabled = true; say("Saving…");
+    try {
+      const latest = await get("content");
+      const merged = Object.assign({}, latest.changes || {});
+      const at = new Date().toISOString(), edited = [];
+      dirty.forEach(k => {
+        const e = els[k], el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); if(!e || !el) return;
+        const html = clean(el.innerHTML);
+        if(html === e.orig) delete merged[k];
+        else merged[k] = {orig:e.orig, html, by:NAME, at};
+        edited.push((el.innerText || "").trim().slice(0, 80));
+      });
+      await post("save", {name:NAME, changes:merged, note:note || "", edited});
+      server = merged; dirty.clear(); upd(); applyAll(server);
+      say("Saved", 3000);
+      if(!hist.hidden) loadHist();
+    } catch(err){ say("Couldn't save. Try again."); upd(); }
+  }
+  saveBtn.addEventListener("click", () => doSave());
+
+  /* ---------- History ---------- */
+  async function loadHist(){
+    const list = $(hist, ".hc-list"); list.innerHTML = `<p class="hc-dim">Loading…</p>`;
+    try {
+      const {versions} = await get("versions");
+      list.innerHTML = (versions.length ? versions.map((v, i) => `
+        <div class="hc-v${i === 0 ? " cur" : ""}" data-id="${esc(v.id)}">
+          <div class="hc-vt"><b>${esc(v.name)}</b><span>${esc(when(v.time))}</span></div>
+          <div class="hc-vn">${v.note ? esc(v.note) + " · " : ""}${v.count} edited text${v.count === 1 ? "" : "s"} in total${i === 0 ? " · current" : ""}</div>
+          ${v.edited ? `<div class="hc-ve">${esc(v.edited)}</div>` : ""}
+          <div class="hc-vb"><button type="button" class="hc-view">View</button>${i === 0 ? "" : `<button type="button" class="hc-restore">Restore</button>`}</div>
+        </div>`).join("") : `<p class="hc-dim">No saved versions yet.</p>`) +
+        `<div class="hc-v hc-orig" data-id=""><div class="hc-vt"><b>Original deck</b></div><div class="hc-vn">As built, with no edits</div><div class="hc-vb"><button type="button" class="hc-view">View</button><button type="button" class="hc-restore">Restore</button></div></div>`;
+    } catch(err){ list.innerHTML = `<p class="hc-dim">Couldn't load the history.</p>`; }
+  }
+  const fetchVersion = id => id ? get("version/" + encodeURIComponent(id)) : Promise.resolve({changes:{}, name:"Original deck", time:null});
+  hist.addEventListener("click", async e => {
+    if(e.target.closest(".hc-x")){ hist.hidden = true; return; }
+    const row = e.target.closest(".hc-v"); if(!row) return;
+    const id = row.dataset.id;
+    if(e.target.closest(".hc-view")){
+      if(dirty.size){ say("Save or undo your changes first."); return; }
+      try {
+        const v = await fetchVersion(id);
+        if(editing) setEditing(false);
+        previewing = {id, v}; document.body.classList.add("hc-previewing");
+        Object.keys(els).forEach(k => paintKey(k, (v.changes || {})[k]));
+        $(prevBar, "span").textContent = id ? `Viewing ${v.name}'s version, ${when(v.time)}` : "Viewing the original deck";
+        prevBar.hidden = false; hist.hidden = true;
+      } catch(err){ say("Couldn't open that version."); }
+    }
+    const rb = e.target.closest(".hc-restore");
+    if(rb){
+      if(rb.dataset.sure !== "1"){ rb.dataset.sure = "1"; rb.textContent = "Confirm restore"; return; }
+      await restoreVersion(id);
+    }
+  });
+  async function restoreVersion(id){
+    if(!NAME){ const ok = await askName(); if(!ok) return; }
+    try {
+      const v = await fetchVersion(id);
+      const note = id ? `Restored ${v.name}'s version from ${when(v.time)}` : "Restored the original deck";
+      await post("save", {name:NAME, changes:v.changes || {}, note, edited:[]});
+      server = v.changes || {}; dirty.clear(); upd(); exitPreview(); applyAll(server);
+      say("Restored", 3000); if(!hist.hidden) loadHist();
+    } catch(err){ say("Couldn't restore that version."); }
+  }
+  function exitPreview(){ previewing = null; prevBar.hidden = true; document.body.classList.remove("hc-previewing"); applyAll(server); }
+  $(prevBar, ".hc-prev-back").addEventListener("click", exitPreview);
+  $(prevBar, ".hc-prev-restore").addEventListener("click", () => previewing && restoreVersion(previewing.id));
+  histBtn.addEventListener("click", () => { hist.hidden = !hist.hidden; if(!hist.hidden) loadHist(); });
+
+  /* Pick up other people's saves when you come back to the tab */
+  document.addEventListener("visibilitychange", () => {
+    if(document.hidden || dirty.size || previewing) return;
+    get("content").then(c => { server = c.changes || {}; applyAll(server); }).catch(() => {});
+  });
+
+  /* ---------- Start ---------- */
+  Promise.all([get("me"), get("content")]).then(([me, c]) => {
+    NAME = me.name || "";
+    if(!NAME && ls("hc-name")){ NAME = ls("hc-name"); post("me", {name:NAME}).catch(() => {}); }
+    server = c.changes || {}; applyAll(server);
+    setWho(); upd(); placeBar(); bar.hidden = false;
+    if(!NAME && !ls("hc-skip")) askName();
+  }).catch(() => { /* no editing backend here: the deck stays read only */ });
+})();
+
 /* ============================ INTERACTIONS ============================ */
 
 /* Tonal dial on How to Human */
@@ -5255,6 +5547,7 @@ document.addEventListener("keydown", e => {
   }
 
   addEventListener("resize", () => { if(document.body.classList.contains("presenting") && !ovl) size(); });
+  window.__hcFit = () => { clearTimeout(window.__hcFitT); window.__hcFitT = setTimeout(() => { if(document.body.classList.contains("presenting") && !ovl) fit(); }, 300); };
   btn.addEventListener("click", () => enter());
   ovbtn.addEventListener("click", openOverview);
   bar.querySelector(".pb-next").addEventListener("click", () => { if(!stepIn(1) && idx < slides.length - 1) show(idx + 1); });
