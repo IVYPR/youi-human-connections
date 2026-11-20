@@ -3973,6 +3973,14 @@ body.hc-editing .ovl-t{cursor:grab}
 .ovl-t.hc-db .ovl-th{box-shadow:-6px 0 0 #ff2e93}
 .ovl-t.hc-da .ovl-th{box-shadow:6px 0 0 #ff2e93}
 .hc-ovhint{color:var(--yellow)}
+/* Autosave status */
+.hc-bar .hc-save{background:transparent;color:#fff;opacity:.75;font-weight:700}
+.hc-bar .hc-save:hover{background:rgba(255,255,255,.12)}
+.hc-bar .hc-save.hc-busy{color:var(--yellow);opacity:1}
+.hc-bar .hc-save.hc-bad{background:#b00020;color:#fff;opacity:1}
+/* Clearer delete on notes */
+.hc-ndel{width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.18)!important;color:#000!important;font-size:15px!important;font-weight:700;display:grid;place-items:center;padding:0!important}
+.hc-ndel:hover{background:#000!important;color:#fff!important}
 
 </style>
 </head>
@@ -5107,7 +5115,9 @@ document.addEventListener("click", e => {
     const e = els[k]; if(!e) return;
     const ok = change && change.orig === e.orig;
     nodesFor(k).forEach(el => {
-      el.innerHTML = ok ? clean(change.html) : e.orig;
+      if(el.contains(document.activeElement) && el.isContentEditable) return;
+      const target = ok ? clean(change.html) : e.orig;
+      if(el.innerHTML !== target) el.innerHTML = target;
       el.classList.toggle("hc-changed", !!ok);
       if(ok) el.title = `Edited by ${change.by || "someone"}, ${when(change.at)}`; else el.removeAttribute("title");
     });
@@ -5125,7 +5135,7 @@ document.addEventListener("click", e => {
     <button type="button" class="hc-who" title="Change your name"></button>
     <button type="button" class="hc-edit" aria-pressed="false">Edit</button>
     <button type="button" class="hc-add" title="Add a sticky note to this slide">+ Note</button>
-    <button type="button" class="hc-save" disabled>Save</button>
+    <button type="button" class="hc-save" title="Changes save automatically. Click to save now.">All saved</button>
     <button type="button" class="hc-histbtn">History</button>
     <span class="hc-msg" aria-live="polite"></span>`;
   const hist = document.createElement("aside");
@@ -5146,7 +5156,10 @@ document.addEventListener("click", e => {
   const who = $(bar, ".hc-who"), editBtn = $(bar, ".hc-edit"), saveBtn = $(bar, ".hc-save"), histBtn = $(bar, ".hc-histbtn"), msg = $(bar, ".hc-msg");
   const say = (t, ms) => { msg.textContent = t; clearTimeout(say._t); if(ms) say._t = setTimeout(() => { if(msg.textContent === t) msg.textContent = ""; }, ms); };
   const setWho = () => { who.textContent = NAME ? NAME : "Add name"; };
-  const upd = () => { const c = pendingCount(); saveBtn.disabled = !c; saveBtn.textContent = c ? `Save (${c})` : "Save"; };
+  /* Everything saves automatically, a moment after you stop typing */
+  let saveTimer = null, saving = false, again = false, failed = false;
+  const label = () => { saveBtn.textContent = failed ? "Not saved, retry" : (saving || pendingCount()) ? "Saving…" : "All saved"; saveBtn.classList.toggle("hc-bad", failed); saveBtn.classList.toggle("hc-busy", !failed && (saving || !!pendingCount())); };
+  const upd = () => { label(); if(pendingCount() && !previewing){ clearTimeout(saveTimer); saveTimer = setTimeout(() => doSave(), 1200); } };
   const placeBar = () => {
     const nav = document.querySelector("nav");
     const top = presenting() || !nav ? 12 : nav.getBoundingClientRect().bottom + 10;
@@ -5198,7 +5211,7 @@ document.addEventListener("click", e => {
   /* Typing: track the change, keep clones in sync, never move the slide */
   document.addEventListener("input", e => {
     const el = e.target.closest && e.target.closest("[data-ve]"); if(!el || !editing) return;
-    dirty.add(el.dataset.ve); upd(); say("Unsaved changes");
+    dirty.add(el.dataset.ve); upd();
     if(window.__hcFit) window.__hcFit();
   }, true);
   addEventListener("click", e => {
@@ -5220,34 +5233,47 @@ document.addEventListener("click", e => {
   addEventListener("beforeunload", e => { if(pendingCount() || notePending()){ e.preventDefault(); e.returnValue = ""; } });
 
   async function doSave(note){
+    clearTimeout(saveTimer);
     if(!pendingCount() && !note) return;
+    if(saving){ again = true; return; }
     if(!NAME){ const ok = await askName(); if(!ok) return; }
-    saveBtn.disabled = true; say("Saving…");
+    saving = true; failed = false; label();
+    /* Snapshot what this save covers, so typing during the save isn't lost */
+    const snap = {};
+    dirty.forEach(k => { const el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); if(el) snap[k] = clean(el.innerHTML); });
+    const sAdded = new Set(pAdded), sDeleted = new Set(pDeleted), sOrder = orderDirty;
     try {
       const latest = await get("content");
+      if(latest.minClient && latest.minClient > CLIENT){ stale(); throw new Error("stale"); }
       const merged = Object.assign({}, latest.changes || {});
       const at = new Date().toISOString(), edited = [];
-      dirty.forEach(k => {
-        const e = els[k], el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); if(!e || !el) return;
-        const html = clean(el.innerHTML);
+      Object.entries(snap).forEach(([k, html]) => {
+        const e = els[k]; if(!e) return;
         if(html === e.orig) delete merged[k];
         else merged[k] = {orig:e.orig, html, by:NAME, at};
-        edited.push((el.innerText || "").trim().slice(0, 80));
+        const el = Array.from(nodesFor(k))[0];
+        edited.push(((el && el.innerText) || "").trim().slice(0, 80));
       });
       const lp = Array.isArray(latest.pages) ? latest.pages : [];
-      const mp = lp.filter(p => !pDeleted.has(p.id) && !pAdded.has(p.id)).concat(pages.filter(p => pAdded.has(p.id)));
-      if(pAdded.size) edited.push(pAdded.size + " page" + (pAdded.size === 1 ? "" : "s") + " added");
-      if(pDeleted.size) edited.push(pDeleted.size + " page" + (pDeleted.size === 1 ? "" : "s") + " deleted");
-      if(orderDirty && !pAdded.size && !pDeleted.size) edited.push("Slide order changed");
-      const order = (orderDirty || pAdded.size || pDeleted.size) ? currentOrder() : (Array.isArray(latest.order) ? latest.order : null);
-      await post("save", {name:NAME, changes:merged, pages:mp, order, note:note || "", edited});
-      orderDirty = false; serverPages = mp.map(p => Object.assign({}, p)); pAdded.clear(); pDeleted.clear();
-      server = merged; dirty.clear(); upd(); applyAll(server);
-      say("Saved", 3000);
+      const mp = lp.filter(p => !sDeleted.has(p.id) && !sAdded.has(p.id)).concat(pages.filter(p => sAdded.has(p.id)));
+      if(sAdded.size) edited.push(sAdded.size + " page" + (sAdded.size === 1 ? "" : "s") + " added");
+      if(sDeleted.size) edited.push(sDeleted.size + " page" + (sDeleted.size === 1 ? "" : "s") + " deleted");
+      if(sOrder && !sAdded.size && !sDeleted.size) edited.push("Slide order changed");
+      const order = (sOrder || sAdded.size || sDeleted.size) ? currentOrder() : (Array.isArray(latest.order) ? latest.order : null);
+      await post("save", {name:NAME, changes:merged, pages:mp, order, note:note || "", edited, autosave:!note, client:CLIENT});
+      Object.entries(snap).forEach(([k, html]) => { const el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); if(!el || clean(el.innerHTML) === html) dirty.delete(k); });
+      sAdded.forEach(id => pAdded.delete(id)); sDeleted.forEach(id => pDeleted.delete(id));
+      if(sOrder && orderDirty) orderDirty = false;
+      serverPages = mp.map(p => Object.assign({}, p));
+      server = merged; applyAll(server);
       if(!hist.hidden) loadHist();
-    } catch(err){ say("Couldn't save. Try again."); upd(); }
+    } catch(err){ failed = err.message !== "stale"; }
+    saving = false; label();
+    if(again || (pendingCount() && !failed)){ again = false; upd(); }
   }
-  saveBtn.addEventListener("click", () => doSave());
+  saveBtn.addEventListener("click", () => { failed = false; doSave(); });
+  const CLIENT = 6;
+  function stale(){ failed = false; bar.classList.add("hc-off"); say("This page is out of date. Refresh to keep editing."); }
 
   /* ---------- History ---------- */
   async function loadHist(){
@@ -5292,7 +5318,7 @@ document.addEventListener("click", e => {
       const v = await fetchVersion(id);
       const note = id ? `Restored ${v.name}'s version from ${when(v.time)}` : "Restored the original deck";
       const vp = Array.isArray(v.pages) ? v.pages : [], vo = Array.isArray(v.order) ? v.order : null;
-      await post("save", {name:NAME, changes:v.changes || {}, pages:vp, order:vo, note, edited:[]});
+      await post("save", {name:NAME, changes:v.changes || {}, pages:vp, order:vo, note, edited:[], client:CLIENT});
       if(P().restore && presenting()) P().restore();
       setPages(vp); orderDirty = false; applyOrder(vo || ORIGINAL_ORDER);
       server = v.changes || {}; dirty.clear(); exitPreview(); applyAll(server); upd();
@@ -5309,7 +5335,7 @@ document.addEventListener("click", e => {
   document.addEventListener("visibilitychange", () => {
     if(document.hidden || previewing) return;
     get("notes").then(r => { if(!notePending()) setNotes(r.notes); }).catch(() => {});
-    if(pendingCount() || presenting()) return;
+    if(pendingCount() || saving || presenting()) return;
     get("content").then(c => { setPages(c.pages); if(Array.isArray(c.order)) applyOrder(c.order); server = c.changes || {}; applyAll(server); }).catch(() => {});
   });
 
@@ -5438,13 +5464,13 @@ document.addEventListener("click", e => {
       src.remove(); pages = pages.filter(p => p.id !== secId);
       if(pAdded.has(secId)) pAdded.delete(secId); else pDeleted.add(secId);
       Array.from(dirty).forEach(k => { if(k.startsWith(secId + ":")) dirty.delete(k); });
-      say("Page deleted. Save to keep it.");
+      say("Page deleted.", 2500);
     } else {
       const id = uid("pg-");
       const p = {id, html: kind === "dup" ? cloneForPage(src, id) : BLANK(id), by:NAME, at:new Date().toISOString()};
       if(!insertPage(p, secId)) return;
       pages.push(p); pAdded.add(id); goTo = id;
-      say(kind === "dup" ? "Page duplicated. Save to keep it." : "Page added. Save to keep it.");
+      say(kind === "dup" ? "Page duplicated." : "Page added.", 2500);
     }
     orderDirty = true; upd();
     if(presenting() && P().goto) P().goto(goTo);
@@ -5516,7 +5542,7 @@ document.addEventListener("click", e => {
         const after = t.classList.contains("hc-da"), a = document.getElementById(src.dataset.sec), b = document.getElementById(t.dataset.sec);
         clear(); if(!a || !b || a === b) return;
         if(after) b.after(a); else b.before(a);
-        orderDirty = true; upd(); say("Unsaved changes");
+        orderDirty = true; upd();
         rebuild();
       });
     });
@@ -5530,6 +5556,7 @@ document.addEventListener("click", e => {
     server = c.changes && typeof c.changes === "object" ? c.changes : {};
     safe(() => setPages(c.pages)); safe(() => { if(Array.isArray(c.order)) applyOrder(c.order); });
     safe(() => applyAll(server)); safe(() => setNotes(nr.notes));
+    if(c.minClient && c.minClient > CLIENT) stale();
     setWho(); upd(); placeBar(); bar.hidden = false;
     if(!NAME && !ls("hc-skip")) askName();
   }).catch(err => { console.error("[deck edit]", err); bar.classList.add("hc-off"); setWho(); placeBar(); bar.hidden = false; say("Saving is offline right now. Refresh to try again."); });

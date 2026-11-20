@@ -2,6 +2,7 @@
 import { getStore } from "@netlify/blobs";
 import type { Config, Context } from "@netlify/functions";
 
+const MIN_CLIENT = 6;
 const store = () => getStore({ name: "deck-edits", consistency: "strong" });
 const json = (data: unknown, status = 200) =>
   Response.json(data, { status, headers: { "cache-control": "no-store" } });
@@ -46,11 +47,11 @@ export default async (req: Request, context: Context) => {
 
     if (route === "content" && req.method === "GET") {
       const key = await latestKey(s);
-      if (!key) return json({ version: null, changes: {}, pages: [], order: null });
+      if (!key) return json({ minClient: MIN_CLIENT, version: null, changes: {}, pages: [], order: null });
       const v = (await s.get(key, { type: "json" })) as Record<string, unknown> | null;
-      if (!v) return json({ version: null, changes: {}, pages: [], order: null });
+      if (!v) return json({ minClient: MIN_CLIENT, version: null, changes: {}, pages: [], order: null });
       const { changes, notes, order, ip: _ip, ...meta } = v as any;
-      return json({ version: meta, changes: changes ?? {}, pages: Array.isArray((v as any).pages) ? (v as any).pages : [], order: Array.isArray(order) ? order : null });
+      return json({ minClient: MIN_CLIENT, version: meta, changes: changes ?? {}, pages: Array.isArray((v as any).pages) ? (v as any).pages : [], order: Array.isArray(order) ? order : null });
     }
 
     if (route === "versions" && req.method === "GET") {
@@ -108,18 +109,32 @@ export default async (req: Request, context: Context) => {
       const raw = await req.text();
       if (raw.length > 8_000_000) return json({ error: "Too large" }, 413);
       const body = JSON.parse(raw || "{}");
+      if (!(Number(body.client) >= MIN_CLIENT)) return json({ error: "This page is out of date. Refresh to keep editing." }, 409);
       const changes = body.changes && typeof body.changes === "object" ? body.changes : {};
       const person = (await s.get(personKey, { type: "json" })) as { name?: string } | null;
       const name = clean(body.name || person?.name || "Unknown", 60);
       const note = clean(body.note, 140);
       const edited = Array.isArray(body.edited) ? body.edited.map((x: unknown) => clean(x, 80)).slice(0, 12) : [];
       const time = new Date().toISOString();
-      const id = String(Date.now()).padStart(15, "0") + "-" + Math.random().toString(36).slice(2, 8).padEnd(6, "0");
+      let id = String(Date.now()).padStart(15, "0") + "-" + Math.random().toString(36).slice(2, 8).padEnd(6, "0");
+      let prevEdited: string[] = [];
+      if (body.autosave) {
+        // Fold quick autosaves by the same person into one history entry
+        const lk = await latestKey(s);
+        if (lk) {
+          const m = (await s.getMetadata(lk))?.metadata as any;
+          if (m && m.auto && m.name === name && Date.now() - Date.parse(m.time) < 3 * 60_000) {
+            id = lk.slice("versions/".length);
+            prevEdited = String(m.edited || "").split(" | ").filter(Boolean);
+          }
+        }
+      }
       const count = Object.keys(changes).length;
       const pages = (Array.isArray(body.pages) ? body.pages : []).slice(0, 100).map((p: any) => ({
         id: clean(p?.id, 80), html: String(p?.html ?? "").slice(0, 400_000), by: clean(p?.by, 60), at: clean(p?.at, 40),
       })).filter((p: any) => /^pg-[a-z0-9]+$/.test(p.id) && p.html);
-      const meta = { name, time, count, pageCount: pages.length, note, edited: edited.slice(0, 6).join(" | ").slice(0, 600) };
+      const allEdited = [...prevEdited.filter((x: string) => !edited.includes(x)), ...edited].slice(-6);
+      const meta = { name, time, count, pageCount: pages.length, note, auto: !!body.autosave, edited: allEdited.join(" | ").slice(0, 600) };
       const order = Array.isArray(body.order) ? body.order.map((x: unknown) => clean(x, 80)).filter(Boolean).slice(0, 200) : null;
       await s.setJSON("versions/" + id, { id, ip, ...meta, changes, pages, order }, { metadata: meta });
       return json({ id, ...meta });
