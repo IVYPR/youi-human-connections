@@ -5191,7 +5191,7 @@ document.addEventListener("click", e => {
         else merged[k] = {orig:e.orig, html, by:NAME, at};
         edited.push((el.innerText || "").trim().slice(0, 80));
       });
-      let mn = (latest.notes || []).filter(n => !nDeleted.has(n.id) && !nChanged.has(n.id));
+      let mn = (Array.isArray(latest.notes) ? latest.notes : []).filter(n => !nDeleted.has(n.id) && !nChanged.has(n.id));
       notes.forEach(n => { if(nChanged.has(n.id)) mn.push(Object.assign({}, n)); });
       if(nChanged.size) edited.push(nChanged.size + " sticky note" + (nChanged.size === 1 ? "" : "s"));
       if(nDeleted.size) edited.push(nDeleted.size + " note" + (nDeleted.size === 1 ? "" : "s") + " removed");
@@ -5215,7 +5215,7 @@ document.addEventListener("click", e => {
       list.innerHTML = (versions.length ? versions.map((v, i) => `
         <div class="hc-v${i === 0 ? " cur" : ""}" data-id="${esc(v.id)}">
           <div class="hc-vt"><b>${esc(v.name)}</b><span>${esc(when(v.time))}</span></div>
-          <div class="hc-vn">${v.note ? esc(v.note) + " · " : ""}${v.count} edited text${v.count === 1 ? "" : "s"}${v.notes ? ` · ${v.notes} note${v.notes === 1 ? "" : "s"}` : ""} in total${i === 0 ? " · current" : ""}</div>
+          <div class="hc-vn">${v.note ? esc(v.note) + " · " : ""}${v.count} edited text${v.count === 1 ? "" : "s"}${(v.noteCount || +v.notes) ? ` · ${v.noteCount || +v.notes} note${(v.noteCount || +v.notes) === 1 ? "" : "s"}` : ""} in total${i === 0 ? " · current" : ""}</div>
           ${v.edited ? `<div class="hc-ve">${esc(v.edited)}</div>` : ""}
           <div class="hc-vb"><button type="button" class="hc-view">View</button>${i === 0 ? "" : `<button type="button" class="hc-restore">Restore</button>`}</div>
         </div>`).join("") : `<p class="hc-dim">No saved versions yet.</p>`) +
@@ -5249,9 +5249,9 @@ document.addEventListener("click", e => {
     try {
       const v = await fetchVersion(id);
       const note = id ? `Restored ${v.name}'s version from ${when(v.time)}` : "Restored the original deck";
-      await post("save", {name:NAME, changes:v.changes || {}, notes:v.notes || [], order:v.order || null, note, edited:[]});
-      orderDirty = false; applyOrder(v.order || ORIGINAL_ORDER);
-      server = v.changes || {}; dirty.clear(); exitPreview(); applyAll(server); setNotes(v.notes || []); upd();
+      await post("save", {name:NAME, changes:v.changes || {}, notes:Array.isArray(v.notes) ? v.notes : [], order:Array.isArray(v.order) ? v.order : null, note, edited:[]});
+      orderDirty = false; applyOrder(Array.isArray(v.order) ? v.order : ORIGINAL_ORDER);
+      server = v.changes || {}; dirty.clear(); exitPreview(); applyAll(server); setNotes(v.notes); upd();
       say("Restored", 3000); if(!hist.hidden) loadHist();
     } catch(err){ say("Couldn't restore that version."); }
   }
@@ -5269,7 +5269,7 @@ document.addEventListener("click", e => {
   /* ---------- Sticky notes (shown in edit mode) ---------- */
   try { const f = document.createElement("link"); f.rel = "stylesheet"; f.href = "https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap"; document.head.appendChild(f); } catch(e){}
   const COLORS = ["pink", "yellow", "green"];
-  function setNotes(list){ serverNotes = list.map(n => Object.assign({}, n)); notes = list.map(n => Object.assign({}, n)); nChanged.clear(); nDeleted.clear(); drawNotes(); }
+  function setNotes(list){ if(!Array.isArray(list)) list = []; serverNotes = list.map(n => Object.assign({}, n)); notes = list.map(n => Object.assign({}, n)); nChanged.clear(); nDeleted.clear(); drawNotes(); }
   const touch = n => { nChanged.add(n.id); upd(); say("Unsaved changes"); };
   function layerFor(sec){
     const host = document.body.classList.contains("presenting") ? document.querySelector(".pstage .pbox") : document.getElementById(sec);
@@ -5375,10 +5375,12 @@ document.addEventListener("click", e => {
   Promise.all([get("me"), get("content")]).then(([me, c]) => {
     NAME = me.name || "";
     if(!NAME && ls("hc-name")){ NAME = ls("hc-name"); post("me", {name:NAME}).catch(() => {}); }
-    server = c.changes || {}; applyAll(server); setNotes(c.notes || []); if(c.order) applyOrder(c.order);
+    const safe = f => { try { f(); } catch(err){ console.error("[deck edit]", err); } };
+    server = c.changes && typeof c.changes === "object" ? c.changes : {};
+    safe(() => applyAll(server)); safe(() => setNotes(c.notes)); safe(() => { if(Array.isArray(c.order)) applyOrder(c.order); });
     setWho(); upd(); placeBar(); bar.hidden = false;
     if(!NAME && !ls("hc-skip")) askName();
-  }).catch(() => { bar.classList.add("hc-off"); setWho(); placeBar(); bar.hidden = false; say("Saving is offline right now. Refresh to try again."); });
+  }).catch(err => { console.error("[deck edit]", err); bar.classList.add("hc-off"); setWho(); placeBar(); bar.hidden = false; say("Saving is offline right now. Refresh to try again."); });
   /* E toggles editing, in present mode or on the page */
   document.addEventListener("keydown", e => {
     if(e.target.closest && e.target.closest("input,textarea,[contenteditable='true']")) return;

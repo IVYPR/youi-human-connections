@@ -41,7 +41,7 @@ export default async (req: Request, context: Context) => {
       const v = (await s.get(key, { type: "json" })) as Record<string, unknown> | null;
       if (!v) return json({ version: null, changes: {}, notes: [], order: null });
       const { changes, notes, order, ip: _ip, ...meta } = v as any;
-      return json({ version: meta, changes: changes ?? {}, notes: notes ?? [], order: order ?? null });
+      return json({ version: meta, changes: changes ?? {}, notes: Array.isArray(notes) ? notes : [], order: Array.isArray(order) ? order : null });
     }
 
     if (route === "versions" && req.method === "GET") {
@@ -60,6 +60,7 @@ export default async (req: Request, context: Context) => {
       const v = (await s.get("versions/" + id, { type: "json" })) as any;
       if (!v) return json({ error: "Not found" }, 404);
       const { ip: _ip, ...rest } = v;
+      if (!Array.isArray(rest.notes)) rest.notes = [];
       return json(rest);
     }
 
@@ -80,9 +81,9 @@ export default async (req: Request, context: Context) => {
         color: ["pink", "yellow", "green"].includes(n?.color) ? n.color : "pink",
         text: String(n?.text ?? "").slice(0, 2000), by: clean(n?.by, 60), at: clean(n?.at, 40),
       })).filter((n: any) => n.id && n.sec);
-      const meta = { name, time, count, notes: notes.length, note, edited: edited.slice(0, 6).join(" | ").slice(0, 600) };
+      const meta = { name, time, count, noteCount: notes.length, note, edited: edited.slice(0, 6).join(" | ").slice(0, 600) };
       const order = Array.isArray(body.order) ? body.order.map((x: unknown) => clean(x, 80)).filter(Boolean).slice(0, 200) : null;
-      await s.setJSON("versions/" + id, { id, ip, changes, notes, order, ...meta }, { metadata: meta });
+      await s.setJSON("versions/" + id, { id, ip, ...meta, changes, notes, order }, { metadata: meta });
       return json({ id, ...meta });
     }
 
