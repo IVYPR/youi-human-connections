@@ -4043,6 +4043,22 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-vid .v3-fsb{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2;transition:background .2s}
 .v3-vid .v3-fsb:hover{background:var(--yellow);color:#000}
 .v3-vid video:fullscreen{object-fit:contain}
+/* Empty "how it evolved" boxes disappear instead of leaving a yellow bar */
+.v3-he:not(:has(> :not(.hc-empty))){display:none}
+/* Recap pages (copies of What we heard): bolder, so they don't read as the overview */
+.v3-recap,.pw.v3-recap{background:var(--yellow)!important;color:#000}
+.v3-recap .dk-k{color:#000}
+.v3-recap .dk-h > span:last-child{font-size:clamp(64px,7vw,112px)!important;line-height:.9}
+.v3-recap .v3-heard{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 26px;margin-top:30px}
+.v3-recap .v3-hc{position:relative;background:#fff;border:3px solid #000;border-top:3px solid #000;padding:26px 30px 26px 30px;box-shadow:8px 8px 0 #000;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.v3-recap .v3-hc:hover{transform:translate(-3px,-3px);box-shadow:11px 11px 0 #000}
+.v3-recap .v3-hc::before{display:none}
+.v3-recap .v3-num{position:absolute;right:16px;top:-14px;font-size:120px;line-height:1;color:transparent;-webkit-text-stroke:2px #000;opacity:.13;pointer-events:none}
+.v3-recap .v3-hc h3{font-size:34px;line-height:.95;max-width:80%;margin:0 0 12px}
+.v3-recap .v3-hw .mono{justify-self:start;background:#000;color:var(--yellow);opacity:1;padding:5px 9px;margin-bottom:8px}
+.v3-recap .v3-hw .v3-lorem{display:block;font-size:17px;line-height:1.45;color:#222}
+.v3-recap .v3-he{margin-top:12px;background:#000;color:#fff;padding:12px 14px}
+@media(max-width:900px){.v3-recap .v3-heard{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -5607,6 +5623,8 @@ document.addEventListener("click", e => {
   function insertPage(p, afterId){
     const sec = safeSection(p.html); if(!sec) return null;
     sec.id = p.id; sec.setAttribute("data-hc-page", "1"); sec.classList.add("stop");
+    [sec, ...sec.querySelectorAll("[contenteditable],[spellcheck]")].forEach(x => { x.removeAttribute("contenteditable"); x.removeAttribute("spellcheck"); });
+    if(/^What we heard \(copy\)/.test(sec.dataset.title || "")) sec.classList.add("v3-recap");
     const old = document.getElementById(p.id); if(old) old.remove();
     placeSection(sec, afterId);
     keySection(sec);
@@ -5629,6 +5647,7 @@ document.addEventListener("click", e => {
     c.querySelectorAll("[data-steps]").forEach(x => x.removeAttribute("data-steps"));
     c.querySelectorAll(".rv-a").forEach(x => x.classList.remove("rv-a"));
     c.id = id; c.removeAttribute("data-hc-page");
+    [c, ...c.querySelectorAll("[contenteditable],[spellcheck]")].forEach(x => { if(!x.closest(".hc-nl")){ x.removeAttribute("contenteditable"); x.removeAttribute("spellcheck"); } });
     c.dataset.title = (src.dataset.title || "Page").replace(/ \(copy\)$/, "") + " (copy)";
     return c.outerHTML;
   }
