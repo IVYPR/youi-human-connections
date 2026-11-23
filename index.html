@@ -4092,6 +4092,29 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-seo .v3-tab{font-size:18px;padding:9px 13px}
 .v3-seo-t th:first-child,.v3-seo-t td:first-child{width:52%}
 .v3-wk-sum-eq .v3-wk{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* Case study pages (Dove) */
+.cs-sub{font-family:var(--font-editorial);font-style:italic;font-size:30px;line-height:1.1;margin-top:6px}
+.cs-grid{margin-top:22px;display:grid;grid-template-columns:minmax(0,1fr) 560px;gap:40px;align-items:start}
+.cs-pts{list-style:none;margin:0;padding:0;display:grid;gap:9px;counter-reset:cs}
+.cs-pts li{counter-increment:cs;position:relative;padding:0 0 9px 46px;border-bottom:1px solid rgba(0,0,0,.12);font-size:15px;line-height:1.42}
+.cs-pts li:last-child{border-bottom:0}
+.cs-pts li::before{content:counter(cs,decimal-leading-zero);position:absolute;left:0;top:-2px;font-family:var(--font-display);font-size:24px;line-height:1;color:#000;background:var(--yellow);padding:3px 5px}
+.cs-pts b{font-weight:800}
+.cs-refs > .mono{display:block;margin-bottom:10px;opacity:.6}
+.cs-vids{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.cs-vids figure{margin:0;display:grid;gap:6px}
+.cs-vids .cs-fr{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden}
+.cs-vids iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.cs-vids figcaption{font:700 11px var(--font-body);letter-spacing:.1em;text-transform:uppercase}
+.cs-vids figcaption a{color:inherit;opacity:.6;margin-left:6px}
+.cs-cmp{margin-top:26px}
+.cs-cmp th:first-child,.cs-cmp td:first-child{width:22%}
+.cs-cmp th:nth-child(2),.cs-cmp td:nth-child(2){width:39%}
+.cs-cmp td{font-size:16px;line-height:1.4}
+.cs-cmp td:first-child{font-weight:800}
+.cs-cmp th:nth-child(3){color:#000;background:var(--yellow);padding-left:10px}
+.cs-cmp td:nth-child(3){background:rgba(255,234,0,.12);padding-left:10px}
+@media(max-width:900px){.cs-grid{grid-template-columns:1fr}.cs-vids{grid-template-columns:1fr}}
 
 </style>
 </head>
