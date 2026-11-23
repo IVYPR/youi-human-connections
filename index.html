@@ -3986,6 +3986,22 @@ body.hc-editing .stop[contenteditable="true"],body.hc-editing .pinner[contentedi
 body.hc-editing ::selection{background:#ff2e93!important;color:#fff!important}
 body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:3px;cursor:text}
 [data-ve].hc-empty{display:none!important}
+/* Role of Youi: animated brand presence meter */
+.v3-brandt th.v3-lvl::after{content:attr(data-l)}
+.v3-brandt td.v3-lvl,.v3-brandt th.v3-lvl{width:170px;vertical-align:middle}
+.v3-bmeter{position:relative;display:block;height:12px;background:rgba(0,0,0,.08);overflow:visible}
+.dark .v3-bmeter{background:rgba(255,255,255,.14)}
+.v3-bmeter i{position:absolute!important;left:0!important;top:0!important;bottom:0!important;height:auto!important;border-radius:0!important;border:0!important;margin:0!important;transform:none!important;display:block!important;width:0;background:var(--yellow);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);transition:width 1.1s cubic-bezier(.2,.75,.2,1) var(--d,0s)}
+.v3-bmeter::after{content:attr(data-l);position:absolute;left:0;top:16px;font:800 10px var(--font-body);letter-spacing:.12em;text-transform:uppercase;opacity:0;transition:opacity .4s ease calc(var(--d,0s) + .7s)}
+.v3-bmeter.go i{width:var(--lv)}
+.v3-bmeter.go::after{opacity:.75}
+.v3-brandt td{padding-bottom:18px}
+.v3-axis{position:relative;margin:18px 0 0;height:22px}
+.v3-axis i{position:absolute;left:0;right:0;top:4px;height:3px;background:linear-gradient(90deg,rgba(0,0,0,.15),var(--yellow))}
+.v3-axis::before,.v3-axis::after{position:absolute;top:12px;font:700 10px var(--font-body);letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+.v3-axis::before{content:"← " attr(data-a) ": lighter brand";left:0}
+.v3-axis::after{content:attr(data-b) ": stronger brand →";right:0}
+@media(prefers-reduced-motion:reduce){.v3-bmeter i,.v3-bmeter::after{transition:none}}
 
 </style>
 </head>
@@ -4196,7 +4212,7 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
         <p>The role Youi plays will differ by format. Essentially, the recommendation would be that the longer someone spends with the content, the lighter the brand and the faster they scroll through the format, the clearer the brand.</p>
         <p>This means we plot our content out along a spectrum of branding from long-form episodes ‘presented by Youi’ to static posts and survey result carousels that have a branded ‘How To Human’ lockup and look and feel that connects them to the brand far more clearly.</p>
       </div>
-      <table class="ap-t v3-t"><thead><tr><th>Format</th><th>How Youi shows up</th></tr></thead><tbody class="rv-kids"><tr><td>Long-form episodes</td><td>“Presented by Youi” at the start and end, and Matt credits Youi as the source of the research. Youi sits in the premise through the survey and voicemail line. No mid-roll selling.</td></tr><tr><td>Social cutdowns</td><td>Youi visible early, in the opening seconds, plus an end frame and a caption</td></tr><tr><td>Static posts and carousels</td><td>A branded How to Human template in Youi’s look</td></tr><tr><td>Survey stats</td><td>Clearly Youi’s research: “Youi asked Australians...”</td></tr><tr><td>Website hub</td><td>Fully Youi, since it’s Youi’s own site</td></tr><tr><td>Earned</td><td>Youi named as the source of the survey</td></tr></tbody></table>
+      <div class="v3-role-r"><table class="ap-t v3-t v3-brandt"><thead><tr><th>Format</th><th>How Youi shows up</th><th class="v3-lvl" data-l="Brand presence"></th></tr></thead><tbody class="rv-kids"><tr><td>Long-form episodes</td><td>“Presented by Youi” at the start and end, and Matt credits Youi as the source of the research. Youi sits in the premise through the survey and voicemail line. No mid-roll selling.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Light" style="--lv:22%;--d:0.20s"><i></i></span></td></tr><tr><td>Social cutdowns</td><td>Youi visible early, in the opening seconds, plus an end frame and a caption</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Clear" style="--lv:65%;--d:0.34s"><i></i></span></td></tr><tr><td>Static posts and carousels</td><td>A branded How to Human template in Youi’s look</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Strong" style="--lv:88%;--d:0.48s"><i></i></span></td></tr><tr><td>Survey stats</td><td>Clearly Youi’s research: “Youi asked Australians...”</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Strong" style="--lv:85%;--d:0.62s"><i></i></span></td></tr><tr><td>Website hub</td><td>Fully Youi, since it’s Youi’s own site</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Full" style="--lv:100%;--d:0.76s"><i></i></span></td></tr><tr><td>Earned</td><td>Youi named as the source of the survey</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Named" style="--lv:45%;--d:0.90s"><i></i></span></td></tr></tbody></table><div class="v3-axis" aria-hidden="true" data-a="Longer time with the content" data-b="Faster scroll"><i></i></div></div>
     </div>
   </div>
 </section>
@@ -5632,6 +5648,13 @@ document.addEventListener("click", e => {
     if(e.target.closest && e.target.closest("input,textarea,[contenteditable='true']")) return;
     if((e.key === "e" || e.key === "E") && !e.metaKey && !e.ctrlKey && !e.altKey && !bar.hidden){ e.preventDefault(); editBtn.click(); }
   });
+})();
+
+/* Brand presence meters fill whenever their slide comes into view */
+(function meters(){
+  const ms = document.querySelectorAll(".v3-bmeter"); if(!ms.length || !("IntersectionObserver" in window)){ ms.forEach(m => m.classList.add("go")); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("go", e.isIntersecting)), {threshold:.4});
+  ms.forEach(m => io.observe(m));
 })();
 
 /* ============================ INTERACTIONS ============================ */
