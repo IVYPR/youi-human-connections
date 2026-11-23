@@ -4037,6 +4037,12 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-shift .v3-sh-ar{transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .4s}
 @media(max-width:900px){.v3-shift{grid-template-columns:1fr}.v3-shift .v3-sh-ar{display:none}.v3-shift .v3-sh,.v3-shift .v3-sh-to{padding:36px 28px;min-height:0}}
 .v3-shift .v3-sh-from q,.v3-sh-from q{text-decoration:none!important}
+/* Local reference videos with a full screen button */
+.v3-vid .rx-frame{position:relative;background:#000}
+.v3-vid video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.v3-vid .v3-fsb{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2;transition:background .2s}
+.v3-vid .v3-fsb:hover{background:var(--yellow);color:#000}
+.v3-vid video:fullscreen{object-fit:contain}
 
 </style>
 </head>
@@ -4192,7 +4198,7 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>TITLE</span></h2>
     <div class="v3-refs3">
       <div class="rx-b"><div class="rx-txt"><span class="mono">Presenter / Third-party observation</span><h3>Chelsea</h3></div>
-        <div class="v3-pair"><figure class="rx-v v3-ig"><div class="rx-frame"><iframe src="https://www.instagram.com/reel/Db8ijiotwGt/embed/" title="Chelsea reference 1" loading="lazy" allowtransparency="true" allowfullscreen scrolling="no"></iframe></div><a class="rx-link mono" href="https://www.instagram.com/reel/Db8ijiotwGt/" target="_blank" rel="noopener">Open on Instagram ↗</a></figure><figure class="rx-v"><div class="rx-frame"><iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/NkaD1vKGeug?rel=0" title="Chelsea reference 2" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><a class="rx-link mono" href="https://www.youtube.com/watch?v=NkaD1vKGeug" target="_blank" rel="noopener">Watch on YouTube ↗</a></figure></div></div>
+        <div class="v3-pair"><figure class="rx-v v3-ig v3-vid"><div class="rx-frame"><video src="media/chelsea-ref.mp4" poster="media/chelsea-ref.jpg" controls playsinline preload="metadata" title="Chelsea reference 1"></video><button type="button" class="v3-fsb" aria-label="Watch full screen">⤢</button></div><a class="rx-link mono v3-fs" href="#" role="button">Watch full screen ⤢</a></figure><figure class="rx-v"><div class="rx-frame"><iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/NkaD1vKGeug?rel=0" title="Chelsea reference 2" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><a class="rx-link mono" href="https://www.youtube.com/watch?v=NkaD1vKGeug" target="_blank" rel="noopener">Watch on YouTube ↗</a></figure></div></div>
       <div class="rx-b"><div class="rx-txt"><span class="mono">Tonality</span><h3>Hamish</h3></div>
         <figure class="rx-v"><div class="rx-frame"><iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/caHwdwpVpLo?rel=0" title="Hamish tonality reference" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><a class="rx-link mono" href="https://www.youtube.com/watch?v=caHwdwpVpLo" target="_blank" rel="noopener">Watch on YouTube ↗</a></figure></div>
     </div>
@@ -5811,6 +5817,18 @@ document.addEventListener("click", e => {
     start();
   });
 })();
+
+/* Full screen for the deck's own reference videos */
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest(".v3-fsb, .v3-fs"); if(!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const v = b.closest(".v3-vid") && b.closest(".v3-vid").querySelector("video"); if(!v) return;
+  try {
+    if(v.requestFullscreen) v.requestFullscreen().then(() => v.play()).catch(() => {});
+    else if(v.webkitEnterFullscreen){ v.webkitEnterFullscreen(); v.play(); }
+    else if(v.webkitRequestFullscreen){ v.webkitRequestFullscreen(); v.play(); }
+  } catch(err){}
+}, true);
 
 /* ============================ INTERACTIONS ============================ */
 
