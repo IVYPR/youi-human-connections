@@ -77,7 +77,8 @@ export default async (req: Request, context: Context) => {
         blobs = (await s.list({ prefix: "notes/" })).blobs;
       }
       const notes = (await Promise.all(blobs.map(b => s.get(b.key, { type: "json" })))).filter(Boolean);
-      return json({ notes });
+      const gone = (await s.list({ prefix: "notes-gone/" })).blobs.map(b => b.key.slice("notes-gone/".length));
+      return json({ notes, gone });
     }
 
     if (route === "note" && req.method === "POST") {
@@ -92,6 +93,7 @@ export default async (req: Request, context: Context) => {
       const body = await req.json().catch(() => ({}));
       const id = clean(body.id, 40).replace(/[^a-z0-9]/gi, "");
       if (id) await s.delete("notes/" + id);
+      if (id.startsWith("seed")) await s.set("notes-gone/" + id, "1");
       return json({ ok: true });
     }
 
