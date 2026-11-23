@@ -4069,6 +4069,28 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-wk-sum .v3-wk-c:last-child p{font-size:21px;line-height:1.45}
 .v3-wk-sum .v3-wk-c:nth-child(4)::after{display:none}
 .v3-wk-sum .v3-wk-matt{column-gap:22px}.v3-wk-sum .v3-wk-c:last-child p{font-size:20px}
+/* How To Human SEO / GEO tabs */
+.v3-next.v3-next-seo{grid-template-columns:minmax(0,1fr) 330px;gap:44px}
+.v3-seo .v3-tablist{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.v3-seo .v3-tp{display:none;gap:12px}
+.v3-seo .v3-tp.on{display:grid}
+.v3-seo-h{font-family:var(--font-display);text-transform:uppercase;font-size:30px;line-height:1;font-weight:600}
+.v3-seo .v3-tp > p{font-size:15.5px;line-height:1.45;max-width:820px}
+.v3-seo-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.v3-seo-stats > div{border-left:4px solid var(--yellow);padding:2px 0 2px 14px;display:grid;gap:4px}
+.v3-seo-stats b{font-family:var(--font-display);font-size:44px;line-height:.95}
+.v3-seo-stats span{font-size:13.5px;line-height:1.35;opacity:.8}
+.v3-seo-t{font-size:13.5px}
+.v3-seo-t td,.v3-seo-t th{padding-top:7px;padding-bottom:7px}
+.v3-seo-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.v3-seo-3 > div{border-top:3px solid currentColor;padding-top:10px;display:grid;gap:6px;align-content:start}
+.v3-seo-3 .mono{font-weight:800}
+.v3-seo-3 p{font-size:13.5px;line-height:1.4}
+.v3-seo-foot{font-weight:700}
+.v3-next-seo .v3-ext li{font-size:14px}
+@media(max-width:900px){.v3-next.v3-next-seo,.v3-seo-stats,.v3-seo-3{grid-template-columns:1fr}}
+.v3-seo .v3-tab{font-size:18px;padding:9px 13px}
+.v3-seo-t th:first-child,.v3-seo-t td:first-child{width:52%}
 
 </style>
 </head>
@@ -4288,9 +4310,39 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 <section id="how-to-human-next" class="stop dk v3-s" data-dw="1440" data-title="How To Human: SEO / GEO and extension ideas">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>SEO / GEO and extension ideas</span></h2>
-    <div class="v3-next">
-      <div class="v3-tbc"><span class="mono">Placeholder</span><b>SEO / GEO</b><small>Content to go here.</small></div>
-      <div><span class="mono">Extension ideas</span><ol class="v3-ext rv-kids"><li>How to Human podcast</li><li>Radio partnership where people call in</li><li>Creator collaborations</li><li>How to Human Live (a live comedy event where Matt Okine takes ‘calls from the audience’ and we bring unexpected ‘experts’ on stage to get to the bottom of How to Human)</li><li>Connection Experiment Recruitment: a call for participants for The Connection Experiment; audition tapes, challenges or whatever. Just documenting the process</li><li>Youi’s people take the advice and we film it for social</li><li>A ‘How To Human’ instructional coffee table book</li></ol></div>
+    <div class="v3-next v3-next-seo">
+      <div class="v3-tabs v3-seo" data-tabs>
+        <div class="v3-tablist" role="tablist"><button type="button" class="v3-tab on" data-tab="0">Search</button><button type="button" class="v3-tab" data-tab="1">The right mix</button><button type="button" class="v3-tab" data-tab="2">Episode one</button><button type="button" class="v3-tab" data-tab="3">Measured in search</button></div>
+        <div class="v3-tpanes"><div class="v3-tp on" data-tp="0"><h3 class="v3-seo-h">From a social series to a how-to database.</h3>
+   <p>The pages underneath the episodes are the asset that will inform the customer and hook in the platforms. They will keep compounding long after an episode leaves the feed.</p>
+   <div class="v3-seo-stats"><div><b>311,752</b><span>times Copilot cited youi.com.au across 2,698 grounding queries in Bing’s AI search report</span></div><div><b>48,676</b><span>of those citations sat on “Learn and Solve” queries</span></div></div>
+   <table class="ap-t v3-t v3-seo-t"><thead><tr><th>Copilot grounding query</th><th>Youi citations</th><th>Youi share</th></tr></thead><tbody>
+   <tr><td>how to calculate sum insured for home insurance australia</td><td>878</td><td>15.3%</td></tr>
+   <tr><td>how to reduce car insurance premium australia</td><td>423</td><td>26.8%</td></tr>
+   <tr><td>how to check if insurance covers tenants</td><td>365</td><td>29.4%</td></tr>
+   <tr><td>how to make an insurance claim australia steps and documents</td><td>204</td><td>13.6%</td></tr></tbody></table>
+   <p class="v3-seo-foot">How To Human lets us build this topical authority deliberately.</p></div><div class="v3-tp" data-tp="1"><h3 class="v3-seo-h">Insurance simplified first, human skills on top.</h3>
+   <table class="ap-t v3-t v3-seo-t"><thead><tr><th>Content lane</th><th>Tier</th><th>Whole how-to database</th><th>How To Human pages</th><th>Examples</th></tr></thead><tbody>
+   <tr><td>Insurance simplified</td><td>Tier 3 Assessment</td><td>70%</td><td>30%</td><td>How to calculate sum insured. How to make a claim. What a green slip is.</td></tr>
+   <tr><td>Life moments</td><td>Tier 4 Catalyst</td><td>20%</td><td>30%</td><td>How to move house without losing your mind.</td></tr>
+   <tr><td>Human skills</td><td>Tier 5 Relevance</td><td>10%</td><td>40%</td><td>How to end a phone call. How to say “I don’t know”. How to ask for a better price.</td></tr></tbody></table>
+   <p>Every How To Human page links to two or three insurance-simplified pages as “the next skill”, and each of those links up to its Tier 2 hub and Tier 1 product page. Humour never becomes a dead end, and the Page Rank the series earns keeps flowing towards our quote pages.</p></div><div class="v3-tp" data-tp="2"><h3 class="v3-seo-h">How to get a Youi quote.</h3>
+   <p>When ChatGPT and Gemini tell people to skip Youi, it’s because the only thing they know about our quote is that there’s a phone call. We can give them something better to repeat.</p>
+   <div class="v3-seo-stats"><div><b>32 of 60</b><span>AI responses that mention Youi steer people away when they want a fast online quote</span></div><div><b>55 of 60</b><span>mention a phone call or callback</span></div></div>
+   <div class="v3-seo-3"><div><span class="mono">The page</span><p>What we’ll ask on the call, and why we ask it. What to have ready, and roughly how long it takes. FAQ markup so answer engines can quote it directly.</p></div>
+   <div><span class="mono">The episode</span><p>An adviser-led episode called “How to answer a question you don’t know the answer to”, told in the Only Human tone, embedded on the page with cut-downs for social.</p></div>
+   <div><span class="mono">The conversation</span><p>“How to get quote from #YOUI without talking to a person” has 240 votes and 111 comments on Reddit. An identified Youi account sharing the page there is legitimate, with clear disclosure rules.</p></div></div></div><div class="v3-tp" data-tp="3"><h3 class="v3-seo-h">Built for search, measured in search.</h3>
+   <div class="v3-seo-3"><div><span class="mono">Video that search can read</span><p>Each episode gets its own page with the embedded video, a full transcript, key moments and VideoObject markup.</p></div>
+   <div><span class="mono">A stats page for the study</span><p>Survey findings live on one permanent URL so journalists link to it, and it links deliberately to Tier 1 and 2.</p></div>
+   <div><span class="mono">Adviser bylines</span><p>Every episode credits its adviser and links to their page, so the series builds the adviser layer as it goes.</p></div></div>
+   <table class="ap-t v3-t v3-seo-t"><thead><tr><th>What we measure</th><th>Where from</th><th>Starting point</th></tr></thead><tbody>
+   <tr><td>Copilot citations on “Learn and Solve” queries</td><td>Bing Webmaster Tools</td><td>48,676 citations</td></tr>
+   <tr><td>Non-brand impressions and clicks to how-to pages</td><td>Google Search Console</td><td>Baseline set at launch</td></tr>
+   <tr><td>How-to pages cited in AI Overviews and ChatGPT</td><td>Auxy</td><td>Baseline set at launch</td></tr>
+   <tr><td>Page Rank passed from how-to pages to Tier 1</td><td>Page Rank distribution crawl</td><td>Tracked monthly with the PRD scoreboard</td></tr>
+   <tr><td>“Skip Youi” responses in the quoting prompt set</td><td>Auxy, re-run quarterly</td><td>32 of 60</td></tr></tbody></table></div></div>
+      </div>
+      <div><span class="mono">Extension ideas</span><ol class="v3-ext rv-kids"><li>How to Human podcast</li><li>Radio partnership where people call in</li><li>Creator collaborations</li><li>How to Human Live (a live comedy event where Matt Okine takes ‘calls from the audience’ and we bring unexpected ‘experts’ on stage to get to the bottom of How to Human)</li><li>Youi’s people take the advice and we film it for social</li><li>A ‘How To Human’ instructional coffee table book</li></ol></div>
     </div>
   </div>
 </section>
@@ -5834,7 +5886,7 @@ document.addEventListener("click", e => {
     };
     const visible = () => { const r = fly.getBoundingClientRect(); return r.width > 0 && r.bottom > 0 && r.top < innerHeight && !document.hidden; };
     const tick = () => { if(!held && visible() && !document.body.classList.contains("hc-editing")) show(cur + 1); };
-    const start = () => { clearInterval(timer); timer = setInterval(tick, 2800); };
+    const start = () => {}; /* no auto-cycle: the presenter moves it with the mouse */
     nodes.forEach((n, i) => {
       n.addEventListener("mouseenter", () => { held = true; show(i); });
       n.addEventListener("mouseleave", () => { held = false; start(); });
@@ -5843,6 +5895,7 @@ document.addEventListener("click", e => {
       n.addEventListener("click", e => { if(document.body.classList.contains("hc-editing")) return; e.stopPropagation(); held = true; show(i); clearInterval(timer); setTimeout(() => { held = false; start(); }, 6000); });
     });
     hint.textContent = "Hover over a stage to read it";
+    void tick;
     start();
   });
 })();
