@@ -4063,6 +4063,12 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 }
 .v3-heard .v3-hc > p{align-content:start}
 .v3-recap .v3-heard{row-gap:20px!important}.v3-recap .v3-heard > .v3-hc{grid-row:auto!important;grid-template-rows:none!important;margin-bottom:0!important;align-content:start}
+/* Worked episode: summary sits under the title, the four steps run below it */
+.v3-wk-sum .v3-wk{grid-template-columns:.85fr .95fr 1fr 1.9fr;gap:18px}
+.v3-wk-sum .v3-wk-c:last-child{grid-column:1/-1;grid-row:1;border:0;border-left:4px solid var(--yellow);padding:4px 0 4px 22px;margin-bottom:10px;max-width:1080px;gap:8px}
+.v3-wk-sum .v3-wk-c:last-child p{font-size:21px;line-height:1.45}
+.v3-wk-sum .v3-wk-c:nth-child(4)::after{display:none}
+.v3-wk-sum .v3-wk-matt{column-gap:22px}.v3-wk-sum .v3-wk-c:last-child p{font-size:20px}
 
 </style>
 </head>
@@ -4161,7 +4167,7 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 </section>
 
 
-<section id="how-to-human-worked" class="stop dk v3-s dark" data-dw="1440" data-title="How To Human: a worked episode">
+<section id="how-to-human-worked" class="stop dk v3-s dark v3-wk-sum" data-dw="1440" data-title="How To Human: a worked episode">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>TITLE</span></h2>
     <div class="v3-wk rv-kids">
