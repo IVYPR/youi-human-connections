@@ -50,8 +50,8 @@ export default async (req: Request, context: Context) => {
       if (!key) return json({ minClient: MIN_CLIENT, version: null, changes: {}, pages: [], order: null });
       const v = (await s.get(key, { type: "json" })) as Record<string, unknown> | null;
       if (!v) return json({ minClient: MIN_CLIENT, version: null, changes: {}, pages: [], order: null });
-      const { changes, notes, order, ip: _ip, ...meta } = v as any;
-      return json({ minClient: MIN_CLIENT, version: meta, changes: changes ?? {}, pages: Array.isArray((v as any).pages) ? (v as any).pages : [], order: Array.isArray(order) ? order : null });
+      const { changes, notes, order, pages: _p, hidden: _h, ip: _ip, ...meta } = v as any;
+      return json({ minClient: MIN_CLIENT, version: meta, changes: changes ?? {}, pages: Array.isArray((v as any).pages) ? (v as any).pages : [], hidden: Array.isArray((v as any).hidden) ? (v as any).hidden : [], order: Array.isArray(order) ? order : null });
     }
 
     if (route === "versions" && req.method === "GET") {
@@ -136,7 +136,8 @@ export default async (req: Request, context: Context) => {
       const allEdited = [...prevEdited.filter((x: string) => !edited.includes(x)), ...edited].slice(-6);
       const meta = { name, time, count, pageCount: pages.length, note, auto: !!body.autosave, edited: allEdited.join(" | ").slice(0, 600) };
       const order = Array.isArray(body.order) ? body.order.map((x: unknown) => clean(x, 80)).filter(Boolean).slice(0, 200) : null;
-      await s.setJSON("versions/" + id, { id, ip, ...meta, changes, pages, order }, { metadata: meta });
+      const hidden = Array.isArray(body.hidden) ? body.hidden.map((x: unknown) => clean(x, 80)).filter(Boolean).slice(0, 200) : [];
+      await s.setJSON("versions/" + id, { id, ip, ...meta, changes, pages, order, hidden }, { metadata: meta });
       return json({ id, ...meta });
     }
 

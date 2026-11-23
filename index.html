@@ -5108,7 +5108,9 @@ document.addEventListener("click", e => {
 
   let NAME = "", server = {}, dirty = new Set(), editing = false, previewing = null;
   let orderDirty = false, pages = [], serverPages = [], pAdded = new Set(), pDeleted = new Set();
-  const pendingCount = () => dirty.size + (orderDirty ? 1 : 0) + pAdded.size + pDeleted.size;
+  let hidden = new Set(), hAdded = new Set(), hRemoved = new Set();
+  const stash = new Map();
+  const pendingCount = () => dirty.size + (orderDirty ? 1 : 0) + pAdded.size + pDeleted.size + hAdded.size + hRemoved.size;
 
   const nodesFor = k => document.querySelectorAll(`[data-ve="${CSS.escape(k)}"]`);
   function paintKey(k, change){
@@ -5241,7 +5243,7 @@ document.addEventListener("click", e => {
     /* Snapshot what this save covers, so typing during the save isn't lost */
     const snap = {};
     dirty.forEach(k => { const el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); if(el) snap[k] = clean(el.innerHTML); });
-    const sAdded = new Set(pAdded), sDeleted = new Set(pDeleted), sOrder = orderDirty;
+    const sAdded = new Set(pAdded), sDeleted = new Set(pDeleted), sOrder = orderDirty, sHA = new Set(hAdded), sHR = new Set(hRemoved);
     try {
       const latest = await get("content");
       if(latest.minClient && latest.minClient > CLIENT){ stale(); throw new Error("stale"); }
@@ -5258,9 +5260,12 @@ document.addEventListener("click", e => {
       const mp = lp.filter(p => !sDeleted.has(p.id) && !sAdded.has(p.id)).concat(pages.filter(p => sAdded.has(p.id)));
       if(sAdded.size) edited.push(sAdded.size + " page" + (sAdded.size === 1 ? "" : "s") + " added");
       if(sDeleted.size) edited.push(sDeleted.size + " page" + (sDeleted.size === 1 ? "" : "s") + " deleted");
-      if(sOrder && !sAdded.size && !sDeleted.size) edited.push("Slide order changed");
+      if(sOrder && !sAdded.size && !sDeleted.size && !sHA.size) edited.push("Slide order changed");
+      if(sHA.size) edited.push(sHA.size + " slide" + (sHA.size === 1 ? "" : "s") + " deleted");
+      const mh = Array.from(new Set([...(Array.isArray(latest.hidden) ? latest.hidden : []), ...sHA])).filter(id => !sHR.has(id));
       const order = (sOrder || sAdded.size || sDeleted.size) ? currentOrder() : (Array.isArray(latest.order) ? latest.order : null);
-      await post("save", {name:NAME, changes:merged, pages:mp, order, note:note || "", edited, autosave:!note, client:CLIENT});
+      await post("save", {name:NAME, changes:merged, pages:mp, order, hidden:mh, note:note || "", edited, autosave:!note, client:CLIENT});
+      sHA.forEach(id => hAdded.delete(id)); sHR.forEach(id => hRemoved.delete(id));
       Object.entries(snap).forEach(([k, html]) => { const el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); if(!el || clean(el.innerHTML) === html) dirty.delete(k); });
       sAdded.forEach(id => pAdded.delete(id)); sDeleted.forEach(id => pDeleted.delete(id));
       if(sOrder && orderDirty) orderDirty = false;
@@ -5290,7 +5295,7 @@ document.addEventListener("click", e => {
         `<div class="hc-v hc-orig" data-id=""><div class="hc-vt"><b>Original deck</b></div><div class="hc-vn">As built, with no edits</div><div class="hc-vb"><button type="button" class="hc-view">View</button><button type="button" class="hc-restore">Restore</button></div></div>`;
     } catch(err){ list.innerHTML = `<p class="hc-dim">Couldn't load the history.</p>`; }
   }
-  const fetchVersion = id => id ? get("version/" + encodeURIComponent(id)) : Promise.resolve({changes:{}, pages:[], order:null, name:"Original deck", time:null});
+  const fetchVersion = id => id ? get("version/" + encodeURIComponent(id)) : Promise.resolve({changes:{}, pages:[], order:null, hidden:[], name:"Original deck", time:null});
   hist.addEventListener("click", async e => {
     if(e.target.closest(".hc-x")){ hist.hidden = true; return; }
     const row = e.target.closest(".hc-v"); if(!row) return;
@@ -5318,9 +5323,10 @@ document.addEventListener("click", e => {
       const v = await fetchVersion(id);
       const note = id ? `Restored ${v.name}'s version from ${when(v.time)}` : "Restored the original deck";
       const vp = Array.isArray(v.pages) ? v.pages : [], vo = Array.isArray(v.order) ? v.order : null;
-      await post("save", {name:NAME, changes:v.changes || {}, pages:vp, order:vo, note, edited:[], client:CLIENT});
+      const vh = Array.isArray(v.hidden) ? v.hidden : [];
+      await post("save", {name:NAME, changes:v.changes || {}, pages:vp, order:vo, hidden:vh, note, edited:[], client:CLIENT});
       if(P().restore && presenting()) P().restore();
-      setPages(vp); orderDirty = false; applyOrder(vo || ORIGINAL_ORDER);
+      setPages(vp); applyHidden(vh); orderDirty = false; applyOrder(vo || ORIGINAL_ORDER);
       server = v.changes || {}; dirty.clear(); exitPreview(); applyAll(server); upd();
       if(presenting() && P().goto) P().goto(window.__hcCurSec);
       say("Restored", 3000); if(!hist.hidden) loadHist();
@@ -5336,7 +5342,7 @@ document.addEventListener("click", e => {
     if(document.hidden || previewing) return;
     get("notes").then(r => { if(!notePending()) setNotes(r.notes); }).catch(() => {});
     if(pendingCount() || saving || presenting()) return;
-    get("content").then(c => { setPages(c.pages); if(Array.isArray(c.order)) applyOrder(c.order); server = c.changes || {}; applyAll(server); }).catch(() => {});
+    get("content").then(c => { setPages(c.pages); applyHidden(c.hidden); if(Array.isArray(c.order)) applyOrder(c.order); server = c.changes || {}; applyAll(server); }).catch(() => {});
   });
 
   /* ---------- Sticky notes: always shown, saved straight away ---------- */
@@ -5457,13 +5463,18 @@ document.addEventListener("click", e => {
     const src = document.getElementById(secId); if(!src) return;
     let goTo = secId;
     if(kind === "delete"){
-      if(!isCustom(src)) return;
       const all = Array.from(document.querySelectorAll(".stop")), i = all.indexOf(src);
+      if(all.length < 2) return;
       goTo = (all[i - 1] || all[i + 1] || {}).id;
-      src.remove(); pages = pages.filter(p => p.id !== secId);
-      if(pAdded.has(secId)) pAdded.delete(secId); else pDeleted.add(secId);
       Array.from(dirty).forEach(k => { if(k.startsWith(secId + ":")) dirty.delete(k); });
-      say("Page deleted.", 2500);
+      if(isCustom(src)){
+        src.remove(); pages = pages.filter(p => p.id !== secId);
+        if(pAdded.has(secId)) pAdded.delete(secId); else pDeleted.add(secId);
+      } else {
+        stash.set(secId, src); src.remove(); hidden.add(secId);
+        if(hRemoved.has(secId)) hRemoved.delete(secId); else hAdded.add(secId);
+      }
+      say("Slide deleted. History can bring it back.", 3500);
     } else {
       const id = uid("pg-");
       const p = {id, html: kind === "dup" ? cloneForPage(src, id) : BLANK(id), by:NAME, at:new Date().toISOString()};
@@ -5475,7 +5486,20 @@ document.addEventListener("click", e => {
     if(presenting() && P().goto) P().goto(goTo);
     else { const s = document.getElementById(goTo); if(s) s.scrollIntoView({block:"start"}); drawTools(); }
   }
-  const toolsHTML = sec => `<button type="button" data-op="add">+ Add page</button><button type="button" data-op="dup">Duplicate page</button>${isCustom(sec) ? `<button type="button" data-op="delete">Delete page</button>` : ""}`;
+  const toolsHTML = sec => `<button type="button" data-op="add">+ Add page</button><button type="button" data-op="dup">Duplicate page</button><button type="button" data-op="delete">Delete slide</button>`;
+  /* Deleted original slides are kept aside, so History can put them back */
+  function applyHidden(list){
+    const want = new Set(Array.isArray(list) ? list : []);
+    hidden.forEach(id => { if(!want.has(id) && stash.has(id)){
+      const sec = stash.get(id); stash.delete(id);
+      const at = ORIGINAL_ORDER.indexOf(id);
+      const prev = ORIGINAL_ORDER.slice(0, Math.max(0, at)).reverse().map(x => document.getElementById(x)).find(x => x && x.classList.contains("stop"));
+      if(prev) prev.after(sec); else { const first = document.querySelector(".stop"); first.before(sec); }
+    }});
+    want.forEach(id => { const sec = document.getElementById(id); if(sec && !hidden.has(id) && !isCustom(sec)){ stash.set(id, sec); sec.remove(); } });
+    hidden = new Set(Array.from(want).filter(id => stash.has(id)));
+    hAdded.clear(); hRemoved.clear();
+  }
   function drawTools(){
     document.querySelectorAll(".stop > .hc-tools").forEach(t => t.remove());
     ptools.innerHTML = "";
@@ -5494,8 +5518,16 @@ document.addEventListener("click", e => {
   document.addEventListener("click", e => {
     const b = e.target.closest && e.target.closest(".hc-tools [data-op]"); if(!b) return;
     e.preventDefault(); e.stopPropagation();
+    if(!confirmDelete(b)) return;
     pageOp(b.dataset.op, b.closest(".hc-tools").dataset.sec);
   }, true);
+
+  function confirmDelete(b){
+    if(b.dataset.op !== "delete" || b.dataset.sure === "1") return true;
+    b.dataset.sure = "1"; const t = b.textContent; b.textContent = "Click again to delete";
+    setTimeout(() => { if(b.isConnected){ b.dataset.sure = ""; b.textContent = t; } }, 3000);
+    return false;
+  }
 
   /* ---------- Slide order: drag thumbnails in the Slides overview ---------- */
   const currentOrder = () => Array.from(document.querySelectorAll(".stop")).map(s => s.id).filter(Boolean);
@@ -5518,9 +5550,10 @@ document.addEventListener("click", e => {
     grid.querySelectorAll(".ovl-t").forEach(t => {
       const sec = document.getElementById(t.dataset.sec);
       const acts = document.createElement("span"); acts.className = "hc-oacts";
-      acts.innerHTML = `<span role="button" tabindex="0" data-op="add" title="Add a blank page after this one">+ Page</span><span role="button" tabindex="0" data-op="dup" title="Duplicate this page">Duplicate</span>${isCustom(sec) ? `<span role="button" tabindex="0" data-op="delete" title="Delete this page">Delete</span>` : ""}`;
+      acts.innerHTML = `<span role="button" tabindex="0" data-op="add" title="Add a blank page after this one">+ Page</span><span role="button" tabindex="0" data-op="dup" title="Duplicate this page">Duplicate</span><span role="button" tabindex="0" data-op="delete" title="Delete this slide">Delete</span>`;
       acts.addEventListener("click", async e => {
         const b = e.target.closest("[data-op]"); e.preventDefault(); e.stopPropagation(); if(!b) return;
+        if(!confirmDelete(b)) return;
         await pageOp(b.dataset.op, t.dataset.sec); rebuild();
       });
       t.querySelector(".ovl-th").appendChild(acts);
@@ -5553,7 +5586,7 @@ document.addEventListener("click", e => {
     if(!NAME && ls("hc-name")){ NAME = ls("hc-name"); post("me", {name:NAME}).catch(() => {}); }
     const safe = f => { try { f(); } catch(err){ console.error("[deck edit]", err); } };
     server = c.changes && typeof c.changes === "object" ? c.changes : {};
-    safe(() => setPages(c.pages)); safe(() => { if(Array.isArray(c.order)) applyOrder(c.order); });
+    safe(() => setPages(c.pages)); safe(() => applyHidden(c.hidden)); safe(() => { if(Array.isArray(c.order)) applyOrder(c.order); });
     safe(() => applyAll(server)); safe(() => setNotes(nr.notes));
     if(c.minClient && c.minClient > CLIENT) stale();
     setWho(); upd(); placeBar(); bar.hidden = false;
