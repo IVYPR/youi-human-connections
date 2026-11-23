@@ -4056,6 +4056,13 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-recap .v3-hw .v3-lorem{display:block;font-size:16.5px;line-height:1.45;color:#222}
 .v3-recap .v3-he{margin-top:10px}
 @media(max-width:900px){.v3-recap .v3-heard{grid-template-columns:1fr}}
+/* What we heard: line up the parts of each card across the row */
+@supports (grid-template-rows:subgrid){
+  .v3-heard{grid-auto-rows:auto;row-gap:0}
+  .v3-heard > .v3-hc{grid-row:span 4;grid-template-rows:subgrid;row-gap:10px;margin-bottom:18px}
+}
+.v3-heard .v3-hc > p{align-content:start}
+.v3-recap .v3-heard{row-gap:20px!important}.v3-recap .v3-heard > .v3-hc{grid-row:auto!important;grid-template-rows:none!important;margin-bottom:0!important;align-content:start}
 
 </style>
 </head>
