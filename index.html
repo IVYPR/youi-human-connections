@@ -4137,6 +4137,58 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-tal-tbc{opacity:.55}
 .v3-tal-tbc .v3-tal-m{background:transparent;border:2px dashed currentColor}
 @media(max-width:900px){.v3-tals{grid-template-columns:1fr 1fr}}
+/* Audience journey roadmap */
+.aj{position:relative;margin-top:18px;--cols:repeat(5,minmax(0,1fr))}
+.aj-stages{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:var(--cols);gap:0 22px;position:relative;z-index:1}
+.aj-road{position:absolute;left:0;right:0;top:128px;height:14px;border-radius:7px;background:repeating-linear-gradient(90deg,#e6e2d8 0 22px,#efece4 22px 34px);overflow:hidden}
+.aj-road-fill{position:absolute;inset:0;width:0;background:linear-gradient(90deg,#d9d4c7 0%,#ece7da 22%,#e8e2d1 36%,var(--yellow) 62%,#000 100%);transition:width 1.6s cubic-bezier(.3,.7,.2,1)}
+.aj.go .aj-road-fill{width:100%}
+.aj-st{display:grid;grid-template-rows:118px auto auto;justify-items:start}
+.aj-top{display:grid;gap:4px;align-content:end;padding-bottom:10px}
+.aj-top .mono{opacity:.55}
+.aj-top h3{font-family:var(--font-display);text-transform:uppercase;font-size:30px;line-height:.95;font-weight:600}
+.aj-top p{font-size:13px;line-height:1.35;max-width:250px}
+.aj-pin{width:46px;height:46px;border-radius:50%;background:#fff;border:3px solid #000;display:grid;place-items:center;font:800 13px var(--font-body);margin:-8px 0 0 0;position:relative;z-index:2;transform:scale(.4);opacity:0;transition:transform .45s cubic-bezier(.3,1.5,.5,1),opacity .3s;transition-delay:calc(var(--i) * .25s + .2s)}
+.aj.go .aj-pin{transform:none;opacity:1}
+.aj-hidden .aj-pin{border-style:dashed;color:rgba(0,0,0,.45)}
+.aj-reveal .aj-pin{background:var(--yellow);box-shadow:0 0 0 6px rgba(255,234,0,.35)}
+.aj-st:last-child .aj-pin{background:#000;color:var(--yellow)}
+.aj-bot{display:grid;gap:10px;margin-top:12px;width:100%}
+.aj-row{display:grid;gap:4px;border-top:1px solid rgba(0,0,0,.15);padding-top:8px}
+.aj-row .mono{font-size:10px;opacity:.55}
+.aj-row p{font-size:13px;line-height:1.35}
+.aj-lvl{display:flex;align-items:center;gap:8px}
+.aj-lvl em{font-style:normal;font:800 11px var(--font-body);letter-spacing:.1em;text-transform:uppercase}
+.aj-vis{display:inline-flex;gap:3px}
+.aj-vis i{width:14px;height:8px;background:rgba(0,0,0,.12)}
+.aj-vis i.on{background:#000}
+.aj-reveal .aj-vis i.on{background:#000;box-shadow:inset 0 -3px 0 var(--yellow)}
+.aj-hidden .aj-lvl em{opacity:.5}
+.aj-ins{margin-top:22px;background:#f1eee7;padding:16px 20px 18px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px;position:relative}
+.aj-ins-h{display:grid;gap:6px;align-content:start}
+.aj-ins-h .mono{font-weight:800}
+.aj-ins-h p{font-size:13px;line-height:1.4;opacity:.8}
+.aj-ins-track{display:grid;grid-template-columns:var(--cols);gap:8px 22px;position:relative;border-top:2px dashed rgba(0,0,0,.25);padding-top:14px;margin-left:calc(-230px - 22px);padding-left:0}
+.aj-ins-track{margin-left:0}
+.aj-mk{position:relative;display:grid;gap:4px;align-content:start;padding-left:16px}
+.aj-mk b{font:800 12.5px var(--font-body)}
+.aj-mk p{font-size:12px;line-height:1.35}
+.aj-mk q{font-style:italic}
+.aj-dot{position:absolute;left:0;top:-21px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #000}
+.aj-mk::before{content:"";position:absolute;left:5px;top:-9px;bottom:0;width:2px;background:rgba(0,0,0,.12)}
+.aj-mk-2{grid-row:2}
+@media(max-width:900px){.aj-stages,.aj-ins-track{grid-template-columns:1fr}.aj-road{display:none}.aj-ins{grid-template-columns:1fr}.aj-mk{grid-column:auto!important}}
+/* Audience journey: align the insurance markers with the stage columns */
+.aj-top{align-content:start}
+.aj-ins{grid-template-columns:var(--cols);gap:10px 22px;padding:30px 0 18px;background:#f1eee7}
+.aj-ins::before{content:"";position:absolute;left:0;right:0;top:14px;border-top:2px dashed rgba(0,0,0,.25)}
+.aj-ins-h{grid-column:1/4;grid-row:1/3;padding:0 20px}
+.aj-ins-track{display:contents}
+.aj-mk{grid-row:1;padding-left:16px;margin-right:12px}
+.aj-mk-2{grid-row:2}
+.aj-dot{top:-23px}
+.aj-mk::before{top:-11px}
+.aj-ins-h p{max-width:560px}
 
 </style>
 </head>
@@ -4634,6 +4686,58 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
     </div>
   </div>
 </section>
+
+<section id="audience-journey" data-after="full-experiment-trailer" class="stop dk v3-s aj-s" data-dw="1440" data-title="The audience journey">
+  <div class="wrap">
+    <h2 class="dk-h"><span class="dk-k">From RE: Connection to the Connection Experiment</span><span>The audience journey</span></h2>
+    <div class="aj">
+      <div class="aj-road" aria-hidden="true"><span class="aj-road-fill"></span></div>
+      <ol class="aj-stages"><li class="aj-st" style="--i:0">
+      <div class="aj-top"><span class="mono">March</span><h3>RE: Connection</h3><p>Four creators take on everyday challenges without tech.</p></div>
+      <b class="aj-pin">01</b>
+      <div class="aj-bot">
+        <div class="aj-row"><span class="mono">Youi’s role</span><div class="aj-lvl"><span class="aj-vis" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><em>Present but light</em></div><p>“Presented by Youi” on the series, with the Youi survey behind each challenge.</p></div>
+        <div class="aj-row"><span class="mono">Brand benefit</span><p>An early link between Youi and real human moments, without selling.</p></div>
+      </div>
+    </li><li class="aj-st aj-hidden" style="--i:1">
+      <div class="aj-top"><span class="mono">The build</span><h3>Teaser</h3><p>Early content that makes people curious about who’s behind the experiment.</p></div>
+      <b class="aj-pin">02</b>
+      <div class="aj-bot">
+        <div class="aj-row"><span class="mono">Youi’s role</span><div class="aj-lvl"><span class="aj-vis" aria-hidden="true"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><em>Hidden</em></div><p>Unbranded. Youi stays out of frame so the question does the work.</p></div>
+        <div class="aj-row"><span class="mono">Brand benefit</span><p>Curiosity and conversation that the reveal can pay off.</p></div>
+      </div>
+    </li><li class="aj-st" style="--i:2">
+      <div class="aj-top"><span class="mono">The call out</span><h3>Recruitment</h3><p>A public call for Australians to take part in the Connection Experiment.</p></div>
+      <b class="aj-pin">03</b>
+      <div class="aj-bot">
+        <div class="aj-row"><span class="mono">Youi’s role</span><div class="aj-lvl"><span class="aj-vis" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><em>Building</em></div><p>Youi starts to appear as the partner making the experiment possible.</p></div>
+        <div class="aj-row"><span class="mono">Brand benefit</span><p>People sign up and get invested, so the launch has an audience waiting.</p></div>
+      </div>
+    </li><li class="aj-st aj-reveal" style="--i:3">
+      <div class="aj-top"><span class="mono">The reveal</span><h3>Launch</h3><p>The full Connection Experiment goes live.</p></div>
+      <b class="aj-pin">04</b>
+      <div class="aj-bot">
+        <div class="aj-row"><span class="mono">Youi’s role</span><div class="aj-lvl"><span class="aj-vis" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><em>Revealed</em></div><p>The deliberate moment Youi is revealed as the brand behind it.</p></div>
+        <div class="aj-row"><span class="mono">Brand benefit</span><p>The reveal becomes the story, tying Youi to human connection in the news.</p></div>
+      </div>
+    </li><li class="aj-st" style="--i:4">
+      <div class="aj-top"><span class="mono">Always on</span><h3>Follow-up</h3><p>Ongoing content, findings and stories that keep the experiment going after launch.</p></div>
+      <b class="aj-pin">05</b>
+      <div class="aj-bot">
+        <div class="aj-row"><span class="mono">Youi’s role</span><div class="aj-lvl"><span class="aj-vis" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><em>Fully owned</em></div><p>Findings, stories and new content live on Youi’s own channels.</p></div>
+        <div class="aj-row"><span class="mono">Brand benefit</span><p>A platform Youi owns, with findings that keep earning coverage.</p></div>
+      </div>
+    </li></ol>
+      <div class="aj-ins">
+        <div class="aj-ins-h"><span class="mono">When insurance matters most</span><p>The same idea carries into the emotionally charged moments when people most need human support. No selling, just a reminder that a real person is there.</p></div>
+        <div class="aj-ins-track"><div class="aj-mk" style="grid-column:4"><span class="aj-dot" aria-hidden="true"></span><b>Seasonal social content</b><p>A bespoke, supportive execution that runs in feeds at certain times of year, like storm or bushfire season, or when signals such as severe weather warnings are met.</p></div>
+      <div class="aj-mk" style="grid-column:5"><span class="aj-dot" aria-hidden="true"></span><b>Owned customer touchpoints</b><p>A short, sensitive line in a claims email that reflects the idea: <q>Whatever happens next, a real person is here to help.</q></p></div>
+      <div class="aj-mk aj-mk-2" style="grid-column:5"><span class="aj-dot" aria-hidden="true"></span><b>Major life changes</b><p>Moving house or having a baby: gentle, human content and touchpoints at the moments life shifts, with no selling.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section id="thanks" class="stop dk dark thanks-s" data-dw="1440" data-title="Thank you">
   <div class="wrap">
@@ -5907,7 +6011,7 @@ document.addEventListener("click", e => {
 
 /* Brand presence meters fill whenever their slide comes into view */
 (function meters(){
-  const ms = document.querySelectorAll(".v3-bmeter"); if(!ms.length || !("IntersectionObserver" in window)){ ms.forEach(m => m.classList.add("go")); return; }
+  const ms = document.querySelectorAll(".v3-bmeter, .aj"); if(!ms.length || !("IntersectionObserver" in window)){ ms.forEach(m => m.classList.add("go")); return; }
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("go", e.isIntersecting)), {threshold:.4});
   ms.forEach(m => io.observe(m));
 })();
