@@ -3974,10 +3974,10 @@ body.hc-editing .ovl-t{cursor:grab}
 .ovl-t.hc-da .ovl-th{box-shadow:6px 0 0 #ff2e93}
 .hc-ovhint{color:var(--yellow)}
 /* Autosave status */
-.hc-bar .hc-save{background:transparent;color:#fff;opacity:.75;font-weight:700}
-.hc-bar .hc-save:hover{background:rgba(255,255,255,.12)}
-.hc-bar .hc-save.hc-busy{color:var(--yellow);opacity:1}
-.hc-bar .hc-save.hc-bad{background:#b00020;color:#fff;opacity:1}
+.hc-bar .hc-save{background:var(--yellow)!important;color:#000!important;opacity:1}
+.hc-bar .hc-status{font:700 10.5px var(--font-body);letter-spacing:.1em;text-transform:uppercase;padding:0 8px;opacity:.65;white-space:nowrap}
+.hc-bar .hc-status.hc-busy{color:var(--yellow);opacity:1}
+.hc-bar .hc-status.hc-bad{background:#b00020;color:#fff;opacity:1;padding:6px 8px}
 /* Clearer delete on notes */
 .hc-ndel{width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.18)!important;color:#000!important;font-size:15px!important;font-weight:700;display:grid;place-items:center;padding:0!important}
 .hc-ndel:hover{background:#000!important;color:#fff!important}
@@ -5137,7 +5137,8 @@ document.addEventListener("click", e => {
     <button type="button" class="hc-who" title="Change your name"></button>
     <button type="button" class="hc-edit" aria-pressed="false">Edit</button>
     <button type="button" class="hc-add" title="Add a sticky note to this slide">+ Note</button>
-    <button type="button" class="hc-save" title="Changes save automatically. Click to save now.">All saved</button>
+    <span class="hc-status" aria-live="polite">All saved</span>
+    <button type="button" class="hc-save" title="Save now and mark this as a version in History">Save</button>
     <button type="button" class="hc-histbtn">History</button>
     <span class="hc-msg" aria-live="polite"></span>`;
   const hist = document.createElement("aside");
@@ -5160,7 +5161,8 @@ document.addEventListener("click", e => {
   const setWho = () => { who.textContent = NAME ? NAME : "Add name"; };
   /* Everything saves automatically, a moment after you stop typing */
   let saveTimer = null, saving = false, again = false, failed = false;
-  const label = () => { saveBtn.textContent = failed ? "Not saved, retry" : (saving || pendingCount()) ? "Saving…" : "All saved"; saveBtn.classList.toggle("hc-bad", failed); saveBtn.classList.toggle("hc-busy", !failed && (saving || !!pendingCount())); };
+  const statusEl = bar.querySelector(".hc-status");
+  const label = () => { statusEl.textContent = failed ? "Not saved" : (saving || pendingCount()) ? "Saving…" : "All saved"; statusEl.classList.toggle("hc-bad", failed); statusEl.classList.toggle("hc-busy", !failed && (saving || !!pendingCount())); };
   const upd = () => { label(); if(pendingCount() && !previewing){ clearTimeout(saveTimer); saveTimer = setTimeout(() => doSave(), 1200); } };
   const placeBar = () => {
     const nav = document.querySelector("nav");
@@ -5276,7 +5278,12 @@ document.addEventListener("click", e => {
     saving = false; label();
     if(again || (pendingCount() && !failed)){ again = false; upd(); }
   }
-  saveBtn.addEventListener("click", () => { failed = false; doSave(); });
+  saveBtn.addEventListener("click", async () => {
+    failed = false;
+    if(saving){ again = true; say("Saving…"); return; }
+    await doSave("Saved");
+    if(!failed) say("Saved", 2500);
+  });
   const CLIENT = 6;
   function stale(){ failed = false; bar.classList.add("hc-off"); say("This page is out of date. Refresh to keep editing."); }
 
