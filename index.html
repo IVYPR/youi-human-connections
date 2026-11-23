@@ -3981,6 +3981,11 @@ body.hc-editing .ovl-t{cursor:grab}
 /* Clearer delete on notes */
 .hc-ndel{width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.18)!important;color:#000!important;font-size:15px!important;font-weight:700;display:grid;place-items:center;padding:0!important}
 .hc-ndel:hover{background:#000!important;color:#fff!important}
+/* Editing: one editable area per slide, clear selection highlight */
+body.hc-editing .stop[contenteditable="true"],body.hc-editing .pinner[contenteditable="true"]{outline:none;caret-color:#ff2e93}
+body.hc-editing ::selection{background:#ff2e93!important;color:#fff!important}
+body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:3px;cursor:text}
+[data-ve].hc-empty{display:none!important}
 
 </style>
 </head>
@@ -5121,6 +5126,7 @@ document.addEventListener("click", e => {
       const target = ok ? clean(change.html) : e.orig;
       if(el.innerHTML !== target) el.innerHTML = target;
       el.classList.toggle("hc-changed", !!ok);
+      el.classList.toggle("hc-empty", !!ok && !target.replace(/<br\s*\/?>|&nbsp;|\s/g, ""));
       if(ok) el.title = `Edited by ${change.by || "someone"}, ${when(change.at)}`; else el.removeAttribute("title");
     });
     if(window.__hcFit) window.__hcFit();
@@ -5198,13 +5204,34 @@ document.addEventListener("click", e => {
     document.body.classList.toggle("hc-editing", on);
     editBtn.setAttribute("aria-pressed", on ? "true" : "false");
     editBtn.textContent = on ? "Editing" : "Edit";
-    document.querySelectorAll("[data-ve]").forEach(el => {
-      if(el.closest(".ovl")) return;
-      if(on) el.setAttribute("contenteditable", "true"); else el.removeAttribute("contenteditable");
-    });
-    if(on) say("Click any text to change it.", 3500);
+    setHosts();
+    if(on) say("Click any text to change it. Drag across several to select and delete them together.", 4500);
     drawNotes(); drawTools();
     const h = document.querySelector(".ovl .hc-ovhint"); if(h) h.textContent = " · " + (on ? "Drag slides to reorder" : "Turn on Edit to reorder or add pages");
+  }
+  /* The whole slide is one editing area, so a selection can run across several
+     text blocks and be deleted in one go. Pictures, video and controls stay locked. */
+  const LOCK = "img, iframe, video, svg, picture, button, input, select, textarea, .hc-nl, .hc-tools, .v3-wave, .yt, .ig, [data-yt]";
+  function setHosts(root){
+    const hosts = root ? [root] : [...document.querySelectorAll(".stop"), ...document.querySelectorAll(".pstage .pinner")];
+    hosts.forEach(h => {
+      if(h.closest(".ovl")) return;
+      if(editing){ h.setAttribute("contenteditable", "true"); h.setAttribute("spellcheck", "false"); h.querySelectorAll(LOCK).forEach(x => x.setAttribute("contenteditable", "false")); }
+      else { h.removeAttribute("contenteditable"); h.querySelectorAll("[contenteditable]").forEach(x => { if(!x.closest(".hc-nl")) x.removeAttribute("contenteditable"); }); }
+    });
+  }
+  window.__hcHosts = () => { if(editing) setHosts(); };
+  const secOf = node => { const p = node.closest && node.closest(".pinner"); return p ? window.__hcCurSec : (node.closest && node.closest(".stop") || {}).id; };
+  function reconcile(sid){
+    if(!sid) return;
+    const pre = sid + ":";
+    Object.keys(els).forEach(k => {
+      if(!k.startsWith(pre)) return;
+      const el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl"));
+      const cur = el ? clean(el.innerHTML) : "";
+      const ch = server[k], base = clean(ch && ch.orig === els[k].orig ? ch.html : els[k].orig);
+      if(cur !== base) dirty.add(k); else dirty.delete(k);
+    });
   }
   editBtn.addEventListener("click", async () => {
     if(previewing) return;
@@ -5214,8 +5241,8 @@ document.addEventListener("click", e => {
 
   /* Typing: track the change, keep clones in sync, never move the slide */
   document.addEventListener("input", e => {
-    const el = e.target.closest && e.target.closest("[data-ve]"); if(!el || !editing) return;
-    dirty.add(el.dataset.ve); upd();
+    if(!editing || !e.target.closest || e.target.closest(".hc-nl, .hc-modal, .hc-bar")) return;
+    reconcile(secOf(e.target)); upd();
     if(window.__hcFit) window.__hcFit();
   }, true);
   addEventListener("click", e => {
@@ -5226,6 +5253,7 @@ document.addEventListener("click", e => {
     if((e.metaKey || e.ctrlKey) && (e.key === "s" || e.key === "S") && (editing || pendingCount())){ e.preventDefault(); e.stopPropagation(); doSave(); return; }
     if(!inEd) return;
     if(e.key === "Escape"){ e.preventDefault(); inEd.blur(); }
+    if(e.key === "Enter" && !e.target.closest(".hc-nl")){ e.preventDefault(); document.execCommand("insertLineBreak"); }
     e.stopPropagation();
   }, true);
   document.addEventListener("paste", e => {
@@ -5244,7 +5272,7 @@ document.addEventListener("click", e => {
     saving = true; failed = false; label();
     /* Snapshot what this save covers, so typing during the save isn't lost */
     const snap = {};
-    dirty.forEach(k => { const el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); if(el) snap[k] = clean(el.innerHTML); });
+    dirty.forEach(k => { const el = Array.from(nodesFor(k)).find(x => !x.closest(".ovl")); snap[k] = el ? clean(el.innerHTML) : ""; });
     const sAdded = new Set(pAdded), sDeleted = new Set(pDeleted), sOrder = orderDirty, sHA = new Set(hAdded), sHR = new Set(hRemoved);
     try {
       const latest = await get("content");
@@ -5371,7 +5399,7 @@ document.addEventListener("click", e => {
     const host = presenting() ? document.querySelector(".pstage .pbox") : document.getElementById(sec);
     if(!host) return null;
     let l = host.querySelector(":scope > .hc-nl");
-    if(!l){ l = document.createElement("div"); l.className = "hc-nl"; if(getComputedStyle(host).position === "static") host.style.position = "relative"; host.appendChild(l); }
+    if(!l){ l = document.createElement("div"); l.className = "hc-nl"; l.setAttribute("contenteditable", "false"); if(getComputedStyle(host).position === "static") host.style.position = "relative"; host.appendChild(l); }
     return l;
   }
   const grow = (el, ta) => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; const len = ta.value.length; el.style.width = Math.min(300, 170 + Math.max(0, len - 40) * 1.1) + "px"; };
@@ -5440,7 +5468,7 @@ document.addEventListener("click", e => {
     const old = document.getElementById(p.id); if(old) old.remove();
     placeSection(sec, afterId);
     keySection(sec);
-    if(editing) sec.querySelectorAll("[data-ve]").forEach(el => el.setAttribute("contenteditable", "true"));
+    if(editing) setHosts(sec);
     return sec;
   }
   function setPages(list){
@@ -5517,7 +5545,7 @@ document.addEventListener("click", e => {
       return;
     }
     document.querySelectorAll(".stop").forEach(sec => {
-      const t = document.createElement("div"); t.className = "hc-tools hc-stools"; t.dataset.sec = sec.id; t.innerHTML = toolsHTML(sec);
+      const t = document.createElement("div"); t.className = "hc-tools hc-stools"; t.setAttribute("contenteditable", "false"); t.dataset.sec = sec.id; t.innerHTML = toolsHTML(sec);
       if(getComputedStyle(sec).position === "static") sec.style.position = "relative";
       sec.appendChild(t);
     });
@@ -5920,7 +5948,7 @@ document.addEventListener("keydown", e => {
     updCount();
     pnum.textContent = pad(idx + 1) + " / " + pad(slides.length);
     pprog.style.width = ((idx + 1) / slides.length * 100) + "%";
-    window.__hcCurSec = sl.sec.id; if(window.__hcOnShow) window.__hcOnShow(box);
+    window.__hcCurSec = sl.sec.id; if(window.__hcHosts) window.__hcHosts(); if(window.__hcOnShow) window.__hcOnShow(box);
     renderNotes();
     void inner.offsetWidth; inner.classList.add("enter");
     inner.querySelectorAll("#hump-graph, #meter").forEach(el => el._play && el._play()); playMotion(inner);
