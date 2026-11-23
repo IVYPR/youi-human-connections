@@ -4020,6 +4020,22 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-axis::after{content:attr(data-b) ": stronger brand →";right:0}
 @media(prefers-reduced-motion:reduce){.v3-bmeter i,.v3-bmeter::after{transition:none}}
 .v3-waves.v3-waves-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* The reframe: split panel redesign */
+.v3-shift{position:relative;margin-top:44px;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;min-height:380px;background:linear-gradient(90deg,#f1eee7 50%,#000 50%)}
+.v3-shift .v3-sh-ar{font-size:44px;font-weight:400}
+.v3-shift .v3-sh{position:relative;border:0;padding:64px 72px;min-height:380px;gap:22px;align-content:center;overflow:hidden}
+.v3-shift .v3-sh .mono{font-size:11px;letter-spacing:.2em}
+.v3-shift .v3-sh-from{background:#f1eee7;color:#000;opacity:1}
+.v3-shift .v3-sh-from .mono{opacity:.55}
+.v3-shift .v3-sh-from q{font-size:46px;color:rgba(0,0,0,.4);text-decoration:line-through;text-decoration-color:#000;text-decoration-thickness:3px}
+.v3-shift .v3-sh-to{background:#000;color:#fff;padding-left:96px}
+.v3-shift .v3-sh-to q{font-size:58px;line-height:1.05}
+.v3-shift .v3-sh-to::before{content:"“";position:absolute;right:28px;top:-40px;font-family:var(--font-editorial);font-size:300px;line-height:1;color:var(--yellow);opacity:.14;pointer-events:none}
+.v3-shift .v3-sh-to em{color:var(--yellow);background:none}
+.v3-shift .v3-sh-ar{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;width:88px;height:88px;border-radius:50%;background:var(--yellow);color:#000;display:grid;place-items:center;font-size:40px;line-height:1;box-shadow:0 0 0 10px #fff}
+.v3-shift .v3-sh-ar.ix-r:not(.on){transform:translate(-50%,-50%) scale(.6)}
+.v3-shift .v3-sh-ar{transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .4s}
+@media(max-width:900px){.v3-shift{grid-template-columns:1fr}.v3-shift .v3-sh-ar{display:none}.v3-shift .v3-sh,.v3-shift .v3-sh-to{padding:36px 28px;min-height:0}}
 
 </style>
 </head>
