@@ -3834,17 +3834,34 @@ body.presenting .sv .sv-frame.sv-vid{height:610px;width:auto}
 .v3-wk-c:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);font-weight:800;font-size:16px;z-index:2}
 /* flywheel */
 .v3-fly{position:relative;width:min(100%,1180px);height:600px;margin:6px auto 0}
-.v3-fly-ring{position:absolute;left:50%;top:50%;width:470px;height:470px;transform:translate(-50%,-50%);overflow:visible}
-.v3-fly-ring circle{fill:none;stroke:currentColor;stroke-width:.5;opacity:.35}
-.v3-fly-ring .v3-fly-spin{opacity:1;stroke:var(--yellow);stroke-width:1.6;stroke-dasharray:22 236;stroke-linecap:round;transform-origin:50px 50px;animation:v3Spin 7s linear infinite}
-@keyframes v3Spin{to{transform:rotate(360deg)}}
-.v3-fly-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:220px;height:220px;border-radius:50%;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:20px}
+.v3-fly-ring{position:absolute;left:50%;top:50%;width:470px;height:470px;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
+.v3-fly-ring circle{fill:none;stroke:currentColor;stroke-width:.5;opacity:.3}
+.v3-fly-arc{transform-origin:50px 50px;transform:rotate(var(--rot,-90deg));transition:transform .9s cubic-bezier(.3,.7,.2,1)}
+.v3-fly-ring .v3-fly-spin{opacity:1;stroke:var(--yellow);stroke-width:2.2;stroke-dasharray:37 221;stroke-dashoffset:25;stroke-linecap:round}
+.v3-fly-ring .v3-fly-dot{fill:#fff;stroke:#000;stroke-width:.5;opacity:1;transition:fill .3s}
+.v3-fly-ring .v3-fly-dot.on{fill:var(--yellow)}
+.v3-fly-arr{fill:none;stroke:currentColor;stroke-width:.5;opacity:.45}
+.v3-fly-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:250px;height:250px;border-radius:50%;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:28px;z-index:2}
 .v3-fly-hub .mono{color:var(--yellow)}
 .v3-fly-hub b{font-family:var(--font-display);text-transform:uppercase;font-size:28px;line-height:1}
-.v3-fn{position:absolute;width:230px;transform:translate(-50%,-50%);background:#fff;border:2px solid #000;padding:10px 12px;display:grid;gap:4px;animation:v3FnIn .5s ease both;animation-delay:calc(var(--i) * .18s + .2s)}
-.v3-fn h3{font-family:var(--font-display);text-transform:uppercase;font-size:22px;line-height:1;font-weight:600}
-.v3-fn p{font-size:13px;line-height:1.35}
-.v3-fn-n{position:absolute;top:-12px;left:-12px;width:28px;height:28px;border-radius:50%;background:var(--yellow);border:2px solid #000;font-size:11px;display:flex;align-items:center;justify-content:center}
+.v3-fly-hub > .mono,.v3-fly-hub > b{transition:opacity .3s}
+.v3-fly.has-on .v3-fly-hub > .mono,.v3-fly.has-on .v3-fly-hub > b{opacity:0;position:absolute}
+.v3-fly-detail{display:none;gap:8px;justify-items:center}
+.v3-fly.has-on .v3-fly-detail{display:grid;animation:v3HubIn .45s ease both}
+.v3-fly-detail i{font-style:normal;font:800 11px var(--font-body);letter-spacing:.14em;color:var(--yellow)}
+.v3-fly-detail strong{font-family:var(--font-display);text-transform:uppercase;font-size:30px;line-height:1;font-weight:600}
+.v3-fly-detail span{font-size:13.5px;line-height:1.4;opacity:.9}
+@keyframes v3HubIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.v3-fn{position:absolute;width:max-content;min-width:150px;transform:translate(-50%,-50%);background:#fff;border:2px solid #000;padding:12px 18px 12px 22px;display:grid;gap:0;cursor:pointer;outline:none;z-index:1;animation:v3FnIn .5s ease both;animation-delay:calc(var(--i) * .12s + .2s);transition:background .25s,box-shadow .25s,transform .25s}
+.v3-fn h3{font-family:var(--font-display);text-transform:uppercase;font-size:24px;line-height:1;font-weight:600;white-space:nowrap}
+.v3-fn p{display:none}
+.v3-fn-n{position:absolute;top:-13px;left:-13px;width:28px;height:28px;border-radius:50%;background:var(--yellow);border:2px solid #000;font-size:11px;display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s}
+.v3-fn:hover,.v3-fn:focus-visible,.v3-fn.on{background:var(--yellow);box-shadow:6px 6px 0 #000;transform:translate(-50%,-50%) scale(1.06);z-index:3}
+.v3-fn.on .v3-fn-n{background:#000;color:var(--yellow)}
+.v3-fly-hint{position:absolute;left:0;bottom:0;font:700 10.5px var(--font-body);letter-spacing:.12em;text-transform:uppercase;opacity:.5}
+body.hc-editing .v3-fn p{display:block;font-size:12px;line-height:1.35;max-width:220px;margin-top:6px}
+body.hc-editing .v3-fn h3{white-space:normal}
+body.hc-editing .v3-fn{width:230px}
 @keyframes v3FnIn{from{opacity:0;transform:translate(-50%,-40%)}to{opacity:1;transform:translate(-50%,-50%)}}
 /* bridge */
 .v3-br{margin-top:30px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:14px;align-items:stretch}
@@ -3854,8 +3871,8 @@ body.presenting .sv .sv-frame.sv-vid{height:610px;width:auto}
 .v3-br-c p{font-size:16px;line-height:1.45}
 .v3-br-hl{background:var(--yellow);color:#000;border-top-color:#000;padding:14px 16px 18px}
 .v3-br-ar{font-style:normal;font-size:34px;font-weight:800;align-self:center}
-@media(max-width:900px){.v3-heard,.v3-wk,.v3-br{grid-template-columns:1fr}.v3-br-ar,.v3-wk-c::after{display:none}.v3-fly{height:auto;display:grid;gap:12px}.v3-fly-ring,.v3-fly-hub{display:none}.v3-fn{position:static;transform:none;width:auto;animation:none}}
-.v3-fn{width:250px}
+@media(max-width:900px){.v3-heard,.v3-wk,.v3-br{grid-template-columns:1fr}.v3-br-ar,.v3-wk-c::after{display:none}.v3-fly{height:auto;display:grid;gap:12px}.v3-fly-ring,.v3-fly-hub{display:none}.v3-fn{position:static;transform:none;width:auto;animation:none}.v3-fn p{display:block}}
+
 .v3-fn p{font-size:12px}
 .v3-hc .v3-lorem{font-weight:400}
 /* Live editing bar, history and name prompt */
@@ -4233,9 +4250,9 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>The flywheel</span></h2>
     <div class="v3-fly">
-      <svg class="v3-fly-ring" viewBox="0 0 100 100" aria-hidden="true"><defs><marker id="v3ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><circle cx="50" cy="50" r="41"/><circle class="v3-fly-spin" cx="50" cy="50" r="41"/></svg>
-      <div class="v3-fly-hub"><span class="mono">How To Human</span><b>The flywheel</b></div>
-      <div class="v3-fn" style="left:50.00%;top:9.00%;--i:0"><b class="v3-fn-n">01</b><h3>Research</h3><p>A Youi survey finds what tech has given us and which human skills we’ve lost and moments we miss.</p></div><div class="v3-fn" style="left:82.06%;top:24.44%;--i:1"><b class="v3-fn-n">02</b><h3>Earned media</h3><p>The findings become earned stories, fronted by a spokesperson (Matt Okine) and seeded to press to build momentum.</p></div><div class="v3-fn" style="left:89.97%;top:59.12%;--i:2"><b class="v3-fn-n">03</b><h3>Voicemails</h3><p>Aussies leave Matt a voicemail or voice note about a human moment they need help with.</p></div><div class="v3-fn" style="left:67.79%;top:86.94%;--i:3"><b class="v3-fn-n">04</b><h3>Episodes</h3><p>One real caller and one relatable problem become the device for Matt to explore in each episode.</p></div><div class="v3-fn" style="left:32.21%;top:86.94%;--i:4"><b class="v3-fn-n">05</b><h3>Social</h3><p>Each episode lives on YouTube and cuts into shorts, reels, audio clips and organic posts.</p></div><div class="v3-fn" style="left:10.03%;top:59.12%;--i:5"><b class="v3-fn-n">06</b><h3>Website</h3><p>A Youi webpage houses all the content, building a repository of Matt Okine’s explorations.</p></div><div class="v3-fn" style="left:17.94%;top:24.44%;--i:6"><b class="v3-fn-n">07</b><h3>Search</h3><p>The key stats go on Youi’s episode pages as clear, quotable facts that search engines and LLMs can cite and surface.</p></div>
+      <svg class="v3-fly-ring" viewBox="0 0 100 100" aria-hidden="true"><defs><marker id="v3ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><circle cx="50" cy="50" r="41"/><g class="v3-fly-arc"><circle class="v3-fly-spin" cx="50" cy="50" r="41"/></g><path class="v3-fly-arr" d="M-1.2,-1.6 L1.2,0 L-1.2,1.6" transform="translate(67.79 13.06) rotate(25.7)"/><path class="v3-fly-arr" d="M-1.2,-1.6 L1.2,0 L-1.2,1.6" transform="translate(89.97 40.88) rotate(77.1)"/><path class="v3-fly-arr" d="M-1.2,-1.6 L1.2,0 L-1.2,1.6" transform="translate(82.06 75.56) rotate(128.6)"/><path class="v3-fly-arr" d="M-1.2,-1.6 L1.2,0 L-1.2,1.6" transform="translate(50.00 91.00) rotate(180.0)"/><path class="v3-fly-arr" d="M-1.2,-1.6 L1.2,0 L-1.2,1.6" transform="translate(17.94 75.56) rotate(231.4)"/><path class="v3-fly-arr" d="M-1.2,-1.6 L1.2,0 L-1.2,1.6" transform="translate(10.03 40.88) rotate(282.9)"/><path class="v3-fly-arr" d="M-1.2,-1.6 L1.2,0 L-1.2,1.6" transform="translate(32.21 13.06) rotate(334.3)"/><circle class="v3-fly-dot" cx="50.00" cy="9.00" r="1.4"/><circle class="v3-fly-dot" cx="82.06" cy="24.44" r="1.4"/><circle class="v3-fly-dot" cx="89.97" cy="59.12" r="1.4"/><circle class="v3-fly-dot" cx="67.79" cy="86.94" r="1.4"/><circle class="v3-fly-dot" cx="32.21" cy="86.94" r="1.4"/><circle class="v3-fly-dot" cx="10.03" cy="59.12" r="1.4"/><circle class="v3-fly-dot" cx="17.94" cy="24.44" r="1.4"/></svg>
+      <div class="v3-fly-hub"><span class="mono">How To Human</span><b>The flywheel</b><div class="v3-fly-detail" aria-live="polite"></div></div>
+      <div class="v3-fn" tabindex="0" data-a="-90.0" style="left:50.00%;top:9.00%;--i:0"><b class="v3-fn-n">01</b><h3>Research</h3><p>A Youi survey finds what tech has given us and which human skills we’ve lost and moments we miss.</p></div><div class="v3-fn v3-fn-r" tabindex="0" data-a="-38.6" style="left:82.06%;top:24.44%;--i:1"><b class="v3-fn-n">02</b><h3>Earned media</h3><p>The findings become earned stories, fronted by a spokesperson (Matt Okine) and seeded to press to build momentum.</p></div><div class="v3-fn v3-fn-r" tabindex="0" data-a="12.9" style="left:89.97%;top:59.12%;--i:2"><b class="v3-fn-n">03</b><h3>Voicemails</h3><p>Aussies leave Matt a voicemail or voice note about a human moment they need help with.</p></div><div class="v3-fn v3-fn-r" tabindex="0" data-a="64.3" style="left:67.79%;top:86.94%;--i:3"><b class="v3-fn-n">04</b><h3>Episodes</h3><p>One real caller and one relatable problem become the device for Matt to explore in each episode.</p></div><div class="v3-fn v3-fn-l" tabindex="0" data-a="115.7" style="left:32.21%;top:86.94%;--i:4"><b class="v3-fn-n">05</b><h3>Social</h3><p>Each episode lives on YouTube and cuts into shorts, reels, audio clips and organic posts.</p></div><div class="v3-fn v3-fn-l" tabindex="0" data-a="167.1" style="left:10.03%;top:59.12%;--i:5"><b class="v3-fn-n">06</b><h3>Website</h3><p>A Youi webpage houses all the content, building a repository of Matt Okine’s explorations.</p></div><div class="v3-fn v3-fn-l" tabindex="0" data-a="218.6" style="left:17.94%;top:24.44%;--i:6"><b class="v3-fn-n">07</b><h3>Search</h3><p>The key stats go on Youi’s episode pages as clear, quotable facts that search engines and LLMs can cite and surface.</p></div>
     </div>
   </div>
 </section>
@@ -5655,6 +5672,40 @@ document.addEventListener("click", e => {
   const ms = document.querySelectorAll(".v3-bmeter"); if(!ms.length || !("IntersectionObserver" in window)){ ms.forEach(m => m.classList.add("go")); return; }
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("go", e.isIntersecting)), {threshold:.4});
   ms.forEach(m => io.observe(m));
+})();
+
+/* Flywheel: hover or tap a stage to read it in the centre; otherwise it steps round on its own */
+(function flywheel(){
+  document.querySelectorAll(".v3-fly").forEach(fly => {
+    const nodes = Array.from(fly.querySelectorAll(".v3-fn")); if(!nodes.length) return;
+    const arc = fly.querySelector(".v3-fly-arc"), dots = fly.querySelectorAll(".v3-fly-dot"), det = fly.querySelector(".v3-fly-detail");
+    if(!fly.querySelector(".v3-fly-hint")) fly.insertAdjacentHTML("beforeend", `<div class="v3-fly-hint" aria-hidden="true"></div>`);
+    const hint = fly.querySelector(".v3-fly-hint"); hint.dataset.t = "1";
+    let cur = -1, held = false, timer = null, turns = 0;
+    const show = i => {
+      i = (i + nodes.length) % nodes.length;
+      if(cur >= 0 && i < cur) turns++;
+      cur = i;
+      nodes.forEach((n, k) => n.classList.toggle("on", k === i));
+      dots.forEach((d, k) => d.classList.toggle("on", k <= i));
+      if(arc) arc.style.setProperty("--rot", (parseFloat(nodes[i].dataset.a) + turns * 360) + "deg");
+      const n = nodes[i];
+      det.innerHTML = `<i>${n.querySelector(".v3-fn-n").textContent}</i><strong>${n.querySelector("h3").innerHTML}</strong><span>${n.querySelector("p").innerHTML}</span>`;
+      fly.classList.add("has-on");
+    };
+    const visible = () => { const r = fly.getBoundingClientRect(); return r.width > 0 && r.bottom > 0 && r.top < innerHeight && !document.hidden; };
+    const tick = () => { if(!held && visible() && !document.body.classList.contains("hc-editing")) show(cur + 1); };
+    const start = () => { clearInterval(timer); timer = setInterval(tick, 2800); };
+    nodes.forEach((n, i) => {
+      n.addEventListener("mouseenter", () => { held = true; show(i); });
+      n.addEventListener("mouseleave", () => { held = false; start(); });
+      n.addEventListener("focus", () => { held = true; show(i); });
+      n.addEventListener("blur", () => { held = false; });
+      n.addEventListener("click", e => { if(document.body.classList.contains("hc-editing")) return; e.stopPropagation(); held = true; show(i); clearInterval(timer); setTimeout(() => { held = false; start(); }, 6000); });
+    });
+    hint.textContent = "Hover over a stage to read it";
+    start();
+  });
 })();
 
 /* ============================ INTERACTIONS ============================ */
