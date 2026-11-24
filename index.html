@@ -4517,6 +4517,14 @@ img.v3-cro-ph{border:2px solid var(--yellow);opacity:1}
 .fw-foot{margin-top:14px;font-weight:800;font-size:15px;background:var(--yellow);color:#000;display:inline-block;padding:8px 12px}
 @media(max-width:900px){.og-why,.og-panels,.fw-mocks,.fw-line{grid-template-columns:1fr}.fw-line::before{display:none}.og-partners{grid-template-columns:1fr}}
 .v3-ep-pic{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;margin-top:14px}
+/* Cover: baking image with a directional overlay so the title reads */
+.cover.has-bg{background-position:center 40%!important}
+.cover.has-bg::before{background:linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.5) 34%,rgba(0,0,0,.12) 62%,rgba(0,0,0,.05) 100%),linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 35%)!important}
+.pw.cover.has-bg::before,.pw.has-bg.cover::before{background:linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.5) 34%,rgba(0,0,0,.12) 62%,rgba(0,0,0,.05) 100%),linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 35%)!important}
+.pw.cover.has-bg::before{display:none!important}
+.pbox:has(> .pw.cover.has-bg){position:relative}
+.pbox:has(> .pw.cover.has-bg)::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.5) 34%,rgba(0,0,0,.12) 62%,rgba(0,0,0,.05) 100%),linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 35%)}
+.pbox > .pw.cover.has-bg{position:relative;z-index:1}
 
 </style>
 </head>
@@ -5508,7 +5516,7 @@ if("IntersectionObserver" in window && !REDUCED){
    overlay: 0 to 1, how much the image is darkened for legibility.
    ================================================================= */
 const BACKGROUNDS = {
-  "top":                   {src:"", overlay:.55},
+  "top":                   {src:"media/cover-baking.jpg", overlay:0},
   "fear":                  {src:"", overlay:.55},
   "avoid":                 {src:"", overlay:.55},
   "systems":               {src:"", overlay:.55},
