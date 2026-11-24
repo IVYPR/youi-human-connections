@@ -4534,6 +4534,17 @@ img.v3-cro-ph{border:2px solid var(--yellow);opacity:1}
 .cover .meta{margin-top:max(22px,var(--cover-meta-gap,22px))}
 .p-cover .lockup{display:block;height:auto!important;line-height:1}.p-cover .lockup .punch{display:block;line-height:.92}
 .pw.p-cover .pinner .meta{position:static!important;margin-top:22px!important}
+/* Cover option 2: kids */
+section.cover.cover-kids{background-image:url("media/cover-kids.jpg")!important;background-position:center 30%!important}
+.pw.cover-kids{background:none!important}
+.pw.cover-kids::before{display:none!important}
+.pstage:has(.pw.p-cover.cover-kids){background-image:url("media/cover-kids.jpg")!important;background-position:center 30%!important}
+.pstage:has(.pw.p-cover.cover-kids)::before{background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.6) 26%,rgba(0,0,0,0) 55%)!important}
+section.cover.cover-kids::before{background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.6) 26%,rgba(0,0,0,0) 55%)!important}
+.pw.p-cover.cover-kids .pinner{justify-content:flex-end!important;padding-bottom:70px!important}
+.pw.p-cover.cover-kids .lockup{font-size:clamp(60px,8.5vw,150px)!important}
+.pbox:has(> .pw.p-cover.cover-kids){display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
+.pw.p-cover.cover-kids .pinner{padding-bottom:30px!important}
 
 </style>
 </head>
@@ -5159,6 +5170,14 @@ img.v3-cro-ph{border:2px solid var(--yellow);opacity:1}
   </div>
 </section>
 
+<section class="cover stop has-bg cover-kids" id="cover-2" data-after="top" data-title="Cover option 2" style="--bg:url('media/cover-kids.jpg');--ov:0">
+  <div class="wrap">
+    <h1 class="lockup"><span class="kick">Human Connections</span><span class="punch">Response.</span></h1>
+    <div class="meta mono">
+      <span>Prepared for Youi Insurance</span>
+    </div>
+  </div>
+</section>
 
 <section id="ideas-summary" data-after="full-experiment-evidence" class="stop dk v3-s dark v3-i3-s" data-dw="1440" data-title="The three ideas">
   <div class="wrap">
