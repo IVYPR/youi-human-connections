@@ -4391,6 +4391,10 @@ section.p9-full{background-image:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0
 @media(max-width:900px){.ea-grid,.ea-top,.ea-sts{grid-template-columns:1fr}}
 .ea-art .ea-hl{background:none!important;color:#000!important;padding:0!important;display:block;font-style:normal;box-shadow:none!important}
 .ea-sts.ea-sts-4{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}.ea-sts-4 .ea-st-t{font-size:21px}@media(max-width:900px){.ea-sts.ea-sts-4{grid-template-columns:1fr}}
+.v3-hub-demo{grid-template-columns:minmax(0,1fr);margin-top:20px}
+.v3-hub-demo .v3-bw-vp{height:600px}
+.v3-hub-demo .v3-bw-vp iframe{width:142.86%;height:142.86%;transform:scale(.7)}
+.v3-bw-vp iframe:fullscreen{transform:none!important;width:100%!important;height:100%!important;left:0;top:0}.v3-bw-vp .hc-fsv{top:12px;right:12px;width:40px;height:40px;font-size:20px}
 
 </style>
 </head>
@@ -4973,7 +4977,7 @@ section.p9-full{background-image:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0
     <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>The hub in action</span></h2>
     <div class="v3-hub-demo">
       <div class="v3-bw"><div class="v3-bw-bar"><i></i><i></i><i></i><span>youi.com.au/how-to-human</span></div><div class="v3-bw-vp"><iframe src="hub/?how=1" title="How to Human hub concept" loading="lazy"></iframe></div></div>
-      <div class="v3-hub-side"><p>A concept of the How to Human hub, showing how the four jobs work together on one Youi site. Scroll inside the frame, or open it full size.</p><a class="v3-hub-open" href="hub/" target="_blank" rel="noopener">Open the microsite ↗</a><a class="v3-hub-open v3-hub-open-2" href="hub/?how=1" target="_blank" rel="noopener">Open with notes on ↗</a></div>
+      
     </div>
   </div>
 </section>
@@ -6405,7 +6409,7 @@ document.addEventListener("click", e => {
 /* Full screen button on every embedded video (YouTube, Vimeo, Instagram and the deck's own clips) */
 (function fsButtons(){
   const add = () => {
-    document.querySelectorAll('iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="instagram"], video[controls]').forEach(m => {
+    document.querySelectorAll('iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="instagram"], iframe[src^="hub/"], video[controls]').forEach(m => {
       if(m.closest(".v3-vid")) return;
       const host = m.parentElement; if(!host || host.querySelector(":scope > .hc-fsv")) return;
       if(getComputedStyle(host).position === "static") host.classList.add("hc-fsv-host");
