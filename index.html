@@ -4600,6 +4600,14 @@ section.ce-cover.has-bg::before{background:linear-gradient(90deg,rgba(0,0,0,.85)
 .fe-c:nth-child(7){grid-column:span 1}
 @media(max-width:900px){.fe-g{grid-template-columns:1fr 1fr}}
 .v3-tals.v3-tals-big{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* RE: Connection title: same Helvetica lockup treatment as How To Human */
+section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.15) 62%,rgba(0,0,0,.05) 100%)!important}
+.ce-ride .hth-lock{grid-template-columns:auto minmax(0,560px)!important}
+.ce-ride .hth-lock-t{font-size:104px!important}
+.ce-lock-b{display:grid;gap:10px;font-size:15px!important;line-height:1.45!important}
+.ce-lock-b p{margin:0}
+.ce-lock-b .ce-lock-sub{font-size:20px;line-height:1.35;font-weight:600;color:var(--yellow)}
+.ce-ride .hth-lock{position:relative;top:40px}
 
 </style>
 </head>
@@ -4902,24 +4910,17 @@ section.ce-cover.has-bg::before{background:linear-gradient(90deg,rgba(0,0,0,.85)
 </section>
 
 
-<section id="connection-experiment" class="ce-cover stop dk idea-s hth ts" data-dw="1440" data-title="Idea 2: RE: Connection">
+<section id="connection-experiment" class="stop dk ts ts-art dark hth-ride ce-ride" data-dw="1440" data-title="Idea 2: RE: Connection">
   <div class="wrap">
-    <div class="ix-step" data-steps>
-      <div class="ix-panes">
-        <div class="ix-pane">
-          <div class="hth-p1">
-            <div>
-              <h2 class="dk-h ts-long"><span class="dk-k">Idea 2:</span><span>RE: Connection</span></h2>
-              <p class="dk-sub hth-rolek">An idea that takes away the tech and asks, “What happens when...?”, to see whether human moments are as hard as we think.</p>
-              <div class="hth-copy hth-simple">
-                <p class="hth-body">A series of mini experiments set out in the real world, exploring what happens when we put down the devices we’ve come to rely on day to day and open ourselves up to real human connection. Four creators take on four different challenges in experiences where they normally rely on tech, to discover “What happens when...?” and see whether human moments are really as complicated as we think.<br><br>Designed to work as a standalone series, or as the prelude to The Connection Experiment.</p>
-                
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="hth-lock ce-lock">
+      <h2 class="hth-lock-t">RE: Connection</h2>
+      <p class="hth-lock-p">Presented by <img src="media/youi-logo.png" alt="Youi"></p>
+      <div class="hth-lock-b ce-lock-b">
+        <p class="ce-lock-sub">An idea that takes away our reliance on tech and asks, “What happens when...?”, to see whether human moments are as complicated as we think.</p>
+        <p>A series of mini experiments set out in the real world, exploring what happens when we put down the devices we’ve come to rely on day to day.</p>
+        <p>Four creators take on four different challenges in moments where they’d normally reach for tech, to uncover what happens when we open ourselves up to greater human connection within everyday experiences.</p>
+        <p>Designed to work as an ongoing episodic series, or as the prelude to The Connection Experiment.</p>
       </div>
-      <div class="ix-nav"></div>
     </div>
   </div>
 </section>
@@ -5601,7 +5602,7 @@ const BACKGROUNDS = {
   "three-jobs":            {src:"", overlay:.55},
   "how-to-human":          {src:"media/cover-kids.jpg", overlay:0},
   "youi-reviews":          {src:"media/yr-title.jpg", overlay:.3},
-  "connection-experiment": {src:"media/cover-baking2.jpg", overlay:0},
+  "connection-experiment": {src:"media/cover-baking2.jpg", overlay:.5},
   "full-experiment":       {src:"media/ce-title.jpg", overlay:.25},
   "together":              {src:"", overlay:.55},
   "compound":              {src:"", overlay:.55},
