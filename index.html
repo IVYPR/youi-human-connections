@@ -4525,6 +4525,15 @@ img.v3-cro-ph{border:2px solid var(--yellow);opacity:1}
 .pbox:has(> .pw.cover.has-bg){position:relative}
 .pbox:has(> .pw.cover.has-bg)::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.5) 34%,rgba(0,0,0,.12) 62%,rgba(0,0,0,.05) 100%),linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 35%)}
 .pbox > .pw.cover.has-bg{position:relative;z-index:1}
+/* Cover in present mode: image fills the whole screen, rule sits below the title */
+.pstage:has(.pw.p-cover.has-bg){background:#000 url("media/cover-baking.jpg") center 40%/cover no-repeat!important}
+.pstage:has(.pw.p-cover.has-bg)::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.5) 34%,rgba(0,0,0,.12) 62%,rgba(0,0,0,.05) 100%),linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 35%)}
+.pstage .pbox:has(> .pw.p-cover.has-bg){background:transparent!important;z-index:1}
+.pbox:has(> .pw.p-cover.has-bg)::before{display:none!important}
+.p-cover .meta{margin-top:22px!important}
+.cover .meta{margin-top:max(22px,var(--cover-meta-gap,22px))}
+.p-cover .lockup{display:block;height:auto!important;line-height:1}.p-cover .lockup .punch{display:block;line-height:.92}
+.pw.p-cover .pinner .meta{position:static!important;margin-top:22px!important}
 
 </style>
 </head>
