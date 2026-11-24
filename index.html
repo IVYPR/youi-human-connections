@@ -4573,6 +4573,19 @@ section.ce-cover.has-bg::before{background:linear-gradient(90deg,rgba(0,0,0,.85)
 .v3-ep-side img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-top:4px solid var(--yellow)}
 .v3-ep-side figcaption{position:absolute;left:10px;top:12px;background:#000;color:var(--yellow);padding:4px 8px;font-size:10px}
 @media(max-width:900px){.v3-eps-wrap{grid-template-columns:1fr}}
+/* Your ask / our response */
+.ar-s .wrap{display:grid;align-content:center;min-height:620px}
+.ar-head,.ar-list li{display:grid;grid-template-columns:60px minmax(0,1fr) 60px minmax(0,1.25fr);gap:20px;align-items:center}
+.ar-head{padding-bottom:12px;border-bottom:3px solid var(--yellow)}
+.ar-head .ar-k:first-child{grid-column:2}.ar-head .ar-k:last-child{grid-column:4}
+.ar-k{color:var(--yellow);font-size:13px;letter-spacing:.16em}
+.ar-list{list-style:none;margin:0;padding:0}
+.ar-list li{padding:22px 0;border-bottom:1px solid rgba(255,255,255,.18)}
+.ar-list .v3-num{font-size:40px;line-height:1}
+.ar-ask{font-family:var(--font-display);text-transform:uppercase;font-size:28px;line-height:1.02;font-weight:600;color:#fff}
+.ar-ar{font-style:normal;color:var(--yellow);font-size:30px;text-align:center}
+.ar-resp{font-size:18px;line-height:1.45;color:#e8e8e8}
+@media(max-width:900px){.ar-head{display:none}.ar-list li{grid-template-columns:44px 1fr}.ar-ar{display:none}.ar-resp{grid-column:2}}
 
 </style>
 </head>
@@ -5207,6 +5220,14 @@ section.ce-cover.has-bg::before{background:linear-gradient(90deg,rgba(0,0,0,.85)
       <i class="v3-i3-ar" aria-hidden="true"></i>
       <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/ce-trailer-final.jpg)"></div><figcaption><b>The Connection Experiment</b><p>Quantifying the importance of human connection.</p></figcaption></figure>
     </div>
+  </div>
+</section>
+
+
+<section id="ask-response" data-after="ideas-summary" class="stop dk v3-s dark ar-s" data-dw="1440" data-title="Your ask, our response">
+  <div class="wrap">
+    <div class="ar-head"><span class="ar-k mono">Your ask</span><span class="ar-k mono">Our response</span></div>
+    <ol class="ar-list rv-kids"><li><b class="v3-num">01</b><p class="ar-ask">Connect Youi with Human Moments.</p><i class="ar-ar" aria-hidden="true">→</i><p class="ar-resp">2x content platforms that start in culture, not insurance.</p></li><li><b class="v3-num">02</b><p class="ar-ask">Deliver highly engaging, episodic organic content.</p><i class="ar-ar" aria-hidden="true">→</i><p class="ar-resp">Episodic, survey-led social series that celebrate the connect between real people.</p></li><li><b class="v3-num">03</b><p class="ar-ask">Create earned media moments that deliver real value.</p><i class="ar-ar" aria-hidden="true">→</i><p class="ar-resp">Newsworthy national, region and generation specific angles on human connection, leveraging an episodic rollout structure to maximise backlink potential.</p></li><li><b class="v3-num">04</b><p class="ar-ask">Make a meaningful contribution to SEO/GEO outcomes.</p><i class="ar-ar" aria-hidden="true">→</i><p class="ar-resp">Build topical depth, positive sentiment (AI factor) and significantly more opportunity for high value link generation.</p></li></ol>
   </div>
 </section>
 
