@@ -5557,6 +5557,21 @@ document.addEventListener("click", e => {
   box.querySelectorAll(".v3-tp").forEach(p => p.classList.toggle("on", p.dataset.tp === i));
   if(window.__hcRepaint) requestAnimationFrame(() => window.__hcRepaint());
 }, true);
+/* Recap tabs step with the arrow keys: right/down moves to the next theme, then on to the next slide */
+document.querySelectorAll(".v3-rc[data-tabs]").forEach(box => {
+  box.setAttribute("data-steps", "");
+  const tabs = () => Array.from(box.querySelectorAll(".v3-tab"));
+  const cur = () => Math.max(0, tabs().findIndex(t => t.classList.contains("on")));
+  const go = i => {
+    const t = tabs()[i]; if(!t) return;
+    tabs().forEach(x => x.classList.toggle("on", x === t));
+    box.querySelectorAll(".v3-tp").forEach(p => p.classList.toggle("on", p.dataset.tp === t.dataset.tab));
+    if(window.__hcRepaint) requestAnimationFrame(() => window.__hcRepaint());
+  };
+  box._step = d => { const i = cur() + (d > 0 ? 1 : -1); if(i < 0 || i >= tabs().length) return false; go(i); return true; };
+  box._reset = () => go(window.__hcRcBack ? tabs().length - 1 : 0);
+});
+document.addEventListener("keydown", e => { window.__hcRcBack = ["ArrowLeft","ArrowUp","PageUp","Backspace"].includes(e.key); }, true);
 
 /* ===================== LIVE EDITING (Netlify) =====================
    Edit toggle, Save and History in a bar at the top. Every save is a new
