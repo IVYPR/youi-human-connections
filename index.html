@@ -4555,6 +4555,13 @@ header.cover .meta{max-width:min(100%,640px)}
 /* Present mode: cover title sits at the bottom of the frame */
 .pbox:has(> .pw.p-cover){display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
 .pw.p-cover .pinner{justify-content:flex-end!important;padding-bottom:56px!important}
+/* RE: Connection title: baking image with a left-side overlay for the copy */
+#connection-experiment.has-bg{background-position:center 40%!important}
+section.ce-cover.has-bg::before{background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.72) 38%,rgba(0,0,0,.2) 62%,rgba(0,0,0,.05) 100%)!important}
+.pbox:has(> .pw.ce-cover){position:relative}
+.pbox:has(> .pw.ce-cover)::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.72) 38%,rgba(0,0,0,.2) 62%,rgba(0,0,0,.05) 100%)}
+.pbox > .pw.ce-cover{position:relative;z-index:1}
+.pw.ce-cover.has-bg::before{display:none!important}
 
 </style>
 </head>
@@ -4866,7 +4873,7 @@ header.cover .meta{max-width:min(100%,640px)}
 </section>
 
 
-<section id="connection-experiment" class="stop dk idea-s hth ts" data-dw="1440" data-title="Idea 2: RE: Connection">
+<section id="connection-experiment" class="ce-cover stop dk idea-s hth ts" data-dw="1440" data-title="Idea 2: RE: Connection">
   <div class="wrap">
     <div class="ix-step" data-steps>
       <div class="ix-panes">
@@ -5557,7 +5564,7 @@ const BACKGROUNDS = {
   "three-jobs":            {src:"", overlay:.55},
   "how-to-human":          {src:"media/cover-kids.jpg", overlay:0},
   "youi-reviews":          {src:"media/yr-title.jpg", overlay:.3},
-  "connection-experiment": {src:"media/ce-title.jpg", overlay:.25},
+  "connection-experiment": {src:"media/cover-baking.jpg", overlay:0},
   "full-experiment":       {src:"media/ce-title.jpg", overlay:.25},
   "together":              {src:"", overlay:.55},
   "compound":              {src:"", overlay:.55},
