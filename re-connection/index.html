@@ -249,13 +249,23 @@ body.ann .flow{display:block}
 .ch .card.img::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.1) 35%,rgba(0,0,0,.25) 55%,rgba(0,0,0,.85) 100%)}
 .ch .card.img > *{position:relative;z-index:1}
 .ch .card.img .pl{position:absolute}
+.stats-s{background:var(--ink);color:#fff;padding:72px 0}
+.stats-s .s-head p{color:#bbb}
+.stats-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.st{border-top:3px solid var(--hi);padding-top:16px;display:grid;gap:10px;align-content:start}
+.st b{font-size:clamp(48px,5.5vw,76px);letter-spacing:-.04em;line-height:.9;color:var(--hi)}
+.st p{font-size:16px;color:#e6e6e6}
+.st small{font-size:12px;color:#888}
+.stats-s .cite{margin-top:26px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:#999;border-top:1px solid #333;padding-top:14px}
+.stats-s .cite a{color:#fff;font-weight:700;text-decoration:none}
+@media(max-width:960px){.stats-g{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="ribbon"><b>Concept mockup</b><span>RE: Connection hub, for discussion only. Content and stats are illustrative.</span><button class="tg" type="button" id="tg"><i></i>Show how it works</button></div>
 <header class="top"><div class="w">
   <a class="brand" href="#top"><img src="../media/youi-logo.png" alt="Youi"><span>RE: Connection</span></a>
-  <nav class="m"><a href="#challenges">Challenges</a><a href="#take">Take the challenge</a><a href="#creators">Creators</a><a href="#questions">Questions</a><a href="#media">Media room</a></nav>
+  <nav class="m"><a href="#survey">The survey</a><a href="#challenges">Challenges</a><a href="#take">Take the challenge</a><a href="#creators">Creators</a><a href="#questions">Questions</a><a href="#media">Media room</a></nav>
   <button class="btn hi" type="button" data-mock="Opens the challenge cards">Take the challenge</button>
 </div></header>
 
@@ -274,6 +284,20 @@ body.ann .flow{display:block}
   <div class="an" style="right:40px;top:90px"><b><i>01</i>Campaign hub</b>One home for all four challenges, including every episode, the creators and the evidence sitting behind the challenges.<div class="fl">Every channel and creator post links back here</div></div>
 </section>
 
+
+<section class="s stats-s" id="survey">
+  <div class="an" style="background:var(--hi);color:#000"><b><i>03</i>The survey, front and centre</b>Quotable Youi research stats with a clear source line, so journalists, search engines and AI tools can find and cite them.<div class="fl">Feeds → earned coverage and the questions page</div></div>
+  <div class="w">
+    <div class="s-head"><div><span class="k" style="color:var(--hi)">The Youi survey</span><h2>What Australians told us</h2></div><p>Youi asked Australians which everyday human moments they now lean on tech to get through, and which ones they feel least confident doing in person.</p></div>
+    <div class="stats-g">
+      <div class="st"><b>76%</b><p>of Gen Z say they wouldn’t know where to start asking someone out without an app.</p><small>Challenge 01 · The no-tech date</small></div>
+      <div class="st"><b>X%</b><p>of Australians would rather text than call a friend.</p><small>The connection gap</small></div>
+      <div class="st"><b>X%</b><p>haven’t had a proper conversation with a neighbour in the past year.</p><small>The connection gap</small></div>
+      <div class="st"><b>X%</b><p>say they feel happier after talking to someone in person.</p><small>The connection gap</small></div>
+    </div>
+    <div class="cite"><span>Source: Youi RE: Connection survey (illustrative figures, final results released at launch)</span><a href="#media">Get the full findings →</a></div>
+  </div>
+</section>
 <section class="s" id="challenges">
   <div class="an"><b><i>01</i>Challenge pages</b>Each one has the episode, transcript, behind the scenes, the creator’s diary and reflections, and is built to answer the search behind the moment.<div class="fl">“How to make friends as an adult”, “date ideas without apps”</div></div>
   <div class="w">
