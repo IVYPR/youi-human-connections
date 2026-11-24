@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Human · Presented by Youi (concept)</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--ink:#0b0b0b;--paper:#fff;--cream:#f3f0ea;--line:#e3ded4;--muted:#6b665e;--hi:#fbe807;--font:"Helvetica Neue",Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%}
+.w{max-width:1240px;margin:0 auto;padding:0 32px}
+h1,h2,h3{margin:0;letter-spacing:-.025em;line-height:1}
+h2{font-size:clamp(36px,4.4vw,60px);font-weight:700}
+h3{font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+p{margin:0}
+.k{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:700;font-size:15px;background:var(--ink);color:#fff;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.lt{background:#fff;color:var(--ink)}
+.btn.ol{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+.btn.hi{background:var(--hi);color:var(--ink)}
+
+/* concept ribbon + annotation toggle */
+.ribbon{background:var(--ink);color:#fff;font-size:12px;letter-spacing:.06em;display:flex;justify-content:center;gap:18px;align-items:center;padding:8px 16px;flex-wrap:wrap}
+.ribbon b{color:var(--hi);font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.tg{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:11px}
+.tg i{width:34px;height:18px;border-radius:9px;background:#444;position:relative;transition:background .2s}
+.tg i::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .2s}
+body.ann .tg i{background:var(--hi)}body.ann .tg i::after{left:18px;background:#000}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .w{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand img{height:34px}
+.brand span{font-weight:700;font-size:19px;letter-spacing:-.02em;border-left:1px solid var(--line);padding-left:14px}
+nav.m{display:flex;gap:22px;margin-left:auto;font-size:15px}
+nav.m a{text-decoration:none;opacity:.75}nav.m a:hover{opacity:1}
+header .btn{padding:10px 16px;font-size:14px}
+
+/* hero */
+.hero{position:relative;color:#fff;min-height:620px;display:flex;align-items:flex-end;background:#111 url("../media/hth-rideshare2.jpg") center/cover}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.85))}
+.hero .w{position:relative;width:100%;padding-bottom:56px;display:grid;grid-template-columns:auto minmax(0,440px);gap:56px;align-items:end}
+.hero h1{font-size:clamp(64px,9vw,128px);font-weight:700;letter-spacing:-.045em;line-height:.88}
+.hero .with{font-size:clamp(24px,2.6vw,38px);font-weight:500;letter-spacing:-.02em;margin-top:12px}
+.pres{display:flex;align-items:center;gap:12px;margin-top:20px;font-size:17px}
+.pres img{height:42px;filter:invert(1)}
+.hero .side{border-left:1px solid rgba(255,255,255,.4);padding-left:28px;display:grid;gap:22px}
+.hero .side p{font-size:18px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.ep-now{position:absolute;top:28px;right:32px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);padding:10px 14px;border-radius:10px;font-size:13px}
+.ep-now b{color:var(--hi)}
+
+section.s{padding:96px 0;position:relative}
+.s-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:40px}
+.s-head p{max-width:470px;color:var(--muted)}
+
+/* episodes */
+.eps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.ep{all:unset;cursor:pointer;display:grid;gap:14px;align-content:start}
+.ep .th{aspect-ratio:4/5;border-radius:14px;background:#222 center/cover;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;color:#fff}
+.ep .th::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.7))}
+.ep .th.ty{background:var(--ink)}
+.ep .th.ty::before{display:none}
+.ep .th .n{position:relative;font-size:13px;font-weight:700;letter-spacing:.12em}
+.ep .th .pl{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;font-size:15px;transition:transform .2s}
+.ep:hover .th .pl{transform:scale(1.1)}
+.ep .th .big{position:absolute;left:18px;top:18px;right:68px;font-size:44px;font-weight:700;letter-spacing:-.04em;line-height:.92;color:var(--hi)}
+.ep h3{font-size:21px}
+.ep p{font-size:15px;color:var(--muted)}
+.ep .tags{display:flex;gap:6px;flex-wrap:wrap}
+.ep .tags span{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+
+/* episode drawer */
+.dr{position:fixed;inset:0;z-index:50;display:none}
+.dr.on{display:block}
+.dr .bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.dr .pn{position:absolute;right:0;top:0;bottom:0;width:min(760px,100%);background:#fff;overflow:auto;padding:36px 40px 60px;animation:sl .35s ease}
+@keyframes sl{from{transform:translateX(40px);opacity:0}}
+.dr .x{all:unset;cursor:pointer;position:absolute;right:22px;top:20px;font-size:26px}
+.dr .vid{aspect-ratio:16/9;border-radius:12px;background:#111 center/cover;margin:18px 0 22px;position:relative;display:grid;place-items:center}
+.dr .vid::after{content:"▶";width:72px;height:72px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:24px}
+.dr .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:22px 0 18px}
+.dr .tabs button{all:unset;cursor:pointer;padding:10px 14px;font-weight:700;font-size:14px;opacity:.5;border-bottom:2px solid transparent;margin-bottom:-1px}
+.dr .tabs button.on{opacity:1;border-color:var(--ink)}
+.dr .tp{display:none}.dr .tp.on{display:block}
+.dr .tp p+p{margin-top:12px}
+.tr{font-size:15px;color:#333}
+.tr b{display:inline-block;min-width:56px;color:var(--muted);font-weight:700;font-size:12px;letter-spacing:.08em}
+.next{margin-top:28px;background:var(--cream);border-radius:12px;padding:20px 22px;display:grid;gap:10px}
+.next a{font-weight:700;text-decoration:none;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px}
+
+/* voice notes */
+.vn-s{background:var(--ink);color:#fff}
+.vn-s .s-head p{color:#bbb}
+.vns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.vn{background:#1b1b1b;border-radius:14px;padding:22px;display:grid;gap:16px;align-content:start}
+.vn .row{display:flex;align-items:center;gap:12px}
+.vn .pb{all:unset;cursor:pointer;width:42px;height:42px;border-radius:50%;background:var(--hi);color:#000;display:grid;place-items:center;font-size:14px;flex:none}
+.wave{display:flex;align-items:center;gap:3px;height:34px;flex:1}
+.wave i{flex:1;background:#555;border-radius:2px;height:var(--h)}
+.vn.play .wave i{animation:wv .9s ease-in-out infinite alternate;background:var(--hi)}
+.vn.play .wave i:nth-child(3n){animation-delay:.2s}.vn.play .wave i:nth-child(3n+1){animation-delay:.45s}
+@keyframes wv{to{transform:scaleY(.35)}}
+.vn q{quotes:none;font-size:18px;line-height:1.4}
+.vn .who{font-size:13px;color:#999;display:flex;justify-content:space-between}
+.vn .who span{border:1px solid #444;border-radius:999px;padding:1px 9px;color:#ccc}
+
+/* questions */
+.qa-s{background:var(--cream)}
+.qa-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:start}
+details{border-top:1px solid var(--line);padding:20px 0}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-size:21px;font-weight:700;letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;font-size:26px;line-height:1}
+details[open] summary::after{content:"–"}
+details .ans{margin-top:14px;display:grid;gap:12px;color:#333;max-width:640px}
+details .ans .src{font-size:13px;color:var(--muted)}
+details .ans .ln{display:flex;gap:16px;flex-wrap:wrap;font-weight:700;font-size:14px}
+.stat{background:#fff;border-radius:16px;padding:30px;display:grid;gap:12px}
+.stat b{font-size:64px;letter-spacing:-.04em;line-height:.9}
+.stat .cite{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted)}
+.stat + .stat{margin-top:16px}
+.schema{margin-top:16px;font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--ink);color:#cfcfcf;border-radius:12px;padding:16px 18px;line-height:1.55;white-space:pre-wrap}
+.schema em{color:var(--hi);font-style:normal}
+
+/* media room */
+.media{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.mc{border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:12px;align-content:start}
+.mc .ic{width:44px;height:44px;border-radius:10px;background:var(--cream);display:grid;place-items:center;font-size:20px}
+.mc p{font-size:15px;color:var(--muted)}
+.mc a{font-weight:700;font-size:14px;text-decoration:none;margin-top:6px}
+.cut{margin-top:22px;border-radius:16px;background:var(--cream);padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:700;background:#fff}
+.seg button.on{background:var(--ink);color:#fff}
+.cut .out{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.cut .out small{display:block;font-size:13px;font-weight:400;color:var(--muted);margin-top:4px}
+
+/* way in */
+.way{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.wc{border-radius:16px;padding:28px;display:grid;gap:14px;align-content:start;min-height:280px}
+.wc:nth-child(1){background:var(--hi)}
+.wc:nth-child(2){background:var(--cream)}
+.wc:nth-child(3){background:var(--ink);color:#fff}
+.wc h3{font-size:28px;letter-spacing:-.025em}
+.wc p{font-size:16px}
+.wc .btn{justify-self:start;margin-top:auto}
+.rec{display:flex;align-items:center;gap:12px;font-weight:700}
+.rec i{width:14px;height:14px;border-radius:50%;background:#e0312b;box-shadow:0 0 0 0 rgba(224,49,43,.5);animation:rp 1.6s infinite}
+@keyframes rp{to{box-shadow:0 0 0 12px rgba(224,49,43,0)}}
+.human{margin-top:22px;border-radius:16px;border:1.5px solid var(--ink);padding:26px 30px;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.human h3{font-size:26px}
+.human p{color:var(--muted);max-width:620px;margin-top:6px}
+
+footer{background:var(--ink);color:#fff;padding:54px 0 40px;margin-top:0}
+footer .w{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+footer img{height:38px;filter:invert(1)}
+footer small{color:#999;display:block;margin-top:8px;max-width:620px}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;opacity:0;transition:.25s;z-index:60;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* annotation layer */
+.an{display:none;position:absolute;z-index:15;max-width:300px;background:var(--hi);color:#000;border-radius:12px;padding:14px 16px 16px;box-shadow:0 12px 30px rgba(0,0,0,.18);font-size:14px;line-height:1.4}
+.an b{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.an b i{font-style:normal;width:24px;height:24px;border-radius:50%;background:#000;color:var(--hi);display:grid;place-items:center;font-size:11px;letter-spacing:0}
+.an .fl{margin-top:8px;font-size:12px;font-weight:700;opacity:.75}
+body.ann .an{display:block;animation:ap .3s ease both}
+section.s .an{position:static;max-width:none;display:none;margin:0 0 30px;padding:14px 18px;}
+body.ann section.s .an{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap}
+section.s .an b{margin:0;flex:none}
+section.s .an .fl{margin:0 0 0 auto}
+@keyframes ap{from{opacity:0;transform:translateY(6px)}}
+body.ann section.s,body.ann .hero{outline:3px dashed rgba(251,232,7,.9);outline-offset:-10px}
+.flow{display:none}
+body.ann .flow{display:block}
+.flow-s{background:#111;color:#fff;padding:60px 0}
+.flow-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:26px;position:relative}
+.flow-g div{padding:22px 24px;border-left:1px solid #333}
+.flow-g div:first-child{border-left:0;padding-left:0}
+.flow-g i{font-style:normal;color:var(--hi);font-weight:700;font-size:13px;letter-spacing:.12em}
+.flow-g h3{margin:8px 0 8px;font-size:22px}
+.flow-g p{color:#bbb;font-size:15px}
+
+
+@media(max-width:960px){
+  nav.m{display:none}
+  .hero .w,.qa-grid,.cut{grid-template-columns:1fr}
+  .eps,.media{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vns,.way,.flow-g{grid-template-columns:1fr}
+  .an{position:relative;left:auto!important;right:auto!important;top:auto!important;margin:0 32px 16px;max-width:none}
+}
+@media(max-width:560px){.eps,.media{grid-template-columns:1fr}.w{padding:0 18px}}
+</style>
+</head>
+<body>
+
+<div class="ribbon"><b>Concept mockup</b><span>How to Human hub, for discussion only. Content and stats are illustrative.</span><button class="tg" type="button" id="tg"><i></i>Show how it works</button></div>
+
+<header class="top"><div class="w">
+  <a class="brand" href="#top"><img src="../media/youi-logo.png" alt="Youi"><span>How to Human</span></a>
+  <nav class="m"><a href="#episodes">Episodes</a><a href="#voicenotes">Voice notes</a><a href="#questions">Questions</a><a href="#media">Media room</a><a href="#takepart">Take part</a></nav>
+  <button class="btn hi" type="button" data-mock="Opens the voicemail recorder">Leave Matt a voicemail</button>
+</div></header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="ep-now"><b>New episode</b> · How to make small talk</div>
+  <div class="w">
+    <div>
+      <h1>How to<br>Human</h1>
+      <div class="with">with Matt Okine</div>
+      <div class="pres">Presented by <img src="../media/youi-logo.png" alt="Youi"></div>
+    </div>
+    <div class="side">
+      <p>Comedian Matt Okine explores the everyday human skills tech has quietly made us rusty at, learning from the people who never stopped doing them.</p>
+      <div class="ctas"><button class="btn lt" type="button" data-ep="2">▶&nbsp; Watch the latest episode</button><a class="btn ol" href="#takepart">Leave Matt a voicemail</a></div>
+    </div>
+  </div>
+  <div class="an" style="right:40px;top:90px"><b><i>01</i>The home of the series</b>Every channel points here. Social cut-downs, Shorts and press coverage all link back to this page and the latest episode.<div class="fl">Feeds → episodes, voice notes and the way in to Youi</div></div>
+</section>
+
+<!-- ============ EPISODES ============ -->
+<section class="s" id="episodes">
+  <div class="w">
+    <div class="s-head"><div><span class="k">Season one</span><h2>The episodes</h2></div><p>Each episode starts with one real caller and one relatable problem. Every episode lives here with its transcript, behind the scenes and tips.</p></div>
+    <div class="eps">
+      <button class="ep" type="button" data-ep="0"><div class="th" style="background-image:url('../media/hth-kids.jpg')"><span class="pl">▶</span><span class="n">EPISODE 01</span></div><h3>How to make a new friend</h3><p>Matt asks the real experts: a classroom of five-year-olds.</p><div class="tags"><span>Friendship</span><span>Transcript</span></div></button>
+      <button class="ep" type="button" data-ep="1"><div class="th ty"><span class="big">How to find love</span><span class="pl">▶</span><span class="n">EPISODE 02</span></div><h3>How to find love</h3><p>Couples together 50 and 60 years on the lost art of the first move.</p><div class="tags"><span>Dating</span><span>Transcript</span></div></button>
+      <button class="ep" type="button" data-ep="2"><div class="th" style="background-image:url('../media/hth-rideshare2.jpg')"><span class="pl">▶</span><span class="n">EPISODE 03</span></div><h3>How to make small talk</h3><p>Where small talk still lives: the back of a rideshare.</p><div class="tags"><span>Small talk</span><span>Transcript</span></div></button>
+      <button class="ep" type="button" data-ep="3"><div class="th ty"><span class="big">How to meet your neighbours</span><span class="pl">▶</span><span class="n">EPISODE 04</span></div><h3>How to meet your neighbours</h3><p>Finding the person who knows everyone on their street.</p><div class="tags"><span>Community</span><span>Transcript</span></div></button>
+    </div>
+  </div>
+  <div class="an" style="left:40px;top:40px"><b><i>01</i>Episode pages</b>Each episode gets its own page with the video, a full transcript, key moments and behind the scenes, so search engines can read it and people can stay.<div class="fl">Every page links to two or three “next skill” pages</div></div>
+</section>
+
+<!-- ============ VOICE NOTES ============ -->
+<section class="s vn-s" id="voicenotes">
+  <div class="w">
+    <div class="s-head"><div><span class="k" style="color:var(--hi)">The voice notes</span><h2>Australians asked Matt</h2></div><p>A curated selection of real voice notes, vetted and shared with permission. Some become episodes. All of them sound familiar.</p></div>
+    <div class="vns" id="vns"></div>
+  </div>
+  <div class="an" style="right:40px;top:40px"><b><i>01</i>Real callers</b>The voicemail line creates the content. Every note is vetted before it is shared, and the best become the next episode.<div class="fl">Feeds → episodes and the survey</div></div>
+</section>
+
+<!-- ============ QUESTIONS ============ -->
+<section class="s qa-s" id="questions">
+  <div class="w">
+    <div class="s-head"><div><span class="k">Questions people ask</span><h2>How do you actually…?</h2></div><p>Built from real callers’ questions, with quotable stats and transcripts, so search engines and AI tools can find and cite the answer.</p></div>
+    <div class="qa-grid">
+      <div>
+        <details open><summary>How do you make a new friend as an adult?</summary><div class="ans"><p>Matt Okine goes to the real experts on new friendship: a classroom of five-year-olds who make friends every day before morning tea. Then he puts their advice to the test on grown-ups.</p><div class="ln"><a href="#" data-ep="0">Watch episode 01 →</a><a href="#" data-mock="Opens the transcript">Read the transcript →</a></div><p class="src">Answer drawn from How to Human, episode 01</p></div></details>
+        <details><summary>How do you make small talk with a stranger?</summary><div class="ans"><p>Matt Okine explores the lost art of small talk in the one place strangers still chat every night: the back of a rideshare.</p><div class="ln"><a href="#" data-ep="2">Watch episode 03 →</a></div><p class="src">Answer drawn from How to Human, episode 03</p></div></details>
+        <details><summary>How do you meet your neighbours?</summary><div class="ans"><p>Matt Okine finds the person who knows everyone on their street. Then he knocks on a few doors of his own.</p><div class="ln"><a href="#" data-ep="3">Watch episode 04 →</a></div></div></details>
+        <details><summary>How do you end a phone call without saying “okay, bye” nine times?</summary><div class="ans"><p>A caller asked Matt this one. It’s on the list for the next run of episodes.</p><div class="ln"><a href="#voicenotes">Hear the voice note →</a></div></div></details>
+      </div>
+      <div>
+        <div class="stat"><span class="k">Youi research</span><b>55%</b><p>of millennials over 40 haven’t made a new friend they see in real life for over a decade.</p><div class="cite"><span>Youi How to Human survey (illustrative)</span><a href="#media">Cite this stat</a></div></div>
+        <div class="stat"><span class="k">Youi research</span><b>68%</b><p>of Gen Z would rather look at their phone than make small talk with a stranger.</p><div class="cite"><span>Youi How to Human survey (illustrative)</span><a href="#media">Cite this stat</a></div></div>
+        <div class="schema"><em>&lt;FAQPage&gt;</em> + <em>&lt;VideoObject&gt;</em> markup on every answer, so answer engines can quote it directly.</div>
+      </div>
+    </div>
+  </div>
+  <div class="an" style="left:40px;top:40px"><b><i>03</i>The answer in search and AI</b>Questions pages turn each episode into answers that Google, ChatGPT and Copilot can find and cite, building Youi’s authority on “how to” searches.<div class="fl">Links on → insurance-simplified pages and quotes</div></div>
+</section>
+
+<!-- ============ MEDIA ROOM ============ -->
+<section class="s" id="media">
+  <div class="w">
+    <div class="s-head"><div><span class="k">Media room</span><h2>The source for the story</h2></div><p>The survey findings, cut by generation and state, with assets and spokesperson details in one permanent place journalists link to.</p></div>
+    <div class="media">
+      <div class="mc"><div class="ic">📊</div><h3>The findings</h3><p>The full How to Human survey results, with methodology.</p><a href="#" data-mock="Downloads the findings PDF">Download PDF →</a></div>
+      <div class="mc"><div class="ic">🎙</div><h3>Spokesperson</h3><p>Matt Okine, comedian and host of How to Human, available for interview.</p><a href="#" data-mock="Opens the interview request">Request an interview →</a></div>
+      <div class="mc"><div class="ic">🖼</div><h3>Images and clips</h3><p>Stills, episode clips and the How to Human logo for editorial use.</p><a href="#" data-mock="Opens the asset library">Open the asset library →</a></div>
+      <div class="mc"><div class="ic">✉</div><h3>Media contact</h3><p>Youi’s media team, for data cuts, comment and embargoed releases.</p><a href="#" data-mock="Opens the media contact form">Contact the team →</a></div>
+    </div>
+    <div class="cut">
+      <div><span class="k">Cut the findings</span><div class="seg" id="seg" style="margin-top:10px"><button class="on" type="button" data-c="gen">By generation</button><button type="button" data-c="state">By state</button></div></div>
+      <div class="out" id="cutout">Gen Z · Millennials · Gen X · Boomers<small>Every finding is broken down by generation, ready for local and national angles. Figures released at launch.</small></div>
+    </div>
+  </div>
+  <div class="an" style="right:40px;top:40px"><b><i>02</i>The source for media</b>Journalists get the data, assets and Matt in one place, so coverage links back to Youi. Those links are what lift Youi’s search ranking.<div class="fl">Feeds → earned coverage → links back to the hub</div></div>
+</section>
+
+<!-- ============ WAY IN ============ -->
+<section class="s" id="takepart" style="padding-top:20px">
+  <div class="w">
+    <div class="s-head"><div><span class="k">Take part</span><h2>Your turn to human</h2></div><p>Three easy ways in, and a real person at Youi whenever you’re ready.</p></div>
+    <div class="way">
+      <div class="wc"><span class="k">01 · Voicemail</span><h3>Leave Matt a voicemail</h3><p>Got a human moment you need help with? Tell Matt. Yours could be the next episode.</p><div class="rec"><i></i>Line open now</div><button class="btn" type="button" data-mock="Opens the voicemail recorder">Record a voice note</button></div>
+      <div class="wc"><span class="k">02 · Survey</span><h3>Take the survey</h3><p>Two minutes on the human moments you miss, and see how you compare with the rest of Australia.</p><button class="btn" type="button" data-mock="Opens the survey">Start the survey</button></div>
+      <div class="wc"><span class="k">03 · Alerts</span><h3>Never miss an episode</h3><p>Get a heads up when a new episode drops, plus Matt’s favourite tips from the week.</p><button class="btn lt" type="button" data-mock="Opens episode alerts sign-up">Sign up for alerts</button></div>
+    </div>
+    <div class="human">
+      <div><h3>Prefer to talk to a real person?</h3><p>That’s kind of the point. When you’re ready for a quote, someone at Youi will take the time to get to know you.</p></div>
+      <button class="btn" type="button" data-mock="Goes to Youi’s quote page">Talk to Youi about a quote</button>
+    </div>
+  </div>
+  <div class="an" style="left:40px;top:-10px"><b><i>04</i>The way in to Youi</b>Interest turns into connection: a voicemail, the survey or alerts, then a gentle invite to talk to a real person at Youi.<div class="fl">Feeds → new voicemails, survey data and quotes</div></div>
+</section>
+
+<!-- ============ HOW IT WORKS (annotation mode) ============ -->
+<div class="flow"><section class="flow-s"><div class="w">
+  <span class="k" style="color:var(--hi)">How the hub works together</span>
+  <h2 style="margin-top:8px">One hub, four jobs</h2>
+  <div class="flow-g">
+    <div><i>01</i><h3>The home of the series</h3><p>Every channel points here. Episodes, transcripts, behind the scenes and voice notes.</p></div>
+    <div><i>02</i><h3>The source for media</h3><p>Findings by generation and state, assets and Matt, turning coverage into links back to Youi.</p></div>
+    <div><i>03</i><h3>The answer in search and AI</h3><p>Questions pages with quotable stats and transcripts that search and AI tools can find and cite.</p></div>
+    <div><i>04</i><h3>The way in to Youi</h3><p>Voicemail, survey and alerts, then a gentle invite to talk to a real person at Youi.</p></div>
+  </div>
+</div></section></div>
+
+<footer><div class="w">
+  <div><img src="../media/youi-logo.png" alt="Youi"><small>How to Human is presented by Youi. This is a concept mockup prepared by BCM for discussion. Episodes, voice notes and statistics shown are illustrative.</small></div>
+  <a class="btn hi" href="#top">Back to top ↑</a>
+</div></footer>
+
+<!-- episode drawer -->
+<div class="dr" id="dr"><div class="bg" data-close></div><div class="pn">
+  <button class="x" type="button" data-close aria-label="Close">×</button>
+  <span class="k" id="d-n"></span>
+  <h2 id="d-t" style="margin-top:8px"></h2>
+  <div class="vid" id="d-v"></div>
+  <p id="d-d"></p>
+  <div class="tabs"><button class="on" type="button" data-t="0">Transcript</button><button type="button" data-t="1">Behind the scenes</button><button type="button" data-t="2">Matt’s tips</button></div>
+  <div class="tp on" data-p="0"><div class="tr" id="d-tr"></div></div>
+  <div class="tp" data-p="1"><p>How the episode came together: the caller, the experts and the moment it clicked. Stills and outtakes sit here.</p></div>
+  <div class="tp" data-p="2"><p id="d-tip"></p></div>
+  <div class="next"><span class="k">The next skill</span><a href="#" data-mock="Opens a Youi insurance-simplified page">How to make an insurance claim <span>→</span></a><a href="#" data-mock="Opens a Youi insurance-simplified page">How to work out your sum insured <span>→</span></a><a href="#" data-mock="Opens a Youi insurance-simplified page">How to get a Youi quote <span>→</span></a></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const EPS = [
+  {n:"Episode 01", t:"How to make a new friend", img:"../media/hth-kids.jpg",
+   d:"Social media means we’re connected to hundreds of people, yet making a real new friend as an adult feels harder than ever. Matt Okine goes to the real experts on new friendship: a classroom of five-year-olds who make friends every day before morning tea. Then he puts their advice to the test on grown-ups.",
+   tr:[["MATT","When did you last make a new friend? Like for real. And I don’t mean a LinkedIn connection, or accepting an insta follow request."],["MATT","Turns out I’m not alone. New Youi research found 55% of millennials over 40 haven’t made a new friend in real life in over a decade."],["CRAIG","If you drop me into any group chat I reckon I could hold my own… making a friend in the wild… help me out Matt!"]],
+   tip:""},
+  {n:"Episode 02", t:"How to find love", img:"",
+   d:"Swiping has made meeting people easier than ever, but somewhere along the way we lost the art of the first move. Matt explores how love used to start, learning from couples who’ve been together 50 and 60 years, and finds out whether their old ways still work today.",
+   tr:[],
+   tip:""},
+  {n:"Episode 03", t:"How to make small talk", img:"../media/hth-rideshare2.jpg",
+   d:"Comedian Matt Okine explores the lost art of small talk. To learn how it’s done, he heads to the one place strangers still chat every night: the back of a rideshare.",
+   tr:[["MATT","When did you last have a proper chat with a stranger? And I don’t mean “thanks mate” at the self-checkout."],["MATT","New Youi research found 68% of Gen Z would rather look at their phone than make small talk with a stranger."],["JESS","How do people just… chat? Help me out, Matt!"]],
+   tip:""},
+  {n:"Episode 04", t:"How to meet your neighbours", img:"",
+   d:"We can see what’s happening on the other side of the world, but many of us don’t know who lives next door. Matt explores how neighbours used to become friends, finding the person who knows everyone on their street. Then he knocks on a few doors of his own.",
+   tr:[],
+   tip:""}
+];
+const VNS = [
+  ["Funny","Hi Matt. I’ve waved at my neighbour every morning for six years and I still don’t know his name. It’s too late to ask now. Help.",""],
+  ["Heartfelt","Dad used to ring every Sunday. Now it’s a thumbs up in the family chat. I don’t know how to start the calls again.",""],
+  ["Offhand","Yeah hey, just wondering how you end a phone call without saying “okay, bye” about nine times. Cheers.",""],
+  ["Funny","I got invited to a dinner party and there’s no group chat. How do I RSVP? Do I… call?",""],
+  ["Offhand","Quick one. How do you ask a stranger for directions? Like, out loud?",""],
+  ["Heartfelt","I moved here last year and I haven’t made one friend outside work. Where do adults even meet people?",""]
+];
+const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
+const toast = m => { const t = $("#toast"); t.textContent = m + " (mockup)"; t.classList.add("on"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("on"), 1800); };
+
+$("#vns").innerHTML = VNS.map(([k, q, w], i) => `<div class="vn"><div class="row"><button class="pb" type="button" aria-label="Play">▶</button><div class="wave">${Array.from({length:28}, (_, j) => `<i style="--h:${20 + Math.round(Math.abs(Math.sin(i * 7 + j * 1.7)) * 80)}%"></i>`).join("")}</div></div><q>“${q}”</q><div class="who">Voice note<span>${k}</span></div></div>`).join("");
+$$(".vn .pb").forEach(b => b.addEventListener("click", () => { const v = b.closest(".vn"); const on = !v.classList.contains("play"); $$(".vn").forEach(x => { x.classList.remove("play"); x.querySelector(".pb").textContent = "▶"; }); if(on){ v.classList.add("play"); b.textContent = "❚❚"; setTimeout(() => { v.classList.remove("play"); b.textContent = "▶"; }, 6000); } }));
+
+const openEp = i => {
+  const e = EPS[i]; $("#d-n").textContent = e.n; $("#d-t").textContent = e.t; $("#d-d").textContent = e.d; $("#d-tip").textContent = e.tip || "Matt’s takeaways from the episode, the practical bit people can try today, sit here.";
+  $("#d-v").style.backgroundImage = e.img ? `url('${e.img}')` : "none";
+  $("#d-tr").innerHTML = e.tr.length ? e.tr.map(([w, l]) => `<p><b>${w}</b> ${l}</p>`).join("") : "<p>The full transcript sits here when the episode drops.</p>";
+  $$(".dr .tabs button").forEach((b, k) => b.classList.toggle("on", k === 0)); $$(".dr .tp").forEach((p, k) => p.classList.toggle("on", k === 0));
+  $("#dr").classList.add("on");
+};
+document.addEventListener("click", e => {
+  const ep = e.target.closest("[data-ep]"); if(ep){ e.preventDefault(); openEp(+ep.dataset.ep); return; }
+  if(e.target.closest("[data-close]")){ $("#dr").classList.remove("on"); return; }
+  const t = e.target.closest(".dr .tabs button"); if(t){ $$(".dr .tabs button").forEach(b => b.classList.toggle("on", b === t)); $$(".dr .tp").forEach(p => p.classList.toggle("on", p.dataset.p === t.dataset.t)); return; }
+  const m = e.target.closest("[data-mock]"); if(m){ e.preventDefault(); toast(m.dataset.mock); return; }
+  const s = e.target.closest("#seg button"); if(s){ $$("#seg button").forEach(b => b.classList.toggle("on", b === s)); $("#cutout").innerHTML = s.dataset.c === "gen" ? "Gen Z · Millennials · Gen X · Boomers<small>Every finding is broken down by generation, ready for local and national angles. Figures released at launch.</small>" : "NSW · VIC · QLD · WA · SA · TAS · ACT · NT<small>State cuts give every capital city newsroom its own local story. Figures released at launch.</small>"; }
+});
+document.addEventListener("keydown", e => { if(e.key === "Escape") $("#dr").classList.remove("on"); });
+$("#tg").addEventListener("click", () => { document.body.classList.toggle("ann"); });
+$$("section.s > .an").forEach(a => { const w = a.parentElement.querySelector(".w"); if(w) w.prepend(a); });
+if(/[?&]how=1/.test(location.search)) document.body.classList.add("ann");
+</script>
+</body>
+</html>
