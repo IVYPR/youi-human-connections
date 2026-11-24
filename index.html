@@ -4280,6 +4280,17 @@ body.hc-editing .v3-spec *{transition:none!important}
 .v3-sp-m .v3-sp-dot{display:block;width:26px!important;height:26px!important;min-height:0;aspect-ratio:1/1;padding:0;margin:0}
 .v3-i3-c:last-child .v3-i3-img{background-size:auto 116%}
 
+/* How To Human title: rideshare image with a live Helvetica lockup */
+.hth-ride.has-bg{background-position:62% center!important;box-shadow:inset 900px 0 320px -260px rgba(0,0,0,.72)}
+.hth-ride .wrap{display:grid;align-content:center}
+.hth-lock{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#fff;display:grid;gap:14px;max-width:560px;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.hth-lock .hth-lock-t{font-family:inherit;font-weight:700;font-size:132px;line-height:.9;letter-spacing:-.035em;text-transform:none;margin:0}
+.hth-lock .hth-lock-w{font-family:inherit;font-size:44px;font-weight:500;letter-spacing:-.015em;line-height:1;margin:4px 0 0}
+.hth-lock .hth-lock-p{font-family:inherit;font-size:22px;font-weight:400;display:flex;align-items:center;gap:12px;margin-top:14px}
+.hth-lock .hth-lock-p img{height:46px;width:auto;display:block}
+@media(max-width:900px){.hth-lock .hth-lock-t{font-size:64px}.hth-lock .hth-lock-w{font-size:26px}}
+.hth-lock .hth-lock-p img{filter:invert(1);height:54px}
+
 </style>
 </head>
 <body>
@@ -4334,9 +4345,9 @@ body.hc-editing .v3-spec *{transition:none!important}
 </section>
 
 
-<section id="how-to-human" class="stop dk ts ts-art dark" data-dw="1440" data-title="Idea 1: How To Human">
+<section id="how-to-human" class="stop dk ts ts-art dark hth-ride" data-dw="1440" data-title="Idea 1: How To Human">
   <div class="wrap">
-    <h2 class="v3-sr">Idea 1: How To Human, with Matt Okine. Presented by Youi Insurance.</h2>
+    <div class="hth-lock"><h2 class="hth-lock-t">How to<br>Human</h2><p class="hth-lock-w">with Matt Okine</p><p class="hth-lock-p">Presented by <img src="media/youi-logo.png" alt="Youi"></p></div>
   </div>
 </section>
 
@@ -4803,7 +4814,7 @@ body.hc-editing .v3-spec *{transition:none!important}
 <section id="ideas-summary" data-after="full-experiment-evidence" class="stop dk v3-s dark v3-i3-s" data-dw="1440" data-title="The three ideas">
   <div class="wrap">
     <div class="v3-i3 rv-kids">
-      <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/hth-box2.jpg)"></div><figcaption><b>How To Human</b><p>An idea that helps us rediscover human moments by learning from the people who never stopped doing them.</p></figcaption></figure>
+      <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/hth-rideshare.jpg)"></div><figcaption><b>How To Human</b><p>An idea that helps us rediscover human moments by learning from the people who never stopped doing them.</p></figcaption></figure>
       <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/ce-box.jpg)"></div><figcaption><b>RE: Connection</b><p>An idea that takes away the barriers and asks, “What happens when...?”, to see whether human moments are as complicated as we think.</p></figcaption></figure>
       <i class="v3-i3-ar" aria-hidden="true"></i>
       <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/ce-trailer-final.jpg)"></div><figcaption><b>The Connection Experiment</b><p>Quantifying the importance of human connection.</p></figcaption></figure>
@@ -5174,7 +5185,7 @@ const BACKGROUNDS = {
   "tone":                  {src:"", overlay:.55},
   "framework":             {src:"", overlay:.55},
   "three-jobs":            {src:"", overlay:.55},
-  "how-to-human":          {src:"media/hth-okine.jpg", overlay:0},
+  "how-to-human":          {src:"media/hth-rideshare.jpg", overlay:0},
   "youi-reviews":          {src:"media/yr-title.jpg", overlay:.3},
   "connection-experiment": {src:"media/ce-title.jpg", overlay:.25},
   "full-experiment":       {src:"media/ce-title.jpg", overlay:.25},
