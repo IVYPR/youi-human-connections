@@ -4312,6 +4312,12 @@ body.hc-editing .v3-spec *{transition:none!important}
 /* Reference pages with a single reference */
 .v3-refs3.v3-refs1{grid-template-columns:minmax(0,1fr);max-width:980px}
 .v3-refs1 .v3-pair{grid-template-columns:260px minmax(0,1fr);gap:24px}
+/* Slide 5: blurb sits directly beside the title block */
+.hth-ride .hth-lock{grid-template-columns:auto minmax(0,440px);column-gap:48px;row-gap:10px;align-items:center}
+.hth-ride .hth-lock-t{grid-column:1;grid-row:1}
+.hth-ride .hth-lock-p{grid-column:1;grid-row:2}
+.hth-ride .hth-lock-b{grid-column:2;grid-row:1/span 2;align-self:center;padding:6px 0 6px 32px}
+@media(max-width:900px){.hth-ride .hth-lock-t,.hth-ride .hth-lock-p,.hth-ride .hth-lock-b{grid-column:1;grid-row:auto}}
 
 </style>
 </head>
