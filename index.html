@@ -4545,6 +4545,11 @@ section.cover.cover-kids::before{background:linear-gradient(0deg,rgba(0,0,0,.88)
 .pw.p-cover.cover-kids .lockup{font-size:clamp(60px,8.5vw,150px)!important}
 .pbox:has(> .pw.p-cover.cover-kids){display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
 .pw.p-cover.cover-kids .pinner{padding-bottom:30px!important}
+/* Cover: keep the rule the width of the title so it doesn't cut across the image */
+.pw.p-cover .pinner{width:fit-content!important;max-width:100%!important}
+.pw.p-cover .pinner .meta{align-self:stretch!important;width:auto!important}
+section.cover .wrap,header.cover .wrap{}
+header.cover .meta{max-width:min(100%,640px)}
 
 </style>
 </head>
