@@ -4550,6 +4550,11 @@ section.cover.cover-kids::before{background:linear-gradient(0deg,rgba(0,0,0,.88)
 .pw.p-cover .pinner .meta{align-self:stretch!important;width:auto!important}
 section.cover .wrap,header.cover .wrap{}
 header.cover .meta{max-width:min(100%,640px)}
+.hth-ride .hth-lock{transform:translateY(48px)}
+.hth-ride .hth-lock,.pw.hth-ride .hth-lock{transform:none;position:relative;top:48px}
+/* Present mode: cover title sits at the bottom of the frame */
+.pbox:has(> .pw.p-cover){display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
+.pw.p-cover .pinner{justify-content:flex-end!important;padding-bottom:56px!important}
 
 </style>
 </head>
