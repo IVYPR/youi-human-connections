@@ -4999,6 +4999,16 @@ section.p9-full{background-image:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0
 </section>
 
 
+<section id="connection-experiment-hub" data-after="connection-experiment-www" class="stop dk v3-s" data-dw="1440" data-title="RE: Connection: the hub">
+  <div class="wrap">
+    <h2 class="dk-h"><span class="dk-k">Idea 2: RE: Connection</span><span>The hub in action</span></h2>
+    <div class="v3-hub-demo">
+      <div class="v3-bw"><div class="v3-bw-bar"><i></i><i></i><i></i><span>youi.com.au/re-connection</span></div><div class="v3-bw-vp"><iframe src="re-connection/?how=1" title="RE: Connection hub concept" loading="lazy"></iframe></div></div><ol class="v3-hub-pts"><li><b class="v3-num">01</b><div><h3>Campaign hub</h3><p>One home for all four challenges, including every episode, the creators and the evidence sitting behind the challenges.</p></div></li><li><b class="v3-num">02</b><div><h3>Challenge pages</h3><p>Each one has the episode, transcript, behind the scenes, the creator’s diary and reflections on their experience, built to answer the search behind the moment.</p></div></li><li><b class="v3-num">03</b><div><h3>For audiences</h3><p>Challenge cards, shared stories, creator profiles, the mini-survey and registering interest for the Connection Experiment.</p></div></li><li><b class="v3-num">04</b><div><h3>For search and AI</h3><p>A questions page, expert notes, a media room and transcripts, built so search engines and AI tools can read and cite it.</p></div></li></ol>
+    </div>
+  </div>
+</section>
+
+
 <section id="ideas-summary" data-after="full-experiment-evidence" class="stop dk v3-s dark v3-i3-s" data-dw="1440" data-title="The three ideas">
   <div class="wrap">
     <div class="v3-i3 rv-kids">
@@ -6425,7 +6435,7 @@ document.addEventListener("click", e => {
 /* Full screen button on every embedded video (YouTube, Vimeo, Instagram and the deck's own clips) */
 (function fsButtons(){
   const add = () => {
-    document.querySelectorAll('iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="instagram"], iframe[src^="hub/"], video[controls]').forEach(m => {
+    document.querySelectorAll('iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="instagram"], iframe[src^="hub/"], iframe[src^="re-connection/"], video[controls]').forEach(m => {
       if(m.closest(".v3-vid")) return;
       const host = m.parentElement; if(!host || host.querySelector(":scope > .hc-fsv")) return;
       if(getComputedStyle(host).position === "static") host.classList.add("hc-fsv-host");

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RE: Connection · Presented by Youi (concept)</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--ink:#0b0b0b;--paper:#fff;--cream:#f3f0ea;--line:#e3ded4;--muted:#6b665e;--hi:#fbe807;--font:"Helvetica Neue",Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%}
+.w{max-width:1240px;margin:0 auto;padding:0 32px}
+h1,h2,h3{margin:0;letter-spacing:-.025em;line-height:1}
+h2{font-size:clamp(36px,4.4vw,60px);font-weight:700}
+h3{font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+p{margin:0}
+.k{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:700;font-size:15px;background:var(--ink);color:#fff;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.lt{background:#fff;color:var(--ink)}
+.btn.ol{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+.btn.hi{background:var(--hi);color:var(--ink)}
+
+/* concept ribbon + annotation toggle */
+.ribbon{background:var(--ink);color:#fff;font-size:12px;letter-spacing:.06em;display:flex;justify-content:center;gap:18px;align-items:center;padding:8px 16px;flex-wrap:wrap}
+.ribbon b{color:var(--hi);font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.tg{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:11px}
+.tg i{width:34px;height:18px;border-radius:9px;background:#444;position:relative;transition:background .2s}
+.tg i::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .2s}
+body.ann .tg i{background:var(--hi)}body.ann .tg i::after{left:18px;background:#000}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .w{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand img{height:34px}
+.brand span{font-weight:700;font-size:19px;letter-spacing:-.02em;border-left:1px solid var(--line);padding-left:14px}
+nav.m{display:flex;gap:22px;margin-left:auto;font-size:15px}
+nav.m a{text-decoration:none;opacity:.75}nav.m a:hover{opacity:1}
+header .btn{padding:10px 16px;font-size:14px}
+
+/* hero */
+.hero{position:relative;color:#fff;min-height:620px;display:flex;align-items:flex-end;background:#111 url("../media/ce-title.jpg") center/cover}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.85))}
+.hero .w{position:relative;width:100%;padding-bottom:56px;display:grid;grid-template-columns:auto minmax(0,440px);gap:56px;align-items:end}
+.hero h1{font-size:clamp(64px,9vw,128px);font-weight:700;letter-spacing:-.045em;line-height:.88}
+.hero .with{font-size:clamp(24px,2.6vw,38px);font-weight:500;letter-spacing:-.02em;margin-top:12px}
+.pres{display:flex;align-items:center;gap:12px;margin-top:20px;font-size:17px}
+.pres img{height:42px;filter:invert(1)}
+.hero .side{border-left:1px solid rgba(255,255,255,.4);padding-left:28px;display:grid;gap:22px}
+.hero .side p{font-size:18px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.ep-now{position:absolute;top:28px;right:32px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);padding:10px 14px;border-radius:10px;font-size:13px}
+.ep-now b{color:var(--hi)}
+
+section.s{padding:96px 0;position:relative}
+.s-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:40px}
+.s-head p{max-width:470px;color:var(--muted)}
+
+/* episodes */
+.eps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.ep{all:unset;cursor:pointer;display:grid;gap:14px;align-content:start}
+.ep .th{aspect-ratio:4/5;border-radius:14px;background:#222 center/cover;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;color:#fff}
+.ep .th::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.7))}
+.ep .th.ty{background:var(--ink)}
+.ep .th.ty::before{display:none}
+.ep .th .n{position:relative;font-size:13px;font-weight:700;letter-spacing:.12em}
+.ep .th .pl{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;font-size:15px;transition:transform .2s}
+.ep:hover .th .pl{transform:scale(1.1)}
+.ep .th .big{position:absolute;left:18px;top:18px;right:68px;font-size:44px;font-weight:700;letter-spacing:-.04em;line-height:.92;color:var(--hi)}
+.ep h3{font-size:21px}
+.ep p{font-size:15px;color:var(--muted)}
+.ep .tags{display:flex;gap:6px;flex-wrap:wrap}
+.ep .tags span{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+
+/* episode drawer */
+.dr{position:fixed;inset:0;z-index:50;display:none}
+.dr.on{display:block}
+.dr .bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.dr .pn{position:absolute;right:0;top:0;bottom:0;width:min(760px,100%);background:#fff;overflow:auto;padding:36px 40px 60px;animation:sl .35s ease}
+@keyframes sl{from{transform:translateX(40px);opacity:0}}
+.dr .x{all:unset;cursor:pointer;position:absolute;right:22px;top:20px;font-size:26px}
+.dr .vid{aspect-ratio:16/9;border-radius:12px;background:#111 center/cover;margin:18px 0 22px;position:relative;display:grid;place-items:center}
+.dr .vid::after{content:"▶";width:72px;height:72px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:24px}
+.dr .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:22px 0 18px}
+.dr .tabs button{all:unset;cursor:pointer;padding:10px 14px;font-weight:700;font-size:14px;opacity:.5;border-bottom:2px solid transparent;margin-bottom:-1px}
+.dr .tabs button.on{opacity:1;border-color:var(--ink)}
+.dr .tp{display:none}.dr .tp.on{display:block}
+.dr .tp p+p{margin-top:12px}
+.tr{font-size:15px;color:#333}
+.tr b{display:inline-block;min-width:56px;color:var(--muted);font-weight:700;font-size:12px;letter-spacing:.08em}
+.next{margin-top:28px;background:var(--cream);border-radius:12px;padding:20px 22px;display:grid;gap:10px}
+.next a{font-weight:700;text-decoration:none;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px}
+
+/* voice notes */
+.vn-s{background:var(--ink);color:#fff}
+.vn-s .s-head p{color:#bbb}
+.vns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.vn{background:#1b1b1b;border-radius:14px;padding:22px;display:grid;gap:16px;align-content:start}
+.vn .row{display:flex;align-items:center;gap:12px}
+.vn .pb{all:unset;cursor:pointer;width:42px;height:42px;border-radius:50%;background:var(--hi);color:#000;display:grid;place-items:center;font-size:14px;flex:none}
+.wave{display:flex;align-items:center;gap:3px;height:34px;flex:1}
+.wave i{flex:1;background:#555;border-radius:2px;height:var(--h)}
+.vn.play .wave i{animation:wv .9s ease-in-out infinite alternate;background:var(--hi)}
+.vn.play .wave i:nth-child(3n){animation-delay:.2s}.vn.play .wave i:nth-child(3n+1){animation-delay:.45s}
+@keyframes wv{to{transform:scaleY(.35)}}
+.vn q{quotes:none;font-size:18px;line-height:1.4}
+.vn .who{font-size:13px;color:#999;display:flex;justify-content:space-between}
+.vn .who span{border:1px solid #444;border-radius:999px;padding:1px 9px;color:#ccc}
+
+/* questions */
+.qa-s{background:var(--cream)}
+.qa-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:start}
+details{border-top:1px solid var(--line);padding:20px 0}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-size:21px;font-weight:700;letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;font-size:26px;line-height:1}
+details[open] summary::after{content:"–"}
+details .ans{margin-top:14px;display:grid;gap:12px;color:#333;max-width:640px}
+details .ans .src{font-size:13px;color:var(--muted)}
+details .ans .ln{display:flex;gap:16px;flex-wrap:wrap;font-weight:700;font-size:14px}
+.stat{background:#fff;border-radius:16px;padding:30px;display:grid;gap:12px}
+.stat b{font-size:64px;letter-spacing:-.04em;line-height:.9}
+.stat .cite{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted)}
+.stat + .stat{margin-top:16px}
+.schema{margin-top:16px;font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--ink);color:#cfcfcf;border-radius:12px;padding:16px 18px;line-height:1.55;white-space:pre-wrap}
+.schema em{color:var(--hi);font-style:normal}
+
+/* media room */
+.media{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.mc{border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:12px;align-content:start}
+.mc .ic{width:44px;height:44px;border-radius:10px;background:var(--cream);display:grid;place-items:center;font-size:20px}
+.mc p{font-size:15px;color:var(--muted)}
+.mc a{font-weight:700;font-size:14px;text-decoration:none;margin-top:6px}
+.cut{margin-top:22px;border-radius:16px;background:var(--cream);padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:700;background:#fff}
+.seg button.on{background:var(--ink);color:#fff}
+.cut .out{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.cut .out small{display:block;font-size:13px;font-weight:400;color:var(--muted);margin-top:4px}
+
+/* way in */
+.way{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.wc{border-radius:16px;padding:28px;display:grid;gap:14px;align-content:start;min-height:280px}
+.wc:nth-child(1){background:var(--hi)}
+.wc:nth-child(2){background:var(--cream)}
+.wc:nth-child(3){background:var(--ink);color:#fff}
+.wc h3{font-size:28px;letter-spacing:-.025em}
+.wc p{font-size:16px}
+.wc .btn{justify-self:start;margin-top:auto}
+.rec{display:flex;align-items:center;gap:12px;font-weight:700}
+.rec i{width:14px;height:14px;border-radius:50%;background:#e0312b;box-shadow:0 0 0 0 rgba(224,49,43,.5);animation:rp 1.6s infinite}
+@keyframes rp{to{box-shadow:0 0 0 12px rgba(224,49,43,0)}}
+.human{margin-top:22px;border-radius:16px;border:1.5px solid var(--ink);padding:26px 30px;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.human h3{font-size:26px}
+.human p{color:var(--muted);max-width:620px;margin-top:6px}
+
+footer{background:var(--ink);color:#fff;padding:54px 0 40px;margin-top:0}
+footer .w{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+footer img{height:38px;filter:invert(1)}
+footer small{color:#999;display:block;margin-top:8px;max-width:620px}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;opacity:0;transition:.25s;z-index:60;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* annotation layer */
+.an{display:none;position:absolute;z-index:15;max-width:300px;background:var(--hi);color:#000;border-radius:12px;padding:14px 16px 16px;box-shadow:0 12px 30px rgba(0,0,0,.18);font-size:14px;line-height:1.4}
+.an b{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.an b i{font-style:normal;width:24px;height:24px;border-radius:50%;background:#000;color:var(--hi);display:grid;place-items:center;font-size:11px;letter-spacing:0}
+.an .fl{margin-top:8px;font-size:12px;font-weight:700;opacity:.75}
+body.ann .an{display:block;animation:ap .3s ease both}
+section.s .an{position:static;max-width:none;display:none;margin:0 0 30px;padding:14px 18px;}
+body.ann section.s .an{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap}
+section.s .an b{margin:0;flex:none}
+section.s .an .fl{margin:0 0 0 auto}
+@keyframes ap{from{opacity:0;transform:translateY(6px)}}
+body.ann section.s,body.ann .hero{outline:3px dashed rgba(251,232,7,.9);outline-offset:-10px}
+.flow{display:none}
+body.ann .flow{display:block}
+.flow-s{background:#111;color:#fff;padding:60px 0}
+.flow-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:26px;position:relative}
+.flow-g div{padding:22px 24px;border-left:1px solid #333}
+.flow-g div:first-child{border-left:0;padding-left:0}
+.flow-g i{font-style:normal;color:var(--hi);font-weight:700;font-size:13px;letter-spacing:.12em}
+.flow-g h3{margin:8px 0 8px;font-size:22px}
+.flow-g p{color:#bbb;font-size:15px}
+
+
+@media(max-width:960px){
+  nav.m{display:none}
+  .hero .w,.qa-grid,.cut{grid-template-columns:1fr}
+  .eps,.media{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vns,.way,.flow-g{grid-template-columns:1fr}
+  .an{position:relative;left:auto!important;right:auto!important;top:auto!important;margin:0 32px 16px;max-width:none}
+}
+@media(max-width:560px){.eps,.media{grid-template-columns:1fr}.w{padding:0 18px}}
+
+.hero h1 .re{display:block;font-size:.42em;letter-spacing:-.02em;font-weight:500;margin-bottom:10px;color:var(--hi)}
+.ch .th.ty{background:var(--ink)}
+.ch-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.ch{all:unset;cursor:pointer;display:grid;gap:12px;align-content:start}
+.ch .card{aspect-ratio:4/5;border-radius:14px;background:var(--ink);color:#fff;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:transform .2s}
+.ch:hover .card{transform:translateY(-3px)}
+.ch .card .q{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--hi)}
+.ch .card .n{font-size:12px;font-weight:700;letter-spacing:.14em}
+.ch .card .pl{position:absolute;right:16px;top:16px;width:44px;height:44px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center}
+.ch:nth-child(2) .card{background:#1d3b2f}.ch:nth-child(3) .card{background:#3b2a1d}.ch:nth-child(4) .card{background:#2b2240}
+.ch h3{font-size:19px}.ch p{font-size:14.5px;color:var(--muted)}
+.cards-s{background:var(--cream)}
+.tcards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tcard{background:#fff;border-radius:14px;padding:22px;display:grid;gap:10px;align-content:start;border:1.5px dashed #bbb;position:relative}
+.tcard .k{color:var(--muted)}
+.tcard b{font-size:20px;letter-spacing:-.02em;line-height:1.1}
+.tcard ul{margin:0;padding-left:18px;font-size:14px;color:#333;display:grid;gap:4px}
+.tcard .btn{justify-self:start;margin-top:6px;padding:10px 14px;font-size:13px}
+.cr-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.cr{border-top:3px solid var(--ink);padding-top:14px;display:grid;gap:8px;align-content:start}
+.cr .av{width:64px;height:64px;border-radius:50%;background:var(--cream);display:grid;place-items:center;font-weight:700;font-size:20px;border:2px dashed #bbb}
+.cr h3{font-size:19px}.cr p{font-size:14px;color:#444}
+.cr a{font-size:13px;font-weight:700;text-decoration:none}
+.share{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;background:var(--ink);color:#fff;border-radius:18px;padding:34px}
+.share .drop{border:1.5px dashed #666;border-radius:14px;padding:30px;text-align:center;color:#bbb;display:grid;gap:12px;justify-items:center}
+.share .drop i{font-style:normal;font-size:28px}
+.sv{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.svq{background:#fff;border-radius:16px;padding:26px;display:grid;gap:14px}
+.svq .opts{display:grid;gap:8px}
+.svq .opts button{all:unset;cursor:pointer;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;font-weight:700;font-size:15px}
+.svq .opts button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.svq .res{display:none;background:var(--cream);border-radius:10px;padding:14px;font-size:14px}
+.svq.done .res{display:block}
+.xp{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:start;background:#fff;border-radius:16px;padding:22px;margin-top:16px}
+.xp .av{width:72px;height:72px;border-radius:50%;border:2px dashed #bbb;display:grid;place-items:center;font-weight:700}
+.xp q{quotes:none;font-size:17px;line-height:1.45}
+.xp .k{display:block;margin-bottom:6px}
+.next-s .w > .an{grid-column:1/-1}
+.xp small{display:block;color:var(--muted);margin-top:8px}
+.next-s{background:var(--hi)}
+.next-s .w{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
+.next-s h2{font-size:clamp(34px,4vw,54px)}
+.next-s p{font-size:18px;margin-top:12px}
+@media(max-width:960px){.ch-g,.tcards,.cr-g{grid-template-columns:1fr 1fr}.share,.sv,.next-s .w{grid-template-columns:1fr}}
+@media(max-width:560px){.ch-g,.tcards,.cr-g{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ribbon"><b>Concept mockup</b><span>RE: Connection hub, for discussion only. Content and stats are illustrative.</span><button class="tg" type="button" id="tg"><i></i>Show how it works</button></div>
+<header class="top"><div class="w">
+  <a class="brand" href="#top"><img src="../media/youi-logo.png" alt="Youi"><span>RE: Connection</span></a>
+  <nav class="m"><a href="#challenges">Challenges</a><a href="#take">Take the challenge</a><a href="#creators">Creators</a><a href="#questions">Questions</a><a href="#media">Media room</a></nav>
+  <button class="btn hi" type="button" data-mock="Opens the challenge cards">Take the challenge</button>
+</div></header>
+
+<section class="hero" id="top">
+  <div class="ep-now"><b>New challenge</b> · The old-school dinner party</div>
+  <div class="w">
+    <div>
+      <h1><span class="re">What happens when…?</span>RE:<br>Connection</h1>
+      <div class="pres">Presented by <img src="../media/youi-logo.png" alt="Youi"></div>
+    </div>
+    <div class="side">
+      <p>Four creators take on four everyday challenges with no tech to lean on, to see whether human moments are really as complicated as we think.</p>
+      <div class="ctas"><a class="btn lt" href="#challenges">▶&nbsp; Watch the challenges</a><a class="btn ol" href="#take">Try one yourself</a></div>
+    </div>
+  </div>
+  <div class="an" style="right:40px;top:90px"><b><i>01</i>Campaign hub</b>One home for all four challenges, including every episode, the creators and the evidence sitting behind the challenges.<div class="fl">Every channel and creator post links back here</div></div>
+</section>
+
+<section class="s" id="challenges">
+  <div class="an"><b><i>01</i>Challenge pages</b>Each one has the episode, transcript, behind the scenes, the creator’s diary and reflections, and is built to answer the search behind the moment.<div class="fl">“How to make friends as an adult”, “date ideas without apps”</div></div>
+  <div class="w">
+    <div class="s-head"><div><span class="k">The challenges</span><h2>Four challenges. No tech.</h2></div><p>Each challenge captures the build-up, the moment itself and the reflection afterwards, showing the gap between what we expect and what actually happens.</p></div>
+    <div class="ch-g"><button class="ch" type="button" data-ch="0"><div class="card"><span class="n">CHALLENGE 01</span><span class="q">What happens when you go on a first date with no tech?</span><span class="pl">▶</span></div><h3>The no-tech first date</h3><p>We follow a Gen Z content creator tasked with organising and going on a date without relying on the use of…</p></button><button class="ch" type="button" data-ch="1"><div class="card"><span class="n">CHALLENGE 02</span><span class="q">What happens when a family crosses town with no GPS?</span><span class="pl">▶</span></div><h3>Across town with a Refidex</h3><p>We follow a family of four as they try to get across town to a cinema they’ve never been to before in time…</p></button><button class="ch" type="button" data-ch="2"><div class="card"><span class="n">CHALLENGE 03</span><span class="q">What happens when a dad tries to make a mate at a kids’ party?</span><span class="pl">▶</span></div><h3>A new mate at a kids’ party</h3><p>We send a dad and his four-year-old to a kids’ birthday party, where he has to make a new mate and lock in a…</p></button><button class="ch" type="button" data-ch="3"><div class="card"><span class="n">CHALLENGE 04</span><span class="q">What happens when you host a dinner party the old way?</span><span class="pl">▶</span></div><h3>The old-school dinner party</h3><p>We follow a Gen X host as they plan a dinner party for their couple friends, with no group chat, no online…</p></button></div>
+  </div>
+</section>
+
+<section class="s cards-s" id="take">
+  <div class="an"><b><i>02</i>Take the challenge</b>Downloadable challenge cards so people can try a no-tech date, trip or party themselves.<div class="fl">Feeds → shared stories and the mini-survey</div></div>
+  <div class="w">
+    <div class="s-head"><div><span class="k">For you</span><h2>Take the challenge</h2></div><p>Download a card, put the phone down and give it a go. Then tell us how it went.</p></div>
+    <div class="tcards"><div class="tcard"><span class="k">Challenge card 01</span><b>The no-tech first date</b><ul><li>No dating apps or texting</li><li>Ask in person</li><li>Plan the night without your phone</li></ul><button class="btn" type="button" data-mock="Downloads the challenge card">Download card ↓</button></div><div class="tcard"><span class="k">Challenge card 02</span><b>Across town with a Refidex</b><ul><li>No maps app</li><li>One paper street directory</li><li>Ask for directions out loud</li></ul><button class="btn" type="button" data-mock="Downloads the challenge card">Download card ↓</button></div><div class="tcard"><span class="k">Challenge card 03</span><b>A new mate at a kids’ party</b><ul><li>No swapping socials</li><li>Make small talk</li><li>Lock in a real plan to catch up</li></ul><button class="btn" type="button" data-mock="Downloads the challenge card">Download card ↓</button></div><div class="tcard"><span class="k">Challenge card 04</span><b>The old-school dinner party</b><ul><li>No group chat</li><li>No online recipes or delivery</li><li>Invite everyone by phone</li></ul><button class="btn" type="button" data-mock="Downloads the challenge card">Download card ↓</button></div></div>
+    <div class="share" style="margin-top:26px">
+      <div><span class="k" style="color:var(--hi)">Share your story</span><h2 style="margin-top:10px;font-size:40px">How did it go?</h2><p style="margin-top:12px;color:#ccc">Upload your own attempt or story. The best are shared on the hub, with your permission.</p></div>
+      <div class="drop"><i>⇪</i><b>Drop a photo, video or voice note</b><button class="btn hi" type="button" data-mock="Opens the story upload">Share your story</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="creators">
+  <div class="an"><b><i>02</i>Meet the creators</b>A short profile for each creator, with links to their channels.<div class="fl">Feeds → creator audiences back to the hub</div></div>
+  <div class="w">
+    <div class="s-head"><div><span class="k">The creators</span><h2>Meet the four</h2></div><p>Four creators from different stages of life, each with an audience that already trusts their honest, everyday stories.</p></div>
+    <div class="cr-g"><div class="cr"><span class="av">01</span><span class="k">Creator 01</span><h3>Gen Z dating creator</h3><p>A Gen Z creator who already authentically shares their dating life. Dating apps are where their generation meets people, so their audience will lean into the challenge.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><span class="av">02</span><span class="k">Creator 02</span><h3>Family creator</h3><p>A family creator who posts everyday life with their kids. Their audience is parents who rely on maps, apps and screens to get through the day.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><span class="av">03</span><span class="k">Creator 03</span><h3>Dad creator</h3><p>A dad creator who talks openly about modern fatherhood. Making friends as an adult is something lots of dads struggle with but rarely talk about.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><span class="av">04</span><span class="k">Creator 04</span><h3>Gen X lifestyle creator</h3><p>A Gen X creator who shares food, entertaining and home life. Their audience will remember planning a night with a phone call and a cookbook.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div></div>
+  </div>
+</section>
+
+<section class="s qa-s" id="questions">
+  <div class="an"><b><i>03</i>Questions page and expert notes</b>The real questions behind each challenge, each with a short answer, plus a take from a social psychologist or relationship expert that makes the content easier for AI tools to cite.<div class="fl">Links on → each challenge page</div></div>
+  <div class="w">
+    <div class="s-head"><div><span class="k">Questions people ask</span><h2>What actually happens when…?</h2></div><p>The real questions behind each challenge, each with a short answer and the episode that tested it.</p></div>
+    <div class="sv">
+      <div>
+        <details open><summary>Date ideas without apps?</summary><div class="ans"><p>Our Gen Z creator organised a whole date without apps or texting. See how they asked, where they went and what both of them thought afterwards.</p><div class="ln"><a href="#" data-ch="0">Watch challenge 01 →</a></div></div></details>
+        <details><summary>How to get somewhere without GPS?</summary><div class="ans"><p>A family of four crossed town to the movies with a paper street directory. Every wrong turn and every stop to ask directions is in the episode.</p><div class="ln"><a href="#" data-ch="1">Watch challenge 02 →</a></div></div></details>
+        <details><summary>How to make friends as an adult?</summary><div class="ans"><p>One dad tried to make a new mate at a kids’ party, with no swapping socials. Did the catch-up actually happen?</p><div class="ln"><a href="#" data-ch="2">Watch challenge 03 →</a></div></div></details>
+        <details><summary>How to plan a dinner party without a group chat?</summary><div class="ans"><p>A Gen X host planned the whole night by phone and cookbook. Here’s how the invites, the menu and the night itself came together.</p><div class="ln"><a href="#" data-ch="3">Watch challenge 04 →</a></div></div></details>
+        <div class="xp"><span class="av">TBC</span><div><span class="k">Expert note</span><q>A short take on each challenge from a social psychologist or relationship expert sits here.</q><small>Expert to be confirmed</small></div></div>
+      </div>
+      <div class="svq" id="svq">
+        <span class="k">Take the mini-survey</span>
+        <h3 style="font-size:26px">Could you go a day without your phone for the everyday stuff?</h3>
+        <div class="opts"><button type="button">Easily</button><button type="button">Some of it</button><button type="button">Not a chance</button></div>
+        <div class="res">See how you measure up against the rest of Australia. Results appear here at launch (mockup).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="media">
+  <div class="an"><b><i>03</i>Media room, built properly for search</b>Episode assets, stills, creator bios and stats for journalists, with transcripts, captions and the right page setup so search engines and AI tools can read and cite it.<div class="fl">Feeds → earned coverage and links back to the hub</div></div>
+  <div class="w">
+    <div class="s-head"><div><span class="k">Media room</span><h2>For journalists</h2></div><p>Everything needed to tell the story of each challenge, in one place.</p></div>
+    <div class="media">
+      <div class="mc"><div class="ic">🎬</div><h3>Episode assets</h3><p>Clips and cut-downs from each challenge for editorial use.</p><a href="#" data-mock="Opens the asset library">Open assets →</a></div>
+      <div class="mc"><div class="ic">🖼</div><h3>Stills</h3><p>Behind-the-scenes and episode stills.</p><a href="#" data-mock="Opens the stills library">View stills →</a></div>
+      <div class="mc"><div class="ic">👤</div><h3>Creator bios</h3><p>Short bios and contact details for each creator.</p><a href="#" data-mock="Downloads creator bios">Download bios →</a></div>
+      <div class="mc"><div class="ic">📊</div><h3>The stats</h3><p>The Youi survey findings behind the challenges.</p><a href="#" data-mock="Downloads the findings">Download findings →</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="s next-s" id="next">
+  <div class="an" style="background:#000;color:#fff"><b style="color:var(--hi)"><i style="background:var(--hi);color:#000">02</i>Be part of what’s next</b>Register interest for the Connection Experiment, which builds the list of participants and audience before it launches.<div class="fl" style="color:#fff">Feeds → The Connection Experiment</div></div>
+  <div class="w">
+    <div><span class="k">Coming next</span><h2>Is it true for everyone?</h2><p>Four creators found the moment always turned out different from what they expected. Now we want to test it properly. Register your interest to be part of the Connection Experiment.</p></div>
+    <div style="display:grid;gap:12px;justify-items:start"><button class="btn" type="button" data-mock="Opens the Connection Experiment registration">Register your interest</button><button class="btn ol" type="button" data-mock="Goes to Youi’s quote page">Prefer a real person? Talk to Youi</button></div>
+  </div>
+</section>
+
+<div class="flow"><section class="flow-s"><div class="w">
+  <span class="k" style="color:var(--hi)">How the hub works together</span>
+  <h2 style="margin-top:8px">One hub, three jobs</h2>
+  <div class="flow-g" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div><i>01</i><h3>The hub</h3><p>A campaign hub and a page for each challenge, with the episode, transcript, behind the scenes and the creator’s diary.</p></div>
+    <div><i>02</i><h3>For audiences</h3><p>Challenge cards, shared stories, creator profiles, the mini-survey and registering for the Connection Experiment.</p></div>
+    <div><i>03</i><h3>For search and AI</h3><p>A questions page, expert notes, a media room and transcripts, built so search engines and AI tools can read and cite it.</p></div>
+  </div>
+</div></section></div>
+
+<footer><div class="w">
+  <div><img src="../media/youi-logo.png" alt="Youi"><small>RE: Connection is presented by Youi. This is a concept mockup prepared by BCM for discussion. Challenges, creators and survey content shown are illustrative.</small></div>
+  <a class="btn hi" href="#top">Back to top ↑</a>
+</div></footer>
+
+<div class="dr" id="dr"><div class="bg" data-close></div><div class="pn">
+  <button class="x" type="button" data-close aria-label="Close">×</button>
+  <span class="k" id="d-n"></span>
+  <h2 id="d-t" style="margin-top:8px"></h2>
+  <div class="vid" id="d-v" style="background:#111"></div>
+  <p id="d-d"></p>
+  <div class="tabs"><button class="on" type="button" data-t="0">Transcript</button><button type="button" data-t="1">Behind the scenes</button><button type="button" data-t="2">Creator’s diary</button><button type="button" data-t="3">Reflections</button></div>
+  <div class="tp on" data-p="0"><p>The full transcript sits here when the episode drops.</p></div>
+  <div class="tp" data-p="1"><p>How the challenge came together, with stills and outtakes.</p></div>
+  <div class="tp" data-p="2"><p>The creator’s diary entries from the build-up, in their own words.</p></div>
+  <div class="tp" data-p="3"><p>Reflections from the creator and the people they met, after the moment itself.</p></div>
+  <div class="next"><span class="k">Try it yourself</span><a href="#take" data-close>Download this challenge card <span>→</span></a><a href="#" data-mock="Opens the story upload">Share how it went <span>→</span></a></div>
+</div></div>
+<div class="toast" id="toast"></div>
+<script>
+const CH = [{"n": "Challenge 01", "t": "What happens when you go on a first date with no tech?", "d": "We follow a Gen Z content creator tasked with organising and going on a date without relying on the use of technology. Like it\u2019s 1995 again. We capture the lead-in to the date, the date itself and then reflections from both the creator and their date after."}, {"n": "Challenge 02", "t": "What happens when a family crosses town with no GPS?", "d": "We follow a family of four as they try to get across town to a cinema they\u2019ve never been to before in time for a movie, without tech to help. A car rigged with GoPros captures every missed turn-off, every stop to ask for directions and every heckle from the back seat."}, {"n": "Challenge 03", "t": "What happens when a dad tries to make a mate at a kids\u2019 party?", "d": "We send a dad and his four-year-old to a kids\u2019 birthday party, where he has to make a new mate and lock in a plan to catch up, with no swapping socials and no \u201cI\u2019ll add you on Insta\u201d."}, {"n": "Challenge 04", "t": "What happens when you host a dinner party the old way?", "d": "We follow a Gen X host as they plan a dinner party for their couple friends, with no group chat, no online recipes, no grocery delivery and no Uber Eats if it all goes wrong. Every invite and every change of plans has to be sorted over the phone or in person."}];
+const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
+const toast = m => { const t = $("#toast"); t.textContent = m + " (mockup)"; t.classList.add("on"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("on"), 1800); };
+const openCh = i => { const c = CH[i]; $("#d-n").textContent = c.n; $("#d-t").textContent = c.t; $("#d-d").textContent = c.d; $$(".dr .tabs button").forEach((b, k) => b.classList.toggle("on", k === 0)); $$(".dr .tp").forEach((p, k) => p.classList.toggle("on", k === 0)); $("#dr").classList.add("on"); };
+document.addEventListener("click", e => {
+  const ch = e.target.closest("[data-ch]"); if(ch){ e.preventDefault(); openCh(+ch.dataset.ch); return; }
+  if(e.target.closest("[data-close]")){ $("#dr").classList.remove("on"); return; }
+  const t = e.target.closest(".dr .tabs button"); if(t){ $$(".dr .tabs button").forEach(b => b.classList.toggle("on", b === t)); $$(".dr .tp").forEach(p => p.classList.toggle("on", p.dataset.p === t.dataset.t)); return; }
+  const m = e.target.closest("[data-mock]"); if(m){ e.preventDefault(); toast(m.dataset.mock); return; }
+  const o = e.target.closest(".svq .opts button"); if(o){ $$(".svq .opts button").forEach(b => b.classList.toggle("on", b === o)); $("#svq").classList.add("done"); }
+});
+document.addEventListener("keydown", e => { if(e.key === "Escape") $("#dr").classList.remove("on"); });
+$("#tg").addEventListener("click", () => document.body.classList.toggle("ann"));
+$$("section.s > .an").forEach(a => { const w = a.parentElement.querySelector(".w"); if(w) w.prepend(a); });
+if(/[?&]how=1/.test(location.search)) document.body.classList.add("ann");
+</script>
+</body>
+</html>
