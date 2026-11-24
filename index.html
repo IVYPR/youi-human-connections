@@ -4318,6 +4318,20 @@ body.hc-editing .v3-spec *{transition:none!important}
 .hth-ride .hth-lock-p{grid-column:1;grid-row:2}
 .hth-ride .hth-lock-b{grid-column:2;grid-row:1/span 2;align-self:center;padding:6px 0 6px 32px}
 @media(max-width:900px){.hth-ride .hth-lock-t,.hth-ride .hth-lock-p,.hth-ride .hth-lock-b{grid-column:1;grid-row:auto}}
+/* Slide 7 reframe: labels and quotes line up across both panels, arrow clear of the text */
+.v3-shift .v3-sh{align-content:start;padding-top:96px;padding-bottom:72px}
+.v3-shift .v3-sh-to{padding-left:120px}
+.v3-shift .v3-sh-from{padding-right:96px}
+.v3-shift .v3-sh-from q,.v3-shift .v3-sh-to q{font-size:52px;line-height:1.08}
+/* Page 9: full-bleed rideshare image with the series lockup and blurb on it */
+section.p9-full{background-image:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0,0,0,.88) 100%),url("media/hth-rideshare2.jpg")!important;background-size:cover!important;background-position:center!important;color:#fff}
+.p9-full .wrap{display:grid;align-content:end;min-height:560px}
+.p9-full .hth-lock{grid-template-columns:auto minmax(0,500px);column-gap:48px;row-gap:8px;align-items:center;max-width:none}
+.p9-full .hth-lock .hth-lock-t{grid-column:1;grid-row:1;font-size:104px;white-space:nowrap;color:#fff}
+.p9-full .hth-lock .hth-lock-w{grid-column:1;grid-row:2;font-size:36px;color:#fff}
+.p9-full .hth-lock .hth-lock-p{grid-column:1;grid-row:3;margin-top:6px;color:#fff}
+.p9-full .hth-lock .hth-lock-b{grid-column:2;grid-row:1/span 3;align-self:center;font-size:18px;line-height:1.5;margin:0;padding:6px 0 6px 30px;border-top:0;border-left:1px solid rgba(255,255,255,.45);color:#fff;max-width:500px}
+@media(max-width:900px){.p9-full .hth-lock{grid-template-columns:1fr}.p9-full .hth-lock>*{grid-column:1!important;grid-row:auto!important}.p9-full .hth-lock .hth-lock-t{white-space:normal;font-size:60px}}
 
 </style>
 </head>
