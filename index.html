@@ -4210,6 +4210,76 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 .v3-two-3 .v3-two-c p{font-size:16px}
 @media(max-width:900px){.v3-two.v3-two-3{grid-template-columns:1fr}}
 
+/* ===== Recap: what we heard / what we've done (tabbed) ===== */
+.v3-rc{grid-template-columns:300px minmax(0,1fr);gap:40px;margin-top:30px}
+.v3-rc .v3-tab{font-size:21px;padding:11px 14px;display:flex;gap:12px;align-items:baseline}
+.v3-rc .v3-tab i{font-style:normal;font-family:var(--font-body);font-size:12px;font-weight:800;letter-spacing:.08em;opacity:.55}
+.v3-rc .v3-tab.on i{opacity:.8}
+.v3-rc-pair{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1.15fr);gap:22px;align-items:stretch;min-height:390px}
+.v3-rc-h,.v3-rc-d{display:grid;align-content:start;gap:16px;padding:30px 30px 34px}
+.v3-rc-h{border:2px solid currentColor}
+.v3-rc-h p{font-size:22px;line-height:1.45;opacity:.85}
+.v3-rc-d{background:var(--yellow);color:#000}
+.v3-rc-d p{font-size:25px;line-height:1.4;font-weight:600}
+.v3-rc-pair .mono{opacity:.65}
+.v3-rc-ar{align-self:center;justify-self:center;width:52px;height:52px;border-radius:50%;background:#000;color:var(--yellow);display:grid;place-items:center;font-size:24px}
+.v3-rc-hint{margin-top:18px;opacity:.45;text-align:right}
+@media(max-width:900px){.v3-rc{grid-template-columns:1fr}.v3-rc-pair{grid-template-columns:1fr;min-height:0}.v3-rc-ar{transform:rotate(90deg)}}
+
+/* ===== Role of Youi: brand spectrum ===== */
+.v3-sp-copy{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;max-width:1240px}
+.v3-sp-copy p{font-size:17px;line-height:1.5}
+.v3-spec{position:relative;margin-top:24px;display:grid;grid-template-columns:150px minmax(0,1fr) 150px;align-items:center;gap:18px;height:470px}
+.v3-sp-end{display:grid;gap:6px;align-self:center}
+.v3-sp-end b{font-family:var(--font-display);font-size:38px;line-height:.9;letter-spacing:.02em}
+.v3-sp-end span{font-size:12px;line-height:1.35;font-weight:700;letter-spacing:.04em;opacity:.65}
+.v3-sp-l{text-align:right}
+.v3-sp-r b{color:#000;background:var(--yellow);justify-self:start;padding:4px 8px 2px}
+.v3-sp-track{position:relative;height:100%}
+.v3-sp-bar{position:absolute;left:0;right:0;top:50%;height:16px;transform:translateY(-50%) scaleX(0);transform-origin:left;border-radius:8px;background:linear-gradient(90deg,rgba(251,232,7,.14),rgba(251,232,7,.55) 45%,var(--yellow));box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.v3-sp-m{position:absolute;left:var(--x);top:50%;width:0;height:0}
+.v3-sp-dot{position:absolute;left:-13px;top:-13px;width:26px;height:26px;border-radius:50%;background:var(--yellow);border:3px solid #000;box-sizing:border-box;z-index:2;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.6,.5,1) calc(.5s + var(--i) * .12s)}
+.v3-sp-dot[data-l="Light"]{background:#fff7b0}.v3-sp-dot[data-l="Named"]{background:#fdf07a}.v3-sp-dot[data-l="Clear"]{background:#fcec4a}
+.v3-sp-ln{position:absolute;left:-1px;width:2px;background:currentColor;opacity:.55;height:62px;transform:scaleY(0);transition:transform .35s ease calc(.65s + var(--i) * .12s)}
+.v3-sp-up .v3-sp-ln{bottom:13px;transform-origin:bottom}
+.v3-sp-dn .v3-sp-ln{top:13px;transform-origin:top}
+.v3-sp-c{position:absolute;width:218px;left:-109px;display:grid;gap:5px;opacity:0;transition:opacity .4s ease calc(.8s + var(--i) * .12s),transform .4s ease calc(.8s + var(--i) * .12s)}
+.v3-sp-up .v3-sp-c{bottom:82px;transform:translateY(8px)}
+.v3-sp-dn .v3-sp-c{top:82px;transform:translateY(-8px)}
+.v3-sp-al .v3-sp-c{left:-20px}.v3-sp-ar .v3-sp-c{left:auto;right:-20px;text-align:right}
+.v3-sp-c b{font-size:15px;font-weight:800;line-height:1.2;text-transform:uppercase;letter-spacing:.02em}
+.v3-sp-c p{font-size:14px;line-height:1.4;opacity:.85}
+.v3-spec.go .v3-sp-bar{transform:translateY(-50%) scaleX(1)}
+.v3-spec.go .v3-sp-dot{transform:scale(1)}
+.v3-spec.go .v3-sp-ln{transform:scaleY(1)}
+.v3-spec.go .v3-sp-c{opacity:1;transform:none}
+body.hc-editing .v3-spec *{transition:none!important}
+@media(max-width:900px){.v3-sp-copy{grid-template-columns:1fr}.v3-spec{display:block;height:auto}.v3-sp-track{display:grid;gap:14px}.v3-sp-bar{position:static;transform:none;margin:10px 0}.v3-sp-m{position:static;width:auto;height:auto;padding-left:26px}.v3-sp-dot{left:0;top:2px;transform:none;width:16px;height:16px}.v3-sp-ln{display:none}.v3-sp-c{position:static;width:auto;opacity:1;transform:none;text-align:left!important}.v3-sp-l{text-align:left}}
+
+/* ===== RE: Connection to the Connection Experiment: lighter sub-headings ===== */
+.v3-r2f-sub{font-family:var(--font-body);font-size:19px;line-height:1.35;font-weight:400;opacity:.75;margin-top:6px}
+
+/* ===== The three ideas, side by side ===== */
+.v3-i3-s .wrap{display:grid;align-content:center;min-height:620px}
+.v3-i3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 70px minmax(0,1fr);gap:26px;align-items:start}
+.v3-i3-c{margin:0;display:grid;gap:18px}
+.v3-i3-img{aspect-ratio:16/10;background:#111 center/cover no-repeat;border:1px solid #333}
+.v3-i3-c figcaption{display:grid;gap:10px}
+.v3-i3-c b{font-family:var(--font-display);text-transform:uppercase;font-size:38px;line-height:1;font-weight:600}
+.v3-i3-c p{font-size:17px;line-height:1.45;opacity:.82}
+.v3-i3-ar{display:block}
+.v3-i3-c:last-child .v3-i3-img{position:relative}
+.v3-i3-c:last-child .v3-i3-img::before{content:"";position:absolute;left:-112px;width:92px;top:50%;border-top:2px dashed rgba(255,255,255,.6)}
+.v3-i3-c:last-child .v3-i3-img::after{content:"";position:absolute;left:-22px;top:calc(50% - 6px);border-left:11px solid rgba(255,255,255,.75);border-top:7px solid transparent;border-bottom:7px solid transparent}
+@media(max-width:900px){.v3-i3{grid-template-columns:1fr}.v3-i3-ar{display:none}}
+
+/* ===== Full screen button on embedded videos ===== */
+.hc-fsv{all:unset;position:absolute;right:8px;top:8px;z-index:5;cursor:pointer;width:34px;height:34px;border-radius:6px;background:rgba(0,0,0,.72);color:#fff;display:grid;place-items:center;font-size:18px;line-height:1;opacity:.8;transition:opacity .2s,background .2s}
+.hc-fsv:hover{opacity:1;background:#000}
+.hc-fsv-host{position:relative}
+.v3-sp-m .v3-sp-dot{display:block;width:26px!important;height:26px!important;min-height:0;aspect-ratio:1/1;padding:0;margin:0}
+.v3-i3-c:last-child .v3-i3-img{background-size:auto 116%}
+
 </style>
 </head>
 <body>
@@ -4240,10 +4310,14 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 </header>
 
 
-<section id="what-we-heard" class="stop dk v3-s" data-dw="1440" data-title="What we heard">
+<section id="what-we-heard" class="stop dk v3-s" data-dw="1440" data-title="Recap: what we’ve heard">
   <div class="wrap">
-    <h2 class="dk-h"><span class="dk-k">What we heard.</span><span>How the idea evolved.</span></h2>
-    <div class="v3-heard rv-kids"><div class="v3-hc"><b class="v3-num">01</b><h3>TITLE</h3><p class="v3-hw"><span class="mono">What we heard</span><span class="v3-lorem">Content to go here.</span></p><p class="v3-he"><span class="mono">How it evolved</span><span class="v3-lorem">Content to go here.</span></p></div><div class="v3-hc"><b class="v3-num">02</b><h3>TITLE</h3><p class="v3-hw"><span class="mono">What we heard</span><span class="v3-lorem">Content to go here.</span></p><p class="v3-he"><span class="mono">How it evolved</span><span class="v3-lorem">Content to go here.</span></p></div><div class="v3-hc"><b class="v3-num">03</b><h3>TITLE</h3><p class="v3-hw"><span class="mono">What we heard</span><span class="v3-lorem">Content to go here.</span></p><p class="v3-he"><span class="mono">How it evolved</span><span class="v3-lorem">Content to go here.</span></p></div><div class="v3-hc"><b class="v3-num">04</b><h3>TITLE</h3><p class="v3-hw"><span class="mono">What we heard</span><span class="v3-lorem">Content to go here.</span></p><p class="v3-he"><span class="mono">How it evolved</span><span class="v3-lorem">Content to go here.</span></p></div></div>
+    <h2 class="dk-h"><span class="dk-k">Recap:</span><span>What we’ve heard across the work</span></h2>
+    <div class="v3-tabs v3-rc" data-tabs>
+      <div class="v3-tablist" role="tablist"><button type="button" class="v3-tab on" data-tab="0"><i>01</i>Human Moments Matter</button><button type="button" class="v3-tab" data-tab="1"><i>02</i>Encourage, not instruct</button><button type="button" class="v3-tab" data-tab="2"><i>03</i>Tone</button><button type="button" class="v3-tab" data-tab="3"><i>04</i>Youi’s role</button><button type="button" class="v3-tab" data-tab="4"><i>05</i>Tech and human balance</button><button type="button" class="v3-tab" data-tab="5"><i>06</i>Longevity</button><button type="button" class="v3-tab" data-tab="6"><i>07</i>What’s achievable</button></div>
+      <div class="v3-tpanes"><div class="v3-tp on" data-tp="0"><div class="v3-rc-pair"><div class="v3-rc-h"><span class="mono">What we heard</span><p>The broader territory of Human Moments Matter needs to be at the centre - the work needs to demonstrate and celebrate the value of this, rather than introducing another overarching platform.</p></div><b class="v3-rc-ar" aria-hidden="true">→</b><div class="v3-rc-d"><span class="mono">What we’ve done</span><p>Remove the ‘You and I’ platform to more carefully bring both ideas back to Human Moments Matter territory.</p></div></div></div><div class="v3-tp" data-tp="1"><div class="v3-rc-pair"><div class="v3-rc-h"><span class="mono">What we heard</span><p>Youi should encourage, not instruct. We need to avoid positioning Youi as an authority on how people should connect.</p></div><b class="v3-rc-ar" aria-hidden="true">→</b><div class="v3-rc-d"><span class="mono">What we’ve done</span><p>Adjust the tone to be more human and relatable, exploring more heart-felt and wholesome content themes. We have also amended structure of content to remove any prescriptive nature that could feel condescending.</p></div></div></div><div class="v3-tp" data-tp="2"><div class="v3-rc-pair"><div class="v3-rc-h"><span class="mono">What we heard</span><p>The tone needs to feel more genuine to Youi’s brand, prioritising strength, value and authenticity - moving away from heavy humour-led executions.</p></div><b class="v3-rc-ar" aria-hidden="true">→</b><div class="v3-rc-d"><span class="mono">What we’ve done</span><p>Humour is still incorporated but through more earnest, warm and wholesome expressions. Examples of human moments and connection have been brought closer to real-life, applicable and relatable iterations.</p></div></div></div><div class="v3-tp" data-tp="3"><div class="v3-rc-pair"><div class="v3-rc-h"><span class="mono">What we heard</span><p>Youi’s role needs to be clarified - and potentially strengthened - in ideas, making sure the role of the brand is understood.</p></div><b class="v3-rc-ar" aria-hidden="true">→</b><div class="v3-rc-d"><span class="mono">What we’ve done</span><p>Consider role level across all content channels, providing a spectrum view of the brand role we see across the full ecosystem.</p></div></div></div><div class="v3-tp" data-tp="4"><div class="v3-rc-pair"><div class="v3-rc-h"><span class="mono">What we heard</span><p>We need to keep a balance between tech and human connection, avoiding anything that feels anti-tech or dated.</p></div><b class="v3-rc-ar" aria-hidden="true">→</b><div class="v3-rc-d"><span class="mono">What we’ve done</span><p>Celebrate what tech has given us, as a tool to show (not tell) people of the human moments worth keeping.</p></div></div></div><div class="v3-tp" data-tp="5"><div class="v3-rc-pair"><div class="v3-rc-h"><span class="mono">What we heard</span><p>The ideas need to be built for longevity, not just a launch. We need to consider repeatability, longevity and amplification of all ideas.</p></div><b class="v3-rc-ar" aria-hidden="true">→</b><div class="v3-rc-d"><span class="mono">What we’ve done</span><p>Consider campaign sequencing, ability to create recurring content, and particularly for The Connection Experiment, how iterations can flow into others to create a more sustained presence across the year.</p></div></div></div><div class="v3-tp" data-tp="6"><div class="v3-rc-pair"><div class="v3-rc-h"><span class="mono">What we heard</span><p>We need to understand what is and is not achievable in this brief, and consider what above and beyond could look like.</p></div><b class="v3-rc-ar" aria-hidden="true">→</b><div class="v3-rc-d"><span class="mono">What we’ve done</span><p>Solidify what rollout could look like for both How To Human and an iteration of The Connection Experiment within this brief, accompanied by bigger picture thinking for The Connection Experiment to live at its full ambition.</p></div></div></div></div>
+    </div>
+    <p class="v3-rc-hint mono" aria-hidden="true">Click through each theme</p>
   </div>
 </section>
 
@@ -4405,7 +4479,7 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
     <p class="v3-intro">Long-form hero content will live on YouTube with cut-downs and shorts used to build context, interest and attention around the idea. Each long-form piece can be edited down into a made-for-format approach to seeding content. With certain channels connecting more with certain audiences, the approach means the content will reach a broad audience, in a way that is native to their platform experience.</p>
     <div class="v3-tabs" data-tabs>
       <div class="v3-tablist" role="tablist"><button type="button" class="v3-tab on" data-tab="0">YouTube</button><button type="button" class="v3-tab" data-tab="1">Instagram</button><button type="button" class="v3-tab" data-tab="2">TikTok</button><button type="button" class="v3-tab" data-tab="3">Facebook</button></div>
-      <div class="v3-tpanes"><div class="v3-tp on" data-tp="0"><table class="ap-t v3-t"><thead><tr><th>Possible formats · YouTube</th><th>What it is</th></tr></thead><tbody><tr><td>Full episode</td><td>The 3+ minute hero episodes</td></tr><tr><td>Shorts</td><td>The funniest moments (one per Short)</td></tr><tr><td>Caller voicemail</td><td>The caller’s message with Matt’s reaction (shorts)</td></tr><tr><td>Extended cuts</td><td>Longer interviews in a playlist</td></tr></tbody></table></div><div class="v3-tp" data-tp="1"><table class="ap-t v3-t"><thead><tr><th>Possible formats · Instagram</th><th>What it is</th></tr></thead><tbody><tr><td>Reels</td><td>Best moments cut for the feed</td></tr><tr><td>Teasers</td><td>Previews before each episode drops</td></tr><tr><td>Survey stats</td><td>Simple, shareable stat cards</td></tr><tr><td>Stories</td><td>Polls asking “What do you need help with?”</td></tr></tbody></table></div><div class="v3-tp" data-tp="2"><table class="ap-t v3-t"><thead><tr><th>Possible formats · TikTok</th><th>What it is</th></tr></thead><tbody><tr><td>Native cuts</td><td>Fast edits of the best moments</td></tr><tr><td>Comment replies</td><td>Matt answering questions in short videos</td></tr></tbody></table></div><div class="v3-tp" data-tp="3"><table class="ap-t v3-t"><thead><tr><th>Possible formats · Facebook</th><th>What it is</th></tr></thead><tbody><tr><td>Episode cut</td><td>Full or long cut for an older audience</td></tr><tr><td>Nostalgia posts</td><td>“Remember when you rang a friend’s house?”</td></tr><tr><td>Community prompts</td><td>People sharing their own stories</td></tr></tbody></table></div></div>
+      <div class="v3-tpanes"><div class="v3-tp on" data-tp="0"><table class="ap-t v3-t"><thead><tr><th>Possible formats · YouTube</th><th>What it is</th></tr></thead><tbody><tr><td>Full episode</td><td>The 3+ minute hero episodes</td></tr><tr><td>Shorts</td><td>The funniest moments (one per Short)</td></tr><tr><td>Caller voicemail</td><td>The caller’s message with Matt’s reaction (shorts)</td></tr><tr><td>Extended cuts</td><td>Longer interviews in a playlist</td></tr><tr><td>Episodic Podcast</td><td>Ongoing podcast exploring the advice from everyday people about everyday moments of human connection</td></tr></tbody></table></div><div class="v3-tp" data-tp="1"><table class="ap-t v3-t"><thead><tr><th>Possible formats · Instagram</th><th>What it is</th></tr></thead><tbody><tr><td>Reels</td><td>Best moments cut for the feed</td></tr><tr><td>Teasers</td><td>Previews before each episode drops</td></tr><tr><td>Survey stats</td><td>Simple, shareable stat cards &amp; carousels</td></tr><tr><td>Stories</td><td>Polls asking “What do you need help with?”</td></tr></tbody></table></div><div class="v3-tp" data-tp="2"><table class="ap-t v3-t"><thead><tr><th>Possible formats · TikTok</th><th>What it is</th></tr></thead><tbody><tr><td>Native cuts</td><td>Made for format edits of the episodes</td></tr><tr><td>Comment replies</td><td>Matt answering questions in short videos</td></tr></tbody></table></div><div class="v3-tp" data-tp="3"><table class="ap-t v3-t"><thead><tr><th>Possible formats · Facebook</th><th>What it is</th></tr></thead><tbody><tr><td>Episode cut</td><td>Full or long cut for an older audience</td></tr><tr><td>Nostalgia posts</td><td>“Remember when we used to...?”</td></tr><tr><td>Comment prompts</td><td>Prompt people to share their POV in the comments</td></tr></tbody></table></div></div>
     </div>
   </div>
 </section>
@@ -4420,15 +4494,17 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 </section>
 
 
-<section id="how-to-human-youi" class="stop dk v3-s" data-dw="1440" data-title="How To Human: the role of Youi">
+<section id="how-to-human-youi" class="stop dk v3-s v3-sp-s" data-dw="1440" data-title="How To Human: the role of Youi">
   <div class="wrap">
-    <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>The role of Youi</span></h2>
-    <div class="v3-role">
-      <div class="v3-role-l">
-        <p>The role Youi plays will differ by format. Essentially, the recommendation would be that the longer someone spends with the content, the lighter the brand and the faster they scroll through the format, the clearer the brand.</p>
-        <p>This means we plot our content out along a spectrum of branding from long-form episodes ‘presented by Youi’ to static posts and survey result carousels that have a branded ‘How To Human’ lockup and look and feel that connects them to the brand far more clearly.</p>
-      </div>
-      <div class="v3-role-r"><table class="ap-t v3-t v3-brandt"><thead><tr><th>Format</th><th>How Youi shows up</th><th class="v3-lvl" data-l="Brand presence"></th></tr></thead><tbody class="rv-kids"><tr><td>Long-form episodes</td><td>“Presented by Youi” at the start and end, and Matt credits Youi as the source of the research. Youi sits in the premise through the survey and voicemail line. No mid-roll selling.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Light" style="--lv:22%;--d:0.20s"><i></i></span></td></tr><tr><td>Social cutdowns</td><td>Youi visible early, in the opening seconds, plus an end frame and a caption</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Clear" style="--lv:65%;--d:0.34s"><i></i></span></td></tr><tr><td>Static posts and carousels</td><td>A branded How to Human template in Youi’s look</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Strong" style="--lv:88%;--d:0.48s"><i></i></span></td></tr><tr><td>Survey stats</td><td>Clearly Youi’s research: “Youi asked Australians...”</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Strong" style="--lv:85%;--d:0.62s"><i></i></span></td></tr><tr><td>Website hub</td><td>Fully Youi, since it’s Youi’s own site</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Full" style="--lv:100%;--d:0.76s"><i></i></span></td></tr><tr><td>Earned</td><td>Youi named as the source of the survey</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Named" style="--lv:45%;--d:0.90s"><i></i></span></td></tr></tbody></table><div class="v3-axis" aria-hidden="true" data-a="Longer time with the content" data-b="Faster scroll"><i></i></div></div>
+    <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span>ROLE OF Youi BrAND</span></h2>
+    <div class="v3-sp-copy">
+      <p>The role Youi plays will differ by format. Every piece of content will need to be branded, however the longer someone spends with the content, the lighter or more ambient the role of the brand and the faster they scroll through the format, the stronger and clearer the brand needs to be.</p>
+      <p>This means we plot our content out along a spectrum of branding from long-form episodes ‘presented by Youi’ to static posts and survey result carousels that have a Youi branded ‘How To Human’ lockup and look and feel that connects them to the brand far more clearly.</p>
+    </div>
+    <div class="v3-spec">
+      <div class="v3-sp-end v3-sp-l"><b>LIGHT</b><span>← Longer time with the content: lighter brand</span></div>
+      <div class="v3-sp-track"><div class="v3-sp-bar"></div><div class="v3-sp-m v3-sp-up v3-sp-al" style="--x:5.0%;--i:0"><i class="v3-sp-dot" data-l="Light"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Long-form episodes</b><p>“Presented by Youi” at the start and end, and Matt credits Youi as the source of the research. Youi sits in the premise through the survey and voicemail line.</p></div></div><div class="v3-sp-m v3-sp-dn" style="--x:29.0%;--i:1"><i class="v3-sp-dot" data-l="Named"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Earned</b><p>Youi named as the source of the survey.</p></div></div><div class="v3-sp-m v3-sp-up" style="--x:50.0%;--i:2"><i class="v3-sp-dot" data-l="Clear"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Social cutdowns</b><p>Youi visible early, in the opening seconds, plus an end frame and a caption.</p></div></div><div class="v3-sp-m v3-sp-dn" style="--x:66.5%;--i:3"><i class="v3-sp-dot" data-l="Strong"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Static posts and carousels</b><p>A branded How to Human template in Youi’s look.</p></div></div><div class="v3-sp-m v3-sp-up" style="--x:75.5%;--i:4"><i class="v3-sp-dot" data-l="Strong"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Survey stats</b><p>Clearly branded as Youi’s research: “Youi asked Australians...”</p></div></div><div class="v3-sp-m v3-sp-dn v3-sp-ar" style="--x:95.0%;--i:5"><i class="v3-sp-dot" data-l="Full"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Website hub</b><p>Fully Youi, since it’s Youi’s own site.</p></div></div></div>
+      <div class="v3-sp-end v3-sp-r"><b>FULL</b><span>Faster scroll: stronger brand →</span></div>
     </div>
   </div>
 </section>
@@ -4495,9 +4571,9 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
           <div class="hth-p1">
             <div>
               <h2 class="dk-h ts-long"><span class="dk-k">Idea 2:</span><span>RE: Connection</span></h2>
-              <p class="dk-sub hth-rolek"></p>
+              <p class="dk-sub hth-rolek">An idea that takes away the tech and asks, “What happens when...?”, to see whether human moments are as hard as we think.</p>
               <div class="hth-copy hth-simple">
-                <p class="hth-body">As technology has become part of everyday life, it’s slowly taken us further away from some of life’s simple human moments.</p>
+                <p class="hth-body">A series of mini experiments set out in the real world, exploring what happens when we put down the devices we’ve come to rely on day to day and open ourselves up to real human connection. Four creators take on four different challenges in experiences where they normally rely on tech, to discover “What happens when...?” and see whether human moments are really as complicated as we think.<br><br>Designed to work as a standalone series, or as the prelude to The Connection Experiment.</p>
                 
               </div>
             </div>
@@ -4605,15 +4681,17 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 </section>
 
 
-<section id="connection-experiment-youi" class="stop dk v3-s v3-pink" data-dw="1440" data-title="RE: Connection: the role of Youi">
+<section id="connection-experiment-youi" class="stop dk v3-s v3-sp-s v3-pink" data-dw="1440" data-title="RE: Connection: the role of Youi">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 2: RE: Connection</span><span>The role of Youi</span></h2>
-    <div class="v3-role">
-      <div class="v3-role-l">
-        <p>As with How To Human, the longer someone spends with the content, the lighter the brand, and the faster they scroll, the clearer the brand.</p>
-        <p>The creators’ own channels sit in the middle: their voice first, with Youi clearly named as the partner behind the challenge.</p>
-      </div>
-      <div class="v3-role-r"><table class="ap-t v3-t v3-brandt"><thead><tr><th>Format</th><th>How Youi shows up</th><th class="v3-lvl" data-l="Brand presence"></th></tr></thead><tbody class="rv-kids"><tr><td>Long-form episodes</td><td>“Presented by Youi” at the start and end, and the narrator credits Youi as the source of the research.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Light" style="--lv:22%;--d:0.20s"><i></i></span></td></tr><tr><td>Creator channels</td><td>A paid partnership tag, with Youi named in the caption and the collab post.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Named" style="--lv:45%;--d:0.34s"><i></i></span></td></tr><tr><td>Social cutdowns</td><td>Youi visible early, in the opening seconds, plus an end frame and a caption.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Clear" style="--lv:65%;--d:0.48s"><i></i></span></td></tr><tr><td>Challenge cards</td><td>A branded card in Youi’s look.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Strong" style="--lv:88%;--d:0.62s"><i></i></span></td></tr><tr><td>Website hub</td><td>Fully Youi, since it’s Youi’s own site.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Full" style="--lv:100%;--d:0.76s"><i></i></span></td></tr><tr><td>Earned</td><td>Youi named as the source of the survey.</td><td class="v3-lvl"><span class="v3-bmeter" data-l="Named" style="--lv:45%;--d:0.90s"><i></i></span></td></tr></tbody></table><div class="v3-axis" aria-hidden="true" data-a="Longer time with the content" data-b="Faster scroll"><i></i></div></div>
+    <div class="v3-sp-copy">
+      <p>As with How To Human, the longer someone spends with the content, the lighter the brand, and the faster they scroll, the clearer the brand.<br><br>In How to Human, Youi sits in the background through the survey and the voicemail line, coming into prominence at points throughout the content. In RE: Connection, Youi actually sets the challenge, and that gives the long-form episodes a natural way to bring the brand in without selling.</p>
+      <p>The creators’ own channels sit in the middle: their voice comes first, with Youi clearly named as the partner behind the challenge.</p>
+    </div>
+    <div class="v3-spec">
+      <div class="v3-sp-end v3-sp-l"><b>LIGHT</b><span>← Longer time with the content: lighter brand</span></div>
+      <div class="v3-sp-track"><div class="v3-sp-bar"></div><div class="v3-sp-m v3-sp-up v3-sp-al" style="--x:5.0%;--i:0"><i class="v3-sp-dot" data-l="Light"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Long-form episodes</b><p>“Presented by Youi” at the start and end, and the narrator credits Youi with the research and the challenge.</p></div></div><div class="v3-sp-m v3-sp-dn" style="--x:24.5%;--i:1"><i class="v3-sp-dot" data-l="Named"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Creator channels</b><p>A paid partnership tag, with Youi named in the caption and the collab post.</p></div></div><div class="v3-sp-m v3-sp-up" style="--x:33.5%;--i:2"><i class="v3-sp-dot" data-l="Named"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Earned</b><p>Youi named as the source of the survey.</p></div></div><div class="v3-sp-m v3-sp-dn" style="--x:50.0%;--i:3"><i class="v3-sp-dot" data-l="Clear"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Social cutdowns</b><p>Youi visible early, in the opening seconds, plus an end frame and a caption.</p></div></div><div class="v3-sp-m v3-sp-up" style="--x:71.0%;--i:4"><i class="v3-sp-dot" data-l="Strong"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Challenge cards</b><p>A branded card in Youi’s look.</p></div></div><div class="v3-sp-m v3-sp-dn v3-sp-ar" style="--x:95.0%;--i:5"><i class="v3-sp-dot" data-l="Full"></i><span class="v3-sp-ln"></span><div class="v3-sp-c"><b>Website hub</b><p>Fully Youi, since it’s Youi’s own site.</p></div></div></div>
+      <div class="v3-sp-end v3-sp-r"><b>FULL</b><span>Faster scroll: stronger brand →</span></div>
     </div>
   </div>
 </section>
@@ -4641,11 +4719,11 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 
 <section id="re-to-full" data-after="pg-mwstgt20tcll" class="stop dk v3-s" data-dw="1440" data-title="RE: Connection to the Connection Experiment">
   <div class="wrap">
-    <h2 class="dk-h"><span class="dk-k">From RE: Connection to the Connection Experiment</span><span>TITLE</span></h2>
+    <h2 class="dk-h"><span class="dk-k">From RE: Connection to the Connection Experiment</span><span>Evolving the idea</span></h2>
     <div class="v3-r2f rv-kids">
-      <figure class="v3-r2f-box"><div class="v3-r2f-img" style="background-image:url(media/ce-box.jpg)"></div><figcaption><span class="mono">Idea 2</span><b>RE: Connection</b></figcaption></figure>
+      <figure class="v3-r2f-box"><div class="v3-r2f-img" style="background-image:url(media/ce-box.jpg)"></div><figcaption><span class="mono">Idea 2</span><b>RE: Connection</b><span class="v3-r2f-sub">Putting the survey to the test by Asking the question...</span></figcaption></figure>
       <i class="v3-r2f-ar" aria-hidden="true">→</i>
-      <figure class="v3-r2f-box"><div class="v3-r2f-img" style="background-image:url(media/ce-trailer-final.jpg)"></div><figcaption><span class="mono">The full idea</span><b>The Connection Experiment</b></figcaption></figure>
+      <figure class="v3-r2f-box"><div class="v3-r2f-img" style="background-image:url(media/ce-trailer-final.jpg)"></div><figcaption><span class="mono">The full idea</span><b>The Connection Experiment</b><span class="v3-r2f-sub">Putting Human connection to the test by Answering it with proof.</span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -4693,13 +4771,13 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
 </section>
 <section id="full-experiment-evidence" class="stop dk idea-s hth" data-dw="1440" data-title="The Connection Experiment: An engine for evidence.">
   <div class="wrap">
-    <div class="ix-step" data-steps>
+    <div class="ix-step">
       <div class="ix-panes">
         <div class="ix-pane">
           <h2 class="dk-h"><span class="dk-k">The full idea:</span><span>The Connection Experiment</span></h2>
           <p class="dk-sub">An engine for evidence.</p>
-          <div class="hth-top"><div class="hth-ch ix-r" style="--n:5"><div><span class="mono">Content</span><p>Documentary storytelling</p></div><div><span class="mono">Paid / Owned</span><p>Documentary launch</p></div><div><span class="mono">Social</span><p>Daily participant journeys</p></div><div><span class="mono">Earned</span><p>National release of findings</p></div><div><span class="mono">Search</span><p>Research-driven authority content</p></div></div><div class="hth-notes ix-r" style="--n:5"><p style="grid-column:span 1">Produced, documentary-style film cut into episodes, leveraging a university or research partner to conduct a real-life experiment on camera.</p><p style="grid-column:span 1">Episodes launched, potentially via a media partner, and hosted as owned website content.</p><p style="grid-column:span 1">Short cut-downs run across socials, driving views to full episodes.</p><p style="grid-column:span 1">Experiment findings and participant comments form a research-led national news story.</p><p style="grid-column:span 1">The launch, each episode drop, the study results and then the state findings are all separate news cycles. Each cycle is another chance to earn the type of high-authority editorial links that actually moved our Domain Rating this year.</p></div></div>
-          <div class="hth-bot ix-r"><div class="hth-pab-k mono">People. Algorithms. Brand.</div>
+          <div class="hth-top"><div class="hth-ch" style="--n:5"><div><span class="mono">Content</span><p>Documentary storytelling</p></div><div><span class="mono">Paid / Owned</span><p>Documentary launch</p></div><div><span class="mono">Social</span><p>Daily participant journeys</p></div><div><span class="mono">Earned</span><p>National release of findings</p></div><div><span class="mono">Search</span><p>Research-driven authority content</p></div></div><div class="hth-notes" style="--n:5"><p style="grid-column:span 1">Produced, documentary-style film cut into episodes, leveraging a university or research partner to conduct a real-life experiment on camera.</p><p style="grid-column:span 1">Episodes launched, potentially via a media partner, and hosted as owned website content.</p><p style="grid-column:span 1">Short cut-downs run across socials, driving views to full episodes.</p><p style="grid-column:span 1">Experiment findings and participant comments form a research-led national news story.</p><p style="grid-column:span 1">The launch, each episode drop, the study results and then the state findings are all separate news cycles. Each cycle is another chance to earn the type of high-authority editorial links that actually moved our Domain Rating this year.</p></div></div>
+          <div class="hth-bot"><div class="hth-pab-k mono">People. Algorithms. Brand.</div>
           <div class="hth-pab"><div><b>People:</b><p>Reconsider the value of human interaction.</p></div><div><b>Algorithms:</b><p>Associate Youi with credible research.</p></div><div><b>Brand:</b><p>Positions Youi as a champion of human connection.</p></div></div></div>
         </div>
       </div>
@@ -4707,6 +4785,32 @@ body.hc-editing [data-ve]:hover{outline:1px dashed var(--yellow);outline-offset:
     </div>
   </div>
 </section>
+
+<section id="how-to-human-worked-2" data-after="how-to-human-worked" class="stop dk v3-s dark v3-wk-sum" data-dw="1440" data-title="How To Human: a worked episode (small talk)">
+  <div class="wrap">
+    <h2 class="dk-h"><span class="dk-k">Idea 1: How To Human</span><span></span></h2>
+    <div class="v3-wk rv-kids">
+      <div class="v3-wk-c"><span class="mono">01 · The survey question</span><p>When did you last start a conversation with a stranger?</p></div>
+      <div class="v3-wk-c v3-wk-stat"><span class="mono">02 · A possible finding</span><b>68% of Gen&nbsp;Z</b><p>Would rather look at their phone than make small talk with a stranger.</p></div>
+      <div class="v3-wk-c v3-wk-vm"><span class="mono">03 · The voicemail</span><div class="v3-wave" aria-hidden="true"><i style="--h:30%"></i><i style="--h:55%"></i><i style="--h:80%"></i><i style="--h:45%"></i><i style="--h:95%"></i><i style="--h:60%"></i><i style="--h:35%"></i><i style="--h:70%"></i><i style="--h:90%"></i><i style="--h:50%"></i><i style="--h:25%"></i><i style="--h:65%"></i><i style="--h:85%"></i><i style="--h:40%"></i><i style="--h:75%"></i><i style="--h:55%"></i><i style="--h:30%"></i><i style="--h:60%"></i><i style="--h:45%"></i><i style="--h:20%"></i></div><p>“Every day I see the same guy on the train. Every day we share an awkward smile. I sit down praying he doesn’t talk to me. Then when he doesn’t, I feel weird about that too. How do people just... chat? Help me out, Matt!”<br><br>Jess, NSW.</p></div>
+      <div class="v3-wk-c v3-wk-matt"><span class="mono">04 · Matt’s opening line</span><p>When did you last have a proper chat with a stranger? And I don’t mean “thanks mate” at the self-checkout.<br><br>I had to think about it.<br>And honestly, I couldn’t remember.<br>These days, the second there’s a quiet moment, out comes the phone. It’s basically a little force field you keep in your pocket.<br><br>Turns out I’m not alone. New Youi research found 68% of Gen Z would rather look at their phone than make small talk with a stranger.<br><br>Jess from NSW called in to say she’s one of them. &lt;Play voicemail&gt;<br><br>So today on How To Human, I wanted to explore the lost art of small talk.<br><br>So I went to the one place it’s still alive and well.<br>The back of a rideshare. In the Valley. At midnight. On a Friday.</p></div>
+      <div class="v3-wk-c"><span class="mono">Episode summary</span><p>Comedian Matt Okine explores the lost art of small talk. To learn how it’s done, he heads to the one place strangers still chat every night: the back of a rideshare.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="ideas-summary" data-after="full-experiment-evidence" class="stop dk v3-s dark v3-i3-s" data-dw="1440" data-title="The three ideas">
+  <div class="wrap">
+    <div class="v3-i3 rv-kids">
+      <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/hth-box2.jpg)"></div><figcaption><b>How To Human</b><p>An idea that helps us rediscover human moments by learning from the people who never stopped doing them.</p></figcaption></figure>
+      <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/ce-box.jpg)"></div><figcaption><b>RE: Connection</b><p>An idea that takes away the barriers and asks, “What happens when...?”, to see whether human moments are as complicated as we think.</p></figcaption></figure>
+      <i class="v3-i3-ar" aria-hidden="true"></i>
+      <figure class="v3-i3-c"><div class="v3-i3-img" style="background-image:url(media/ce-trailer-final.jpg)"></div><figcaption><b>The Connection Experiment</b><p>Quantifying the importance of human connection.</p></figcaption></figure>
+    </div>
+  </div>
+</section>
+
 
 <section id="audience-journey" data-after="full-experiment-trailer" class="stop dk v3-s aj-s" data-dw="1440" data-title="The audience journey">
   <div class="wrap">
@@ -5891,7 +5995,7 @@ document.addEventListener("click", e => {
   const BLANK = id => `<section id="${id}" class="stop dk v3-s" data-dw="1440" data-title="New page"><div class="wrap"><h2 class="dk-h"><span class="dk-k">TITLE</span><span>TITLE</span></h2><p class="v3-intro">Content to go here.</p></div></section>`;
   function cloneForPage(src, id){
     const c = src.cloneNode(true);
-    c.querySelectorAll(".hc-nl, .hc-tools").forEach(x => x.remove());
+    c.querySelectorAll(".hc-nl, .hc-tools, .hc-fsv").forEach(x => x.remove());
     c.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
     c.querySelectorAll("[data-ve]").forEach(x => { x.removeAttribute("data-ve"); x.removeAttribute("contenteditable"); x.removeAttribute("title"); x.classList.remove("hc-changed"); });
     c.querySelectorAll(".ix-r").forEach(x => x.classList.add("on"));
@@ -6052,7 +6156,7 @@ document.addEventListener("click", e => {
 
 /* Brand presence meters fill whenever their slide comes into view */
 (function meters(){
-  const ms = document.querySelectorAll(".v3-bmeter, .aj"); if(!ms.length || !("IntersectionObserver" in window)){ ms.forEach(m => m.classList.add("go")); return; }
+  const ms = document.querySelectorAll(".v3-bmeter, .aj, .v3-spec"); if(!ms.length || !("IntersectionObserver" in window)){ ms.forEach(m => m.classList.add("go")); return; }
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("go", e.isIntersecting)), {threshold:.4});
   ms.forEach(m => io.observe(m));
 })();
@@ -6103,6 +6207,31 @@ document.addEventListener("click", e => {
     else if(v.webkitRequestFullscreen){ v.webkitRequestFullscreen(); v.play(); }
   } catch(err){}
 }, true);
+
+/* Full screen button on every embedded video (YouTube, Vimeo, Instagram and the deck's own clips) */
+(function fsButtons(){
+  const add = () => {
+    document.querySelectorAll('iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="instagram"], video[controls]').forEach(m => {
+      if(m.closest(".v3-vid")) return;
+      const host = m.parentElement; if(!host || host.querySelector(":scope > .hc-fsv")) return;
+      if(getComputedStyle(host).position === "static") host.classList.add("hc-fsv-host");
+      const b = document.createElement("button"); b.type = "button"; b.className = "hc-fsv"; b.title = "Full screen"; b.setAttribute("aria-label", "Full screen"); b.setAttribute("contenteditable", "false"); b.textContent = "⤢";
+      host.appendChild(b);
+    });
+  };
+  document.addEventListener("click", e => {
+    const b = e.target.closest && e.target.closest(".hc-fsv"); if(!b) return;
+    e.preventDefault(); e.stopPropagation();
+    const m = b.parentElement.querySelector("iframe, video"); if(!m) return;
+    try {
+      if(document.fullscreenElement){ document.exitFullscreen(); return; }
+      if(m.requestFullscreen) m.requestFullscreen().catch(() => {});
+      else if(m.webkitRequestFullscreen) m.webkitRequestFullscreen();
+      else if(m.webkitEnterFullscreen) m.webkitEnterFullscreen();
+    } catch(err){}
+  }, true);
+  add(); setInterval(add, 1500);
+})();
 
 /* ============================ INTERACTIONS ============================ */
 
