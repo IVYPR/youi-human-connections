@@ -4647,6 +4647,13 @@ section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-grad
 .fx-full .hth-punch{display:none}.fx-full .hth-copy{align-self:center}
 .cx-s .v3-intro{font-size:17px;line-height:1.5;max-width:1240px}
 
+/* Video full screen with exit */
+.rx-vid{margin:0;position:relative;background:#000}
+.rx-vid video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.rx-vid:fullscreen{display:grid;place-items:center;background:#000;width:100vw;height:100vh}
+.rx-vid:fullscreen video{width:100%;height:100%;aspect-ratio:auto;object-fit:contain}
+.hc-fsv.hc-fsv-on{width:auto;padding:0 16px;height:40px;font-size:14px;font-weight:700;letter-spacing:.02em;top:20px;right:20px;background:var(--yellow);color:#000;opacity:1;border-radius:999px}
+
 </style>
 </head>
 <body>
@@ -5003,7 +5010,7 @@ section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-grad
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 2: RE: Connection</span><span>Tonality</span></h2>
     <div class="rx-g rx-one">
-      <figure class="rx-v"><div class="rx-frame"><iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/1g82Tay5opg?rel=0" title="Tonality reference" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><a class="rx-link mono" href="https://www.youtube.com/watch?v=1g82Tay5opg" target="_blank" rel="noopener">Watch on YouTube ↗</a></figure>
+      <figure class="rx-vid"><video controls controlslist="nofullscreen" playsinline preload="metadata" poster="media/ce-tonality-poster.jpg" src="media/ce-tonality.mp4"></video></figure>
       
     </div>
   </div>
@@ -6720,6 +6727,7 @@ document.addEventListener("click", e => {
     const m = b.parentElement.querySelector("iframe, video"); if(!m) return;
     try {
       if(document.fullscreenElement){ document.exitFullscreen(); return; }
+      if(m.tagName === "VIDEO" && b.parentElement.requestFullscreen){ b.parentElement.requestFullscreen().catch(() => { if(m.webkitEnterFullscreen) m.webkitEnterFullscreen(); }); return; }
       if(m.requestFullscreen) m.requestFullscreen().catch(() => {});
       else if(m.webkitRequestFullscreen) m.webkitRequestFullscreen();
       else if(m.webkitEnterFullscreen) m.webkitEnterFullscreen();
@@ -6744,6 +6752,12 @@ document.addEventListener("focusout", e => { const el = e.target.closest && e.ta
   } catch(err){} };
   document.querySelectorAll('iframe[src^="hub/"], iframe[src^="re-connection/"]').forEach(f => { f.addEventListener("load", () => hook(f)); hook(f); });
 })();
+
+/* Full screen button turns into an exit button while full screen */
+document.addEventListener("fullscreenchange", () => {
+  document.querySelectorAll(".hc-fsv").forEach(b => { const on = !!document.fullscreenElement && (document.fullscreenElement === b.parentElement || document.fullscreenElement.parentElement === b.parentElement);
+    b.classList.toggle("hc-fsv-on", on); b.textContent = on ? "✕  Exit full screen" : "⤢"; b.title = on ? "Exit full screen" : "Full screen"; });
+});
 
 /* ============================ INTERACTIONS ============================ */
 
