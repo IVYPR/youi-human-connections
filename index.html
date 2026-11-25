@@ -4654,6 +4654,12 @@ section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-grad
 .rx-vid:fullscreen video{width:100%;height:100%;aspect-ratio:auto;object-fit:contain}
 .hc-fsv.hc-fsv-on{width:auto;padding:0 16px;height:40px;font-size:14px;font-weight:700;letter-spacing:.02em;top:20px;right:20px;background:var(--yellow);color:#000;opacity:1;border-radius:999px}
 
+/* Embeds full screen inside the deck, with the exit button on top */
+.rx-frame:fullscreen{width:100vw!important;height:100vh!important;max-width:none!important;aspect-ratio:auto!important;background:#000;display:grid;place-items:center;padding:0!important;border:0!important}
+.rx-frame:fullscreen iframe{position:static!important;width:100%!important;height:100%!important;transform:none!important}
+.v3-ig .rx-frame:fullscreen iframe{width:min(100vw,60vh)!important;height:100vh!important;background:#fff}
+.rx-frame:fullscreen .hc-fsv{position:fixed}
+
 </style>
 </head>
 <body>
@@ -6726,8 +6732,9 @@ document.addEventListener("click", e => {
     e.preventDefault(); e.stopPropagation();
     const m = b.parentElement.querySelector("iframe, video"); if(!m) return;
     try {
-      if(document.fullscreenElement){ document.exitFullscreen(); return; }
-      if(m.tagName === "VIDEO" && b.parentElement.requestFullscreen){ b.parentElement.requestFullscreen().catch(() => { if(m.webkitEnterFullscreen) m.webkitEnterFullscreen(); }); return; }
+      const fe = document.fullscreenElement;
+      if(fe && (fe === b.parentElement || b.parentElement.contains(fe))){ document.exitFullscreen(); return; }
+      if(b.parentElement.requestFullscreen){ b.parentElement.requestFullscreen().catch(() => { if(m.webkitEnterFullscreen) m.webkitEnterFullscreen(); }); return; }
       if(m.requestFullscreen) m.requestFullscreen().catch(() => {});
       else if(m.webkitRequestFullscreen) m.webkitRequestFullscreen();
       else if(m.webkitEnterFullscreen) m.webkitEnterFullscreen();
@@ -6758,6 +6765,23 @@ document.addEventListener("fullscreenchange", () => {
   document.querySelectorAll(".hc-fsv").forEach(b => { const on = !!document.fullscreenElement && (document.fullscreenElement === b.parentElement || document.fullscreenElement.parentElement === b.parentElement);
     b.classList.toggle("hc-fsv-on", on); b.textContent = on ? "✕  Exit full screen" : "⤢"; b.title = on ? "Exit full screen" : "Full screen"; });
 });
+
+/* YouTube references play full screen in the deck instead of leaving for YouTube */
+(function ytInPlace(){
+  const fix = () => document.querySelectorAll('a.rx-link[href*="youtube.com/watch"]:not([data-fs])').forEach(a => {
+    a.dataset.fs = "1"; a.textContent = "Watch full screen \u2922"; a.removeAttribute("target");
+  });
+  document.addEventListener("click", e => {
+    const a = e.target.closest && e.target.closest('a.rx-link[data-fs]'); if(!a) return;
+    if(a.closest("[contenteditable='true']") && document.body.classList.contains("hc-editing")) return;
+    e.preventDefault(); e.stopPropagation();
+    const fig = a.closest("figure"); const host = fig && fig.querySelector(".rx-frame"); const f = host && host.querySelector("iframe"); if(!host) return;
+    try { if(f && !/autoplay=1/.test(f.src)) f.src = f.src + (f.src.includes("?") ? "&" : "?") + "autoplay=1"; } catch(err){}
+    if(host.requestFullscreen) host.requestFullscreen().catch(() => {});
+    else if(host.webkitRequestFullscreen) host.webkitRequestFullscreen();
+  }, true);
+  fix(); setInterval(fix, 1500);
+})();
 
 /* ============================ INTERACTIONS ============================ */
 
