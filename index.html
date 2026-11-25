@@ -4660,6 +4660,15 @@ section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-grad
 .v3-ig .rx-frame:fullscreen iframe{width:min(100vw,60vh)!important;height:100vh!important;background:#fff}
 .rx-frame:fullscreen .hc-fsv{position:fixed}
 
+/* Full-window fallback when the browser blocks real full screen */
+.hc-pfs{position:fixed!important;inset:0!important;z-index:2147483000!important;width:100vw!important;height:100vh!important;max-width:none!important;aspect-ratio:auto!important;margin:0!important;background:#000!important;display:grid!important;place-items:center;border:0!important;border-radius:0!important;padding:0!important}
+.hc-pfs iframe,.hc-pfs video{position:static!important;width:100%!important;height:100%!important;aspect-ratio:auto!important;object-fit:contain;transform:none!important}
+.v3-ig .hc-pfs iframe{width:min(100vw,60vh)!important;background:#fff}
+.hc-pfs .hc-fsv{position:absolute!important;top:20px!important;right:20px!important}
+html.hc-pfs-on .pbox,html.hc-pfs-on .pstage{transform:none!important}
+html.hc-pfs-on .pbar,html.hc-pfs-on .hc-bar,html.hc-pfs-on nav,html.hc-pfs-on .pprog{visibility:hidden!important}
+html.hc-pfs-on .hc-pfs,html.hc-pfs-on .hc-pfs *{visibility:visible!important}
+
 </style>
 </head>
 <body>
@@ -5647,6 +5656,47 @@ if("IntersectionObserver" in window && !REDUCED){
   document.querySelectorAll(".stop > .wrap").forEach(w => io.observe(w));
 }
 
+
+/* Full screen for a reference: real full screen where the browser allows it, otherwise a full-window overlay */
+window.__hcFS = function(host){
+  const pseudo = () => {
+    host.__hcAnc = [];
+    for(let el = host.parentElement; el && el !== document.documentElement; el = el.parentElement){
+      const cs = getComputedStyle(el);
+      if(cs.transform !== "none" || cs.filter !== "none" || cs.contain !== "none" || cs.perspective !== "none" || cs.willChange.includes("transform")){
+        host.__hcAnc.push([el, el.getAttribute("style")]);
+        el.style.setProperty("transform", "none", "important"); el.style.setProperty("filter", "none", "important"); el.style.setProperty("contain", "none", "important"); el.style.setProperty("perspective", "none", "important"); el.style.setProperty("will-change", "auto", "important");
+      }
+    }
+    host.classList.add("hc-pfs"); document.documentElement.classList.add("hc-pfs-on"); window.__hcFSLabel && window.__hcFSLabel();
+    const r = host.getBoundingClientRect();
+    if(Math.abs(r.left) > 1 || Math.abs(r.top) > 1 || Math.abs(r.width - innerWidth) > 2){
+      const sx = innerWidth / r.width, sy = innerHeight / r.height;
+      host.style.setProperty("transform-origin", "0 0", "important");
+      host.style.setProperty("transform", `translate(${-r.left}px, ${-r.top}px) scale(${sx}, ${sy})`, "important");
+    }
+  };
+  let done = false;
+  const onCh = () => { done = true; };
+  document.addEventListener("fullscreenchange", onCh, {once:true});
+  try {
+    const r = host.requestFullscreen ? host.requestFullscreen() : (host.webkitRequestFullscreen ? host.webkitRequestFullscreen() : null);
+    if(r && r.catch) r.catch(() => { if(!done) pseudo(); });
+    else if(!r && !host.webkitRequestFullscreen) pseudo();
+  } catch(err){ pseudo(); }
+  setTimeout(() => { if(!done && document.fullscreenElement !== host && !host.classList.contains("hc-pfs")) pseudo(); }, 450);
+};
+window.__hcFSExit = function(){
+  const p = document.querySelector(".hc-pfs");
+  if(p){ (p.__hcAnc || []).forEach(([el, st]) => { if(st === null) el.removeAttribute("style"); else el.setAttribute("style", st); }); p.__hcAnc = null; p.style.removeProperty("transform"); p.style.removeProperty("transform-origin"); p.classList.remove("hc-pfs"); document.documentElement.classList.remove("hc-pfs-on"); window.__hcFSLabel && window.__hcFSLabel(); return true; }
+  return false;
+};
+window.__hcFSLabel = function(){
+  document.querySelectorAll(".hc-fsv").forEach(b => { const fe = document.fullscreenElement; const host = b.parentElement;
+    const on = host.classList.contains("hc-pfs") || (!!fe && (fe === host || fe.parentElement === host));
+    b.classList.toggle("hc-fsv-on", on); b.textContent = on ? "✕  Exit full screen" : "⤢"; b.title = on ? "Exit full screen" : "Full screen"; });
+};
+document.addEventListener("keydown", e => { if(e.key === "Escape" && window.__hcFSExit()){ e.preventDefault(); e.stopPropagation(); } }, true);
 /* =================================================================
    BACKGROUND IMAGES · add a file path per section, e.g. "media/bg-fear.jpg".
    overlay: 0 to 1, how much the image is darkened for legibility.
@@ -6033,7 +6083,7 @@ document.addEventListener("click", e => {
   if(window.__hcRepaint) requestAnimationFrame(() => window.__hcRepaint());
 }, true);
 /* Recap tabs step with the arrow keys: right/down moves to the next theme, then on to the next slide */
-document.querySelectorAll(".v3-rc[data-tabs]").forEach(box => {
+document.querySelectorAll(".v3-rc[data-tabs], .v3-own [data-tabs]").forEach(box => {
   box.setAttribute("data-steps", "");
   const tabs = () => Array.from(box.querySelectorAll(".v3-tab"));
   const cur = () => Math.max(0, tabs().findIndex(t => t.classList.contains("on")));
@@ -6731,14 +6781,10 @@ document.addEventListener("click", e => {
     const b = e.target.closest && e.target.closest(".hc-fsv"); if(!b) return;
     e.preventDefault(); e.stopPropagation();
     const m = b.parentElement.querySelector("iframe, video"); if(!m) return;
-    try {
-      const fe = document.fullscreenElement;
-      if(fe && (fe === b.parentElement || b.parentElement.contains(fe))){ document.exitFullscreen(); return; }
-      if(b.parentElement.requestFullscreen){ b.parentElement.requestFullscreen().catch(() => { if(m.webkitEnterFullscreen) m.webkitEnterFullscreen(); }); return; }
-      if(m.requestFullscreen) m.requestFullscreen().catch(() => {});
-      else if(m.webkitRequestFullscreen) m.webkitRequestFullscreen();
-      else if(m.webkitEnterFullscreen) m.webkitEnterFullscreen();
-    } catch(err){}
+    const host = b.parentElement, fe = document.fullscreenElement;
+    if(host.classList.contains("hc-pfs")){ window.__hcFSExit(); return; }
+    if(fe && (fe === host || host.contains(fe))){ document.exitFullscreen(); return; }
+    window.__hcFS(host);
   }, true);
   add(); setInterval(add, 1500);
 })();
@@ -6760,11 +6806,7 @@ document.addEventListener("focusout", e => { const el = e.target.closest && e.ta
   document.querySelectorAll('iframe[src^="hub/"], iframe[src^="re-connection/"]').forEach(f => { f.addEventListener("load", () => hook(f)); hook(f); });
 })();
 
-/* Full screen button turns into an exit button while full screen */
-document.addEventListener("fullscreenchange", () => {
-  document.querySelectorAll(".hc-fsv").forEach(b => { const on = !!document.fullscreenElement && (document.fullscreenElement === b.parentElement || document.fullscreenElement.parentElement === b.parentElement);
-    b.classList.toggle("hc-fsv-on", on); b.textContent = on ? "✕  Exit full screen" : "⤢"; b.title = on ? "Exit full screen" : "Full screen"; });
-});
+document.addEventListener("fullscreenchange", () => window.__hcFSLabel());
 
 /* YouTube references play full screen in the deck instead of leaving for YouTube */
 (function ytInPlace(){
@@ -6777,8 +6819,7 @@ document.addEventListener("fullscreenchange", () => {
     e.preventDefault(); e.stopPropagation();
     const fig = a.closest("figure"); const host = fig && fig.querySelector(".rx-frame"); const f = host && host.querySelector("iframe"); if(!host) return;
     try { if(f && !/autoplay=1/.test(f.src)) f.src = f.src + (f.src.includes("?") ? "&" : "?") + "autoplay=1"; } catch(err){}
-    if(host.requestFullscreen) host.requestFullscreen().catch(() => {});
-    else if(host.webkitRequestFullscreen) host.webkitRequestFullscreen();
+    window.__hcFS(host);
   }, true);
   fix(); setInterval(fix, 1500);
 })();
