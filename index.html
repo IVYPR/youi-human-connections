@@ -4685,6 +4685,9 @@ body.presenting .pstage .cx-ep .mono { font-size: 15px; opacity: .85; }
 /* Clean presentation: no version tag, editing bar only with ?edit */
 .ver-tag{display:none!important}
 html:not(.hc-edit-on) .hc-bar{display:none!important}
+/* Editorial italic is for headings only: body copy, quotes and mock headlines use the body face */
+.ea-hl,.fw-mock .fw-hl{font-family:var(--font-body)!important;font-style:normal!important;font-weight:800!important;letter-spacing:-.005em}
+.ea-line,.ea-angle p,.cp-story .cp-lead,.ce-t q,.v3-wk-c q,.h1-q,.scr-act,.tj-c span,.rf-a,.rf-b,.dk-q{font-family:var(--font-body)!important;font-style:normal!important;font-weight:700}
 
 </style>
 </head>
