@@ -4682,6 +4682,10 @@ body.presenting .pstage .cx-ep .v3-ep p { font-size: 21px !important; line-heigh
 body.presenting .pstage .cx-ep .v3-ep-tag { font-size: 16px; }
 body.presenting .pstage .cx-ep .mono { font-size: 15px; opacity: .85; }
 
+/* Clean presentation: no version tag, editing bar only with ?edit */
+.ver-tag{display:none!important}
+html:not(.hc-edit-on) .hc-bar{display:none!important}
+
 </style>
 </head>
 <body>
@@ -5660,6 +5664,8 @@ if("IntersectionObserver" in window && !REDUCED){
   document.querySelectorAll(".stop > .wrap").forEach(w => io.observe(w));
 }
 
+/* The editing bar only shows when the deck is opened with ?edit in the address */
+try { if(/[?&]edit\b/.test(location.search)) document.documentElement.classList.add("hc-edit-on"); } catch(err){}
 
 /* Full screen for a reference: real full screen where the browser allows it, otherwise a full-window overlay */
 window.__hcFS = function(host){
@@ -6712,7 +6718,7 @@ document.addEventListener("keydown", e => { window.__hcRcBack = ["ArrowLeft","Ar
   /* E toggles editing, in present mode or on the page */
   document.addEventListener("keydown", e => {
     if(e.target.closest && e.target.closest("input,textarea,[contenteditable='true']")) return;
-    if((e.key === "e" || e.key === "E") && !e.metaKey && !e.ctrlKey && !e.altKey && !bar.hidden){ e.preventDefault(); editBtn.click(); }
+    if((e.key === "e" || e.key === "E") && !e.metaKey && !e.ctrlKey && !e.altKey && !bar.hidden && document.documentElement.classList.contains("hc-edit-on")){ e.preventDefault(); editBtn.click(); }
   });
 })();
 
