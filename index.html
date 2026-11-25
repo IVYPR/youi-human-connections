@@ -4673,14 +4673,17 @@ html.hc-pfs-on .hc-pfs,html.hc-pfs-on .hc-pfs *{visibility:visible!important}
 .v3-refs1 .v3-pair{grid-template-columns:260px 260px;gap:32px}
 .v3-pair>figure.rx-v:not(.v3-ig) .rx-frame{aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#000}
 .v3-pair>figure.rx-v:not(.v3-ig) .rx-frame iframe{position:absolute;inset:0;width:100%;height:100%;background:#000}
-/* Larger episode-card typography on the presentation stage (added from the 13:32 edit). */
-body.presenting .pstage .cx-eps { margin-top: 12px; grid-template-columns: repeat(2,minmax(0,1fr)); }
-body.presenting .pstage .cx-ep .cx-img { width: 100%; height: 248px; object-fit: contain; background: #090909; }
-body.presenting .pstage .cx-ep .v3-ep { padding: 16px 20px; gap: 9px; }
-body.presenting .pstage .cx-ep .v3-ep h3 { font-size: 40px !important; line-height: 1.05; }
-body.presenting .pstage .cx-ep .v3-ep p { font-size: 21px !important; line-height: 1.35; }
-body.presenting .pstage .cx-ep .v3-ep-tag { font-size: 16px; }
-body.presenting .pstage .cx-ep .mono { font-size: 15px; opacity: .85; }
+/* Episode cards on the presentation stage: bigger images, copy evened out and set lower */
+body.presenting .pstage .cx-s .pinner,body.presenting .pstage .cx-s .pbox{max-width:none}
+body.presenting .pstage .cx-eps{margin-top:26px;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;width:100%;max-width:none}
+body.presenting .pstage .cx-ep .cx-img{width:100%;height:auto;aspect-ratio:16/8.4;object-fit:cover;object-position:50% 80%;background:#090909}
+body.presenting .pstage .cx-ep .v3-ep{padding:22px 28px 24px;gap:10px}
+body.presenting .pstage .cx-ep .v3-ep h3{font-size:30px !important;line-height:1.05}
+body.presenting .pstage .cx-ep .v3-ep p{font-size:16.5px !important;line-height:1.42}
+body.presenting .pstage .cx-s .v3-intro{font-size:15px;line-height:1.45;max-width:none;margin-top:8px}
+body.presenting .pstage .cx-eps{margin-top:22px}
+body.presenting .pstage .cx-ep .v3-ep-tag{font-size:15px}
+body.presenting .pstage .cx-ep .mono{font-size:14px;opacity:.85}
 
 /* Clean presentation: no version tag, editing bar only with ?edit */
 .ver-tag{display:none!important}
