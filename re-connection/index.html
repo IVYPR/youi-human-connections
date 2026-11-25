@@ -135,7 +135,9 @@ details .ans .ln{display:flex;gap:16px;flex-wrap:wrap;font-weight:700;font-size:
 .mc{border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:12px;align-content:start}
 .mc .ic{width:44px;height:44px;border-radius:10px;background:var(--cream);display:grid;place-items:center;font-size:20px}
 .mc p{font-size:15px;color:var(--muted)}
-.mc a{font-weight:700;font-size:14px;text-decoration:none;margin-top:6px}
+.mc a{justify-self:start;display:inline-flex;align-items:center;padding:11px 18px;border-radius:999px;border:1.5px solid var(--ink);font-weight:700;font-size:14px;text-decoration:none;color:var(--ink);margin-top:6px;transition:background .15s,color .15s,border-color .15s,transform .15s}
+.mc a:hover{background:var(--hi);border-color:var(--hi);color:var(--ink);transform:translateY(-1px)}
+.mc{grid-template-rows:auto 1fr auto}
 .cut{margin-top:22px;border-radius:16px;background:var(--cream);padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
 .seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:700;background:#fff}
@@ -219,6 +221,7 @@ body.ann .flow{display:block}
 .tcard .btn{justify-self:start;margin-top:6px;padding:10px 14px;font-size:13px}
 .cr-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 .cr{border-top:3px solid var(--ink);padding-top:14px;display:grid;gap:8px;align-content:start}
+.cr .av-img{width:100%;aspect-ratio:4/5;background:center/cover no-repeat var(--cream);border-radius:10px;margin-bottom:6px}
 .cr .av{width:64px;height:64px;border-radius:50%;background:var(--cream);display:grid;place-items:center;font-weight:700;font-size:20px;border:2px dashed #bbb}
 .cr h3{font-size:19px}.cr p{font-size:14px;color:#444}
 .cr a{font-size:13px;font-weight:700;text-decoration:none}
@@ -301,7 +304,7 @@ body.ann .flow{display:block}
 <section class="s" id="challenges">
   <div class="an"><b><i>01</i>Challenge pages</b>Each one has the episode, transcript, behind the scenes, the creator’s diary and reflections, and is built to answer the search behind the moment.<div class="fl">“How to make friends as an adult”, “date ideas without apps”</div></div>
   <div class="w">
-    <div class="s-head"><div><span class="k">The challenges</span><h2>Four challenges. No tech.</h2></div><p>Each challenge captures the build-up, the moment itself and the reflection afterwards, showing the gap between what we expect and what actually happens.</p></div>
+    <div class="s-head"><div><span class="k">The challenges</span><h2>Four human moments. No tech.</h2></div></div>
     <div class="ch-g"><button class="ch" type="button" data-ch="0"><div class="card img" style="background-image:url('../media/ce-ep-date2.jpg')"><span class="n">CHALLENGE 01</span><span class="q">What happens when you go on a first date with no tech?</span><span class="pl">▶</span></div><h3>The no-tech first date</h3><p>We follow a Gen Z content creator tasked with organising and going on a date without relying on the use of…</p></button><button class="ch" type="button" data-ch="1"><div class="card"><span class="n">CHALLENGE 02</span><span class="q">What happens when a family crosses town with no GPS?</span><span class="pl">▶</span></div><h3>Across town with a Refidex</h3><p>We follow a family of four as they try to get across town to a cinema they’ve never been to before in time…</p></button><button class="ch" type="button" data-ch="2"><div class="card"><span class="n">CHALLENGE 03</span><span class="q">What happens when a dad tries to make a mate at a kids’ party?</span><span class="pl">▶</span></div><h3>A new mate at a kids’ party</h3><p>We send a dad and his four-year-old to a kids’ birthday party, where he has to make a new mate and lock in a…</p></button><button class="ch" type="button" data-ch="3"><div class="card img" style="background-image:url('../media/ce-ep-dinner3.jpg')"><span class="n">CHALLENGE 04</span><span class="q">What happens when you host a dinner party the old way?</span><span class="pl">▶</span></div><h3>The old-school dinner party</h3><p>We follow a Gen X host as they plan a dinner party for their couple friends, with no group chat, no online…</p></button></div>
   </div>
 </section>
@@ -321,15 +324,15 @@ body.ann .flow{display:block}
 <section class="s" id="creators">
   <div class="an"><b><i>02</i>Meet the creators</b>A short profile for each creator, with links to their channels.<div class="fl">Feeds → creator audiences back to the hub</div></div>
   <div class="w">
-    <div class="s-head"><div><span class="k">The creators</span><h2>Meet the four</h2></div><p>Four creators from different stages of life, each with an audience that already trusts their honest, everyday stories.</p></div>
-    <div class="cr-g"><div class="cr"><span class="av">01</span><span class="k">Creator 01</span><h3>Gen Z dating creator</h3><p>A Gen Z creator who already authentically shares their dating life. Dating apps are where their generation meets people, so their audience will lean into the challenge.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><span class="av">02</span><span class="k">Creator 02</span><h3>Family creator</h3><p>A family creator who posts everyday life with their kids. Their audience is parents who rely on maps, apps and screens to get through the day.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><span class="av">03</span><span class="k">Creator 03</span><h3>Dad creator</h3><p>A dad creator who talks openly about modern fatherhood. Making friends as an adult is something lots of dads struggle with but rarely talk about.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><span class="av">04</span><span class="k">Creator 04</span><h3>Gen X lifestyle creator</h3><p>A Gen X creator who shares food, entertaining and home life. Their audience will remember planning a night with a phone call and a cookbook.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div></div>
+    <div class="s-head"><div><span class="k">The creators</span><h2>Meet our challengers</h2></div><p>Four creators from different stages of life, each with an audience that already trusts their honest, everyday stories.</p></div>
+    <div class="cr-g"><div class="cr"><div class="av-img" style="background-image:url('../media/cr-cassidy.jpg')"></div><span class="k">Creator 01 · Cassidy McGill</span><h3>Gen Z dating creator</h3><p>A Gen Z creator who already authentically shares their dating life. Dating apps are where their generation meets people, so their audience will lean into the challenge.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><div class="av-img" style="background-image:url('../media/cr-holly-jimmy.jpg')"></div><span class="k">Creator 02 · Holly &amp; Jimmy</span><h3>Family creator</h3><p>A family creator who posts everyday life with their kids. Their audience is parents who rely on maps, apps and screens to get through the day.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><div class="av-img" style="background-image:url('../media/cr-ash.jpg')"></div><span class="k">Creator 03 · Ash Wicks</span><h3>Dad creator</h3><p>A dad creator who talks openly about modern fatherhood. Making friends as an adult is something lots of dads struggle with but rarely talk about.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div><div class="cr"><div class="av-img" style="background-image:url('../media/cr-jessie.jpg')"></div><span class="k">Creator 04 · Jessie Stephens</span><h3>Gen X lifestyle creator</h3><p>A Gen X creator who shares food, entertaining and home life. Their audience will remember planning a night with a phone call and a cookbook.</p><a href="#" data-mock="Opens the creator’s channels">Follow their channels →</a></div></div>
   </div>
 </section>
 
 <section class="s qa-s" id="questions">
   <div class="an"><b><i>03</i>Questions page and expert notes</b>The real questions behind each challenge, each with a short answer, plus a take from a social psychologist or relationship expert that makes the content easier for AI tools to cite.<div class="fl">Links on → each challenge page</div></div>
   <div class="w">
-    <div class="s-head"><div><span class="k">Questions people ask</span><h2>What actually happens when…?</h2></div><p>The real questions behind each challenge, each with a short answer and the episode that tested it.</p></div>
+    <div class="s-head"><div><span class="k">Questions people ask</span><h2>What actually happens when…?</h2></div></div>
     <div class="sv">
       <div>
         <details open><summary>Date ideas without apps?</summary><div class="ans"><p>Our Gen Z creator organised a whole date without apps or texting. See how they asked, where they went and what both of them thought afterwards.</p><div class="ln"><a href="#" data-ch="0">Watch challenge 01 →</a></div></div></details>
@@ -351,12 +354,12 @@ body.ann .flow{display:block}
 <section class="s" id="media">
   <div class="an"><b><i>03</i>Media room, built properly for search</b>Episode assets, stills, creator bios and stats for journalists, with transcripts, captions and the right page setup so search engines and AI tools can read and cite it.<div class="fl">Feeds → earned coverage and links back to the hub</div></div>
   <div class="w">
-    <div class="s-head"><div><span class="k">Media room</span><h2>For journalists</h2></div><p>Everything needed to tell the story of each challenge, in one place.</p></div>
+    <div class="s-head"><div><span class="k">Media room</span><h2>For journalists</h2></div></div>
     <div class="media">
-      <div class="mc"><div class="ic">🎬</div><h3>Episode assets</h3><p>Clips and cut-downs from each challenge for editorial use.</p><a href="#" data-mock="Opens the asset library">Open assets →</a></div>
-      <div class="mc"><div class="ic">🖼</div><h3>Stills</h3><p>Behind-the-scenes and episode stills.</p><a href="#" data-mock="Opens the stills library">View stills →</a></div>
-      <div class="mc"><div class="ic">👤</div><h3>Creator bios</h3><p>Short bios and contact details for each creator.</p><a href="#" data-mock="Downloads creator bios">Download bios →</a></div>
-      <div class="mc"><div class="ic">📊</div><h3>The stats</h3><p>The Youi survey findings behind the challenges.</p><a href="#" data-mock="Downloads the findings">Download findings →</a></div>
+      <div class="mc"><h3>Episode assets</h3><p>Clips and cut-downs from each challenge for editorial use.</p><a href="#" data-mock="Opens the asset library">Open assets →</a></div>
+      <div class="mc"><h3>Stills</h3><p>Behind-the-scenes and episode stills.</p><a href="#" data-mock="Opens the stills library">View stills →</a></div>
+      <div class="mc"><h3>Creator bios</h3><p>Short bios and contact details for each creator.</p><a href="#" data-mock="Downloads creator bios">Download bios →</a></div>
+      <div class="mc"><h3>The stats</h3><p>The Youi survey findings behind the challenges.</p><a href="#" data-mock="Downloads the findings">Download findings →</a></div>
     </div>
   </div>
 </section>

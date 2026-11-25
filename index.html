@@ -4608,6 +4608,34 @@ section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-grad
 .ce-lock-b p{margin:0}
 .ce-lock-b .ce-lock-sub{font-size:20px;line-height:1.35;font-weight:600;color:var(--yellow)}
 .ce-ride .hth-lock{position:relative;top:40px}
+/* RE: Connection episodes split, 2 per page with images */
+.cx-eps{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
+.cx-ep{display:grid;gap:0}
+.cx-img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover}
+.cx-ph{display:grid;place-items:center;background:rgba(127,127,127,.18);border:1.5px dashed rgba(255,255,255,.35)}
+.cx-ph .mono{opacity:.7;font-size:11px}
+.cx-ep .v3-ep h3{font-size:26px}
+.cx-ep .v3-ep p{font-size:13.5px;line-height:1.45}
+.cx-s .v3-intro{max-width:1100px}
+#connection-experiment-episodes-2 .cx-eps{margin-top:34px}
+.cx-ep .cx-img{aspect-ratio:16/7}
+#connection-experiment-episodes-2 .cx-ep .cx-img{aspect-ratio:16/9}
+@media(max-width:900px){.cx-eps{grid-template-columns:1fr}}
+.ce-lock-b .ce-lock-sub{font-size:28px;line-height:1.3}
+/* Creator profiles (RE earned wave 02) left column */
+.cp-story{border-left:5px solid var(--yellow);padding:4px 0 4px 20px;display:grid;gap:10px}
+.cp-story .cp-lead{font-family:var(--font-editorial);font-style:italic;font-size:24px;line-height:1.25}
+.cp-story p{font-size:14px;line-height:1.5}
+.cp-tg{margin-top:30px;display:grid;gap:10px}
+.cp-tg>p{font-size:14px;line-height:1.5;max-width:620px}
+.cp-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:6px}
+.cp-tile{border-top:4px solid var(--yellow);background:rgba(127,127,127,.08);padding:14px 14px 16px;display:grid;gap:8px;align-content:start}
+.cp-tile .v3-num{font-size:26px;line-height:1}
+.cp-tile h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.cp-tile ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.cp-tile li{font-size:13.5px;line-height:1.3;padding-left:12px;position:relative}
+.cp-tile li:before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;background:var(--yellow);border-radius:50%}
+@media(max-width:900px){.cp-tiles{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -4972,11 +5000,19 @@ section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-grad
 </section>
 
 
-<section id="connection-experiment-episodes" class="stop dk v3-s dark" data-dw="1440" data-title="RE: Connection: Episode examples">
+<section id="connection-experiment-episodes" class="stop dk v3-s dark cx-s" data-dw="1440" data-title="RE: Connection: Episode examples">
   <div class="wrap">
     <h2 class="dk-h"><span class="dk-k">Idea 2: RE: Connection</span><span>Episode examples</span></h2>
-    <p class="v3-intro">We use creators and set them challenges that take away technology to get back to the heart of human connection. Over four episodes we set the challenges, and through a combination of shot content and UGC from the creators, we document them attempting to navigate moments of human connection without technology to guide them. Each episode asks “What happens when…?” and focuses on what unfolds between people.</p>
-    <div class="v3-eps-wrap"><div class="v3-eps rv-kids"><article class="v3-ep"><span class="mono">Episode 01</span><h3>What happens when you go on a date with no tech?</h3><span class="v3-ep-tag">Younger content creator</span><p class="v3-ep-ch"><b>The challenge:</b> Go on a date with no tech.</p><p>We follow a Gen Z content creator tasked with organising and going on a date without the use of any technology. Together with them, we capture the lead-in to the date, the date itself and then reflections from both the creator and their date about how the experience was.</p></article><article class="v3-ep"><span class="mono">Episode 02</span><h3>What happens when a family crosses town without GPS?</h3><span class="v3-ep-tag">A family: mum, dad and kids (ages like 7 and 9)</span><p class="v3-ep-ch"><b>The challenge:</b> Make it across town to some kind of kids’ playground without technology (no GPS, just a Refidex).</p><p>We capture a family of four as they make their way across town to a destination they’ve never visited before (an indoor play centre, a movie theatre on the other side of town etc.). A car rigged with GoPros captures every missed turn-off, every heckle from the back seat and the moment they make it there.</p></article><article class="v3-ep"><span class="mono">Episode 03</span><h3>What happens when a dad has to make a new friend at a kids’ party?</h3><span class="v3-ep-tag">A dad with a young kid</span><p class="v3-ep-ch"><b>The challenge:</b> Make a connection with someone at a party and make a plan to do something together at a later date (a hit at the driving range, a play date with the kids etc.).</p><p>We send a dad and his 4-year-old to a kids’ birthday party, tasked with meeting a new friend and making a plan with them. Leading into the party we capture his thoughts, feelings, game plan and the perspective of his partner or child, as well as how it goes on the ground. After the fact we check in with him to uncover how he found the experience and if he was successful in making a new mate.</p></article><article class="v3-ep"><span class="mono">Episode 04</span><h3>What happens when you host a dinner party the old way?</h3><span class="v3-ep-tag">A Gen X host</span><p class="v3-ep-ch"><b>The challenge:</b> Host a dinner party for your couple friends, with no tech.</p><p>We follow a Gen X host as they plan a dinner party for their couple friends, with no group chat, no online recipes, no grocery delivery and no Uber Eats if it all goes wrong. Every invite, every “who’s bringing what” and every change of plans has to be sorted over the phone. We capture the lead-up, the night itself and the reflections afterwards from the host and their guests.</p></article></div><div class="v3-eps-aside"><figure class="v3-ep-side"><img src="media/ce-ep-date2.jpg" alt=""><figcaption class="mono">Episode 01</figcaption></figure><figure class="v3-ep-side"><img src="media/ce-ep-dinner3.jpg" alt=""><figcaption class="mono">Episode 04</figcaption></figure></div></div>
+    <p class="v3-intro">What happens when... we don’t rely on tech but open ourselves up to greater human connection within everyday experiences?<br><br>Four creators from different stages of life each take on an everyday challenge and find out. Through a mix of shot content and fly-on-the-wall footage, we follow the build-up, the moment itself and the reflection afterwards. Each episode asks “What happens when...?” and shows the gap between what we expect and what actually happens between people.</p>
+    <div class="cx-eps rv-kids"><article class="cx-ep"><img class="cx-img" src="media/ce-ep-date2.jpg" alt=""><div class="v3-ep"><span class="mono">Episode 01</span><h3>What happens when... you go on a first date with no tech?</h3><span class="v3-ep-tag">Younger content creator</span><p class="v3-ep-ch"><b>The challenge:</b> Go on a date with no tech.</p><p>We follow a Gen Z content creator tasked with organising and going on a date without relying on the use of technology. Like it’s 1995 again. Together with them, we capture the lead-in to the date, the date itself and then reflections from both the creator and their date after. They discover that without the swiping, the texting and curated profiles, the nerves feel bigger, the conversation goes deeper and that spark is something you feel face-to-face.</p></div></article><article class="cx-ep"><div class="cx-img cx-ph"><span class="mono">Image to come</span></div><div class="v3-ep"><span class="mono">Episode 02</span><h3>What happens when... a family crosses town without GPS?</h3><span class="v3-ep-tag">A family: mum, dad and kids (aged 7 and 9)</span><p class="v3-ep-ch"><b>The challenge:</b> Get across town to the movies, with no tech (just a Refidex).</p><p>We follow a family of four as they try to get across town to a cinema they’ve never been to before in time for a movie, without tech to help. A car rigged with GoPros captures every missed turn-off, every stop to ask for directions, every heckle from the back seat and the moment they make it to their seats. We show how something so simple becomes a shared adventure, full of noticing things they’d normally drive past, conversations they wouldn’t have and the laughs and moments that only come from getting lost together.</p></div></article></div>
+  </div>
+</section>
+
+
+<section id="connection-experiment-episodes-2" data-after="connection-experiment-episodes" class="stop dk v3-s dark cx-s" data-dw="1440" data-title="RE: Connection: Episode examples (cont.)">
+  <div class="wrap">
+    <h2 class="dk-h"><span class="dk-k">Idea 2: RE: Connection</span><span>Episode examples</span></h2>
+    <div class="cx-eps rv-kids"><article class="cx-ep"><div class="cx-img cx-ph"><span class="mono">Image to come</span></div><div class="v3-ep"><span class="mono">Episode 03</span><h3>What happens when... a dad has to make a new friend at a kids’ party?</h3><span class="v3-ep-tag">A dad with a young kid</span><p class="v3-ep-ch"><b>The challenge:</b> Make a new mate at a kids’ party and lock in a plan to catch up.</p><p>We send a dad and his four-year-old to a kids’ birthday party, where he has to make a new mate and lock in a plan to catch up, with no swapping socials and no “I’ll add you on Insta”. We capture his nerves and game plan beforehand, his partner’s take on his chances, every attempt at small talk, and a check-in afterwards to see if the plan actually happens. In the process he discovers that human connection is simpler than we think, built on a bit of courage and a bit of meaningful conversation.</p></div></article><article class="cx-ep"><img class="cx-img" src="media/ce-ep-dinner3.jpg" alt=""><div class="v3-ep"><span class="mono">Episode 04</span><h3>What happens when... you host a dinner party the old way?</h3><span class="v3-ep-tag">A Gen X host</span><p class="v3-ep-ch"><b>The challenge:</b> Host a dinner party for your couple friends, with no tech.</p><p>We follow a Gen X host as they plan a dinner party for their couple friends, with no group chat, no online recipes, no grocery delivery and no Uber Eats if it all goes wrong. Every invite, every “who’s bringing what” and every change of plans has to be sorted over the phone or in person. We capture the lead-up, the night itself and the reflections afterwards from the host and guests.</p></div></article></div>
   </div>
 </section>
 
@@ -5018,8 +5054,10 @@ section.ce-ride.has-bg::before,.pw.ce-ride.has-bg::before{background:linear-grad
     <p class="ea-intro">As they front up real-world challenges, we’ll look for opportunities to profile 1 - 2 of our participating creators in select media outlets. Using their well-known personality to engage the attention of press, offering an interview-led or Q&amp;A-style story on their unique perspective. This would be a more selective, longer-lead play into press, providing us with another moment to engage press on the challenges.</p>
     <div class="ea-grid ea-grid-2">
       <div class="ea-col">
-        <div class="ea-blk"><span class="mono">The story</span><p>We use the creator’s own experience to give a unique perspective on how technology has shaped the way we live, parent, socialise and connect. Coming from the personality themselves, it helps our brand come forward, without feeling like an authoritative, commercial feature. The experiment and content series will provide context, but the creator’s perspective will sit at the heart of the story.</p></div>
-        <div class="ea-blk"><span class="mono">The targets</span><p>A much tighter list of lifestyle and culture outlets, selected around the creator and their story. We will also lean on outlets that have previously covered our talent.</p><div class="ea-tg"><span class="mono">Lifestyle</span><p>Yahoo Lifestyle, Mamamia, 9Honey, Body+Soul</p></div><div class="ea-tg"><span class="mono">Culture and entertainment</span><p>Pedestrian, Refinery29, Urban List</p></div><div class="ea-tg"><span class="mono">Parenting and family</span><p>Kidspot, The Australian Women's Weekly, Mum Central</p></div></div>
+        <div class="cp-story"><span class="mono">The story</span><p class="cp-lead">The creator’s own experience gives a unique perspective on how technology has shaped the way we live, parent, socialise and connect.</p><p>Coming from the personality themselves, it helps our brand come forward, without feeling like an authoritative, commercial feature. The experiment and content series will provide context, but the creator’s perspective will sit at the heart of the story.</p></div>
+        <div class="cp-tg"><span class="mono">The targets</span><p>A much tighter list of lifestyle and culture outlets, selected around the creator and their story. We will also lean on outlets that have previously covered our talent.</p>
+          <div class="cp-tiles"><div class="cp-tile"><b class="v3-num">01</b><h4>Lifestyle</h4><ul><li>Yahoo Lifestyle</li><li>Mamamia</li><li>9Honey</li><li>Body+Soul</li></ul></div><div class="cp-tile"><b class="v3-num">02</b><h4>Culture and entertainment</h4><ul><li>Pedestrian</li><li>Refinery29</li><li>Urban List</li></ul></div><div class="cp-tile"><b class="v3-num">03</b><h4>Parenting and family</h4><ul><li>Kidspot</li><li>The Australian Women's Weekly</li><li>Mum Central</li></ul></div></div>
+        </div>
       </div>
       <div class="ea-col ea-heads"><span class="mono">Examples / headlines</span><div class="ea-art"><div class="ea-bar"><i></i><i></i><i></i></div><div class="ea-body"><div class="ea-th" style="background-image:url(media/cr-ash.jpg)"></div><div class="ea-txt"><span class="ea-tag">Parenting</span><b class="ea-hl">Ash Wicks’ advice on parenting without tech might tell you more than you think</b><span class="ea-ln"></span><span class="ea-ln ea-ln-s"></span></div></div></div><div class="ea-art"><div class="ea-bar"><i></i><i></i><i></i></div><div class="ea-body"><div class="ea-th" style="background-image:url(media/cr-cassidy.jpg)"></div><div class="ea-txt"><span class="ea-tag">Culture</span><b class="ea-hl">Cassidy McGill went on a date with no tech: Here’s her real review</b><span class="ea-ln"></span><span class="ea-ln ea-ln-s"></span></div></div></div><div class="ea-art"><div class="ea-bar"><i></i><i></i><i></i></div><div class="ea-body"><div class="ea-th" style="background-image:url(media/cr-holly-jimmy.jpg)"></div><div class="ea-txt"><span class="ea-tag">Lifestyle</span><b class="ea-hl">Holly &amp; Jimmy are no strangers to family chaos but removing the screens from the picture taught them something interesting.</b><span class="ea-ln"></span><span class="ea-ln ea-ln-s"></span></div></div></div><p class="v3-illus mono">Headlines are illustrative</p></div>
     </div>
@@ -6194,6 +6232,12 @@ document.addEventListener("keydown", e => { window.__hcRcBack = ["ArrowLeft","Ar
     const inEd = e.target.closest && e.target.closest("[contenteditable='true']");
     if((e.metaKey || e.ctrlKey) && (e.key === "s" || e.key === "S") && (editing || pendingCount())){ e.preventDefault(); e.stopPropagation(); doSave(); return; }
     if(!inEd) return;
+    /* In present mode, arrows still change slide unless this text has actually been typed into */
+    if(document.body.classList.contains("presenting") && ["ArrowRight","ArrowLeft","PageDown","PageUp"].includes(e.key) && !inEd.__hcTyped && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey){
+      e.preventDefault(); e.stopPropagation(); inEd.blur(); if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+      document.body.dispatchEvent(new KeyboardEvent("keydown", {key:e.key, bubbles:true, cancelable:true}));
+      return;
+    }
     if(e.key === "Escape"){ e.preventDefault(); inEd.blur(); }
     if(e.key === "Enter" && !e.target.closest(".hc-nl")){ e.preventDefault(); document.execCommand("insertLineBreak"); }
     e.stopPropagation();
@@ -6672,6 +6716,23 @@ document.addEventListener("click", e => {
     } catch(err){}
   }, true);
   add(); setInterval(add, 1500);
+})();
+
+/* Typing into a text marks it, so arrows then move the caret instead of the slide */
+document.addEventListener("input", e => { const el = e.target.closest && e.target.closest("[contenteditable='true']"); if(el) el.__hcTyped = true; }, true);
+document.addEventListener("focusout", e => { const el = e.target.closest && e.target.closest("[contenteditable='true']"); if(el) el.__hcTyped = false; }, true);
+/* Arrow keys pressed inside an embedded microsite still drive the deck in present mode */
+(function iframeKeys(){
+  const hook = f => { try { const d = f.contentDocument; if(!d || d.__hcHooked) return; d.__hcHooked = true;
+    d.addEventListener("keydown", e => {
+      if(!document.body.classList.contains("presenting")) return;
+      if(e.target.closest && e.target.closest("input,textarea,select,[contenteditable='true']")) return;
+      if(!["ArrowRight","ArrowLeft","PageDown","PageUp"].includes(e.key) || e.metaKey || e.ctrlKey || e.altKey) return;
+      e.preventDefault(); f.blur(); document.body.focus && document.body.focus();
+      document.body.dispatchEvent(new KeyboardEvent("keydown", {key:e.key, bubbles:true, cancelable:true}));
+    });
+  } catch(err){} };
+  document.querySelectorAll('iframe[src^="hub/"], iframe[src^="re-connection/"]').forEach(f => { f.addEventListener("load", () => hook(f)); hook(f); });
 })();
 
 /* ============================ INTERACTIONS ============================ */
