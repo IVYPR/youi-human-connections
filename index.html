@@ -4691,6 +4691,18 @@ html:not(.hc-edit-on) .hc-bar{display:none!important}
 /* Editorial italic is for headings only: body copy, quotes and mock headlines use the body face */
 .ea-hl,.fw-mock .fw-hl{font-family:var(--font-body)!important;font-style:normal!important;font-weight:800!important;letter-spacing:-.005em}
 .ea-line,.ea-angle p,.cp-story .cp-lead,.ce-t q,.v3-wk-c q,.h1-q,.scr-act,.tj-c span,.rf-a,.rf-b,.dk-q{font-family:var(--font-body)!important;font-style:normal!important;font-weight:700}
+/* Flywheels: every stage shows its explainer, no hover or click needed */
+.v3-fly{height:640px}
+.v3-fn{width:250px;min-width:0;cursor:default;padding:14px 16px 14px 20px;gap:6px;pointer-events:none}
+.v3-fn h3{white-space:normal;font-size:22px}
+.v3-fn p{display:block!important;font-size:12.5px;line-height:1.38;margin:0}
+.v3-fn:hover,.v3-fn:focus-visible,.v3-fn.on{background:#fff;box-shadow:none;transform:translate(-50%,-50%);z-index:1}
+.v3-fn.on .v3-fn-n{background:var(--yellow);color:#000}
+.v3-fly-hint{display:none!important}
+.v3-fly.has-on .v3-fly-hub > .mono,.v3-fly.has-on .v3-fly-hub > b{opacity:1;position:static}
+.v3-fly.has-on .v3-fly-detail{display:none}
+.v3-fly-ring .v3-fly-spin{display:none}
+body.hc-editing .v3-fn{pointer-events:auto}
 
 </style>
 </head>
@@ -5118,7 +5130,7 @@ html:not(.hc-edit-on) .hc-bar{display:none!important}
     <div class="og-why"><div class="og-tile"><b class="v3-num">01</b><h3>Purposeful</h3><p>Coverage through not-for-profits supports the purpose behind the content.</p></div><div class="og-tile"><b class="v3-num">02</b><h3>Authoritative</h3><p>It earns Youi followed backlinks from highly valued .org domains.</p></div><div class="og-tile"><b class="v3-num">03</b><h3>Positive</h3><p>These sites add positive sentiment, which matters more and more for AI visibility.</p></div></div>
     <div class="og-panels">
       <div class="og-panel"><span class="mono">Ready to go</span><h3>Our partner network</h3><p>Across the BCM Group network, we have direct access to existing partners, several of whom have already said they're willing to support the content.</p>
-        <ul class="og-partners"><li><span>LIVIN</span><b class="og-dr">DR 56</b></li><li><span>Lifeline Queensland</span><b class="og-dr">DR 50</b></li><li><span>Stem Cell Donors Australia</span><b class="og-dr">DR 50</b></li><li><span>The Common Good</span><b class="og-dr">DR 43</b></li><li><span>Centre for Women &amp; Co.</span><b class="og-dr">DR 32</b></li><li><span>CareSouth Aunties &amp; Uncles</span><b class="og-dr">DR 28</b></li><li><span>The Life Saving List</span><b class="og-dr">DR 0</b></li></ul></div>
+        <ul class="og-partners"><li><span>LIVIN</span><b class="og-dr">DR 56</b></li><li><span>Lifeline Queensland</span><b class="og-dr">DR 50</b></li><li><span>Stem Cell Donors Australia</span><b class="og-dr">DR 50</b></li><li><span>The Common Good</span><b class="og-dr">DR 43</b></li><li><span>Centre for Women &amp; Co.</span><b class="og-dr">DR 32</b></li><li><span>CareSouth Aunties &amp; Uncles</span><b class="og-dr">DR 28</b></li></ul></div>
       <div class="og-panel"><span class="mono">Next</span><h3>Australia's top .org domains</h3><p>Our outreach list also includes the top 100 .org domains in Australia. Here's a snapshot of the top 10.</p>
         <ol class="og-top"><li><b class="og-rk">01</b><div class="og-nm"><span>Butterfly Foundation</span><small>Mental health</small></div><div class="og-bar"><i style="--dr:77%"></i></div><b class="og-v">77</b></li><li><b class="og-rk">02</b><div class="og-nm"><span>Relationships Australia</span><small>Relationships and family</small></div><div class="og-bar"><i style="--dr:76%"></i></div><b class="og-v">76</b></li><li><b class="og-rk">03</b><div class="og-nm"><span>Orygen</span><small>Mental health</small></div><div class="og-bar"><i style="--dr:74%"></i></div><b class="og-v">74</b></li><li><b class="og-rk">04</b><div class="og-nm"><span>Australian Institute for Disaster Resilience</span><small>Disaster and resilience</small></div><div class="og-bar"><i style="--dr:73%"></i></div><b class="og-v">73</b></li><li><b class="og-rk">05</b><div class="og-nm"><span>Clean Up Australia</span><small>Volunteering and community</small></div><div class="og-bar"><i style="--dr:73%"></i></div><b class="og-v">73</b></li><li><b class="og-rk">06</b><div class="og-nm"><span>Bravehearts</span><small>Relationships and family</small></div><div class="og-bar"><i style="--dr:72%"></i></div><b class="og-v">72</b></li><li><b class="og-rk">07</b><div class="og-nm"><span>Brotherhood of St Laurence</span><small>Social services</small></div><div class="og-bar"><i style="--dr:71%"></i></div><b class="og-v">71</b></li><li><b class="og-rk">08</b><div class="og-nm"><span>Variety Australia</span><small>Youth</small></div><div class="og-bar"><i style="--dr:71%"></i></div><b class="og-v">71</b></li><li><b class="og-rk">09</b><div class="og-nm"><span>COPE</span><small>Mental health</small></div><div class="og-bar"><i style="--dr:71%"></i></div><b class="og-v">71</b></li><li><b class="og-rk">10</b><div class="og-nm"><span>Australian Childhood Foundation</span><small>Relationships and family</small></div><div class="og-bar"><i style="--dr:68%"></i></div><b class="og-v">68</b></li></ol>
         <p class="og-foot mono">Full top 100 list available.</p></div>
@@ -6737,6 +6749,7 @@ document.addEventListener("keydown", e => { window.__hcRcBack = ["ArrowLeft","Ar
 
 /* Flywheel: hover or tap a stage to read it in the centre; otherwise it steps round on its own */
 (function flywheel(){
+  return; /* flywheels are static now: every stage shows its explainer */
   document.querySelectorAll(".v3-fly").forEach(fly => {
     const nodes = Array.from(fly.querySelectorAll(".v3-fn")); if(!nodes.length) return;
     const arc = fly.querySelector(".v3-fly-arc"), dots = fly.querySelectorAll(".v3-fly-dot"), det = fly.querySelector(".v3-fly-detail");
