@@ -4703,6 +4703,9 @@ html:not(.hc-edit-on) .hc-bar{display:none!important}
 .v3-fly.has-on .v3-fly-detail{display:none}
 .v3-fly-ring .v3-fly-spin{display:none}
 body.hc-editing .v3-fn{pointer-events:auto}
+.pdf-btn{font-family:var(--font-body);font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.6);padding:7px 12px;text-decoration:none;margin-left:6px;line-height:1.2;display:inline-block}
+.pdf-btn:hover{background:#fff;color:#000}
+@media print{.pdf-btn{display:none}}
 
 </style>
 </head>
@@ -4976,11 +4979,11 @@ body.hc-editing .v3-fn{pointer-events:auto}
    <tr><td>how to check if insurance covers tenants</td><td>365</td><td>29.4%</td></tr>
    <tr><td>how to make an insurance claim australia steps and documents</td><td>204</td><td>13.6%</td></tr></tbody></table>
    <p class="v3-seo-foot">How To Human lets us build this topical authority deliberately.</p></div><div class="v3-tp" data-tp="1"><h3 class="v3-seo-h">Insurance simplified first, human skills on top.</h3>
-   <table class="ap-t v3-t v3-seo-t"><thead><tr><th>Content lane</th><th>Tier</th><th>Whole how-to database</th><th>How To Human pages</th><th>Examples</th></tr></thead><tbody>
-   <tr><td>Insurance simplified</td><td>Tier 3 Assessment</td><td>70%</td><td>30%</td><td>How to calculate your sum insured.</td></tr>
-   <tr><td>Life moments</td><td>Tier 4 Catalyst</td><td>20%</td><td>30%</td><td>How to move house without losing your marbles.</td></tr>
-   <tr><td>Human skills</td><td>Tier 5 Relevance</td><td>10%</td><td>40%</td><td>How to meet your neighbours.</td></tr></tbody></table>
-   <p>Every How To Human page links to two or three insurance-simplified pages as “the next skill”, and each of those links up to its Tier 2 hub and Tier 1 product page. Humour never becomes a dead end, and the Page Rank the series earns keeps flowing towards our quote pages.</p></div><div class="v3-tp" data-tp="2"><h3 class="v3-seo-h">How to get a Youi quote.</h3>
+   <table class="ap-t v3-t v3-seo-t"><thead><tr><th>Content lane</th><th>Layer</th><th>Whole how-to database</th><th>How To Human pages</th><th>Examples</th></tr></thead><tbody>
+   <tr><td>Insurance simplified</td><td>Layer 3 Assessment</td><td>70%</td><td>30%</td><td>How to calculate your sum insured.</td></tr>
+   <tr><td>Life moments</td><td>Layer 4 Catalyst</td><td>20%</td><td>30%</td><td>How to move house without losing your marbles.</td></tr>
+   <tr><td>Human skills</td><td>Layer 5 Relevance</td><td>10%</td><td>40%</td><td>How to meet your neighbours.</td></tr></tbody></table>
+   <p>Every How To Human page links to two or three insurance-simplified pages as “the next skill”, and each of those links up to its Layer 2 hub and Layer 1 product page. Humour never becomes a dead end, and the Page Rank the series earns keeps flowing towards our quote pages.</p></div><div class="v3-tp" data-tp="2"><h3 class="v3-seo-h">How to get a Youi quote.</h3>
    <p>When ChatGPT and Gemini tell people to skip Youi, it’s because the only thing they know about our quote is that there’s a phone call. We can give them something better to repeat.</p>
    <div class="v3-seo-stats"><div><b>32 of 60</b><span>AI responses that mention Youi steer people away when they want a fast online quote</span></div><div><b>55 of 60</b><span>mention a phone call or callback</span></div></div>
    <div class="v3-seo-3"><div><span class="mono">The page</span><p>What we’ll ask on the call, and why we ask it. What to have ready, and roughly how long it takes. FAQ markup so answer engines can quote it directly.</p></div>
@@ -6851,6 +6854,16 @@ document.addEventListener("fullscreenchange", () => window.__hcFSLabel());
     window.__hcFS(host);
   }, true);
   fix(); setInterval(fix, 1500);
+})();
+
+/* Save as PDF: downloads the exported PDF of the deck */
+(function pdfBtn(){
+  const pb = document.getElementById("presentbtn"); if(!pb || document.getElementById("pdfbtn")) return;
+  const a = document.createElement("a");
+  a.id = "pdfbtn"; a.className = "pdf-btn"; a.href = "BCM-Youi-Human-Connections-Response.pdf";
+  a.setAttribute("download", "BCM-Youi-Human-Connections-Response.pdf");
+  a.textContent = "Save PDF"; a.title = "Download this deck as a PDF";
+  pb.parentNode.insertBefore(a, pb);
 })();
 
 /* ============================ INTERACTIONS ============================ */
